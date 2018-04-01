@@ -1,0 +1,12 @@
+ID  Nombre          Correo                 Apps Compradas  
+---------------------------------------------------------
+1   Joel Kant       joelk@coolmail.com     0               
+2   Theodore Brown  tbrown@coolmail.com    0               
+3   Rafael Gondor   rafag@notcoolmail.com  0               
+3   sdf             asda                   0               
+4   sDDSFDS         ADSA                   0               
+3   asd             asd                    0               
+4   asd             12312321               0               
+4   asd             sda                    0               
+3   asdads          asdasd                 0               
+3   asdasd          asd                    0               

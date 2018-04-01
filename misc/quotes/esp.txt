@@ -1,0 +1,22 @@
+Numero de cita  Cita                                                                                                                    Autor                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+1               Todos los problemas comienzan cuando empezamos a pensar lo que otros piensan de nosotros.                               Bryant McGill.         
+2               La felicidad no es la ausencia de problemas; es la habilidad para tratar con ellos.                                     Steve Maraboli.       
+3               Al final, lo que importa no son los años de vida, sino la vida de los años.                                             Abraham Lincoln.      
+4               Un hombre que no piensa por si mismo, no piensa en absoluto.                                                            Oscar Wilde.          
+5               Los que saben cómo pensar no necesitan maestros.                                                                        Mahatman Gandhi.      
+6               Demasiadas personas gastan dinero que ganaron para comprar cosas que no quieren para impresionar gente que no quieren.  Will Rogers.          
+7               Un amigo de todos es una amigo de nadie.                                                                                Aristóteles.          
+8               Elige un empleo que te guste y no tendrás que trabajar ni un día más en la vida.                                        Confucio.             
+9               No conozco la llave del éxito, pero la llave del fracaso es tratar de agradar a todo el mundo.                          Bill Cosby.           
+10              Ya pienses que puedes o pienses que no puedes, estas en lo cierto.                                                      Henry Ford.           
+11              La vida es como una bicicleta. Para mantener el equilibrio tienes que seguir adelante.                                  Albert Einstein.      
+12              El ascensor hacia el éxito no esta disponible. Tienes que usar las escaleras, una a una.                                Joe Girard.           
+13              La razón por la que me hablo a mi mismo es que soy el único cuyas respuestas acepto.                                    George Carlin.        
+14              La vida no se trata de encontrarte a ti mismo, sino de crearte a ti mismo.                                              George Bernard Shaw.  
+15              No hay nada bueno o malo, el pensamiento lo hace así.                                                                   William Shakespeare.  
+16              Sin desviación de la norma el progreso no es posible.                                                                   Frank Zappa.          
+17              Aprende de los errores de otros. Nunca vivirás lo suficiente para cometer todos tú mismo.                               Groucho Marx          
+18              Si te encuentras solo cuando estas solo, estas en mala compañía.                                                        Jean Paul Sartre.     
+19              Si no te gusta algo, cámbialo. Si no lo puedes cambiar, cambia tu actitud.                                              Maya Angelou.         
+20              La suerte es proporcional al sudor. Cuanto más sudas, más suerte tienes.                                                Ray Kroc.             

@@ -1,0 +1,7 @@
+ID  Nombre          Correo                 Pagina Web         
+------------------------------------------------------------
+1   Google          support@gmail.com      www.google.com     
+2   Microsoft       support@outlook.com    www.microsoft.com  
+3   Joel Kant       joelk@coolmail.com     none               
+4   Theodore Brown  tbrown@coolmail.com    none               
+5   Rafael Gondor   rafag@notcoolmail.com  none               
