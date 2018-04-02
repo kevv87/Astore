@@ -245,6 +245,7 @@ class newMenu:
             current_language = 'eng'
             main.kill()
             register.toeng()
+            search.toeng()
             self.destroy()
             main = main_window(root, current_language, current_user)
         else:
@@ -260,6 +261,7 @@ class newMenu:
             login.change_languagetoesp()
             adminwin.to_esp()
             register.toesp()
+            search.toesp()
             main.kill()
             self.destroy()
             main = main_window(root, current_language, current_user)
@@ -806,7 +808,11 @@ class searchWin:
         self.title.pack()
         self.title.place(x=self.width*45/100, y=1)
 
-        self.entry_label = Label(self.canvas, text='Buscar:', font='Times 13')
+        if current_language == 'esp':
+            self.entry_label = Label(self.canvas, text='Buscar:', font='Times 13')
+        else:
+            self.entry_label = Label(self.canvas, text='Search:', font='Times 13')
+
         self.entry_label.pack()
         self.entry_label.place(x=self.width*6/100, y=self.height*8.3/100)
         self.entry = Entry(self.canvas, width=40)
@@ -884,6 +890,12 @@ class searchWin:
     def __show_menu_aux(self):
         global menu
         menu =newMenu(self.win)
+
+    def toeng(self):
+        self.entry_label.config(text='Search:')
+
+    def toesp(self):
+        self.entry_label.config(text='Buscar:')
 
 class profPage:
     def __init__(self, info):
@@ -1126,18 +1138,34 @@ class listaApps:
                                   bg=bg_color).grid(row=cont*2, column=1)
             self.app_cost = Label(self.frame, text=lista[cont][5], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=2)
-            self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
-                                       font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=1)
-            self.app_categoria = Label(self.frame, text='Categoria: '+lista[cont][3],
-                                       font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=2)
+            if current_language == 'esp':
+                self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
+                                           font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=1)
+                self.app_categoria = Label(self.frame, text='Categoria: '+lista[cont][3],
+                                           font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=2)
+            else:
+                self.app_downloads = Label(self.frame, text='Downloads: ' + lista[cont][11],
+                                           font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=1)
+                self.app_categoria = Label(self.frame, text='Category: ' + lista[cont][3],
+                                           font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=2)
             if users_list[current_user].name == profile_page.name.get():
                 if lista[cont][5] == 'Free':
-                    self.app_gain = Label(self.frame, text='Ganancia: 0', font='Times 20',
-                                          bg=bg_color).grid(row=cont*2, column=3)
+                    if current_language == 'esp':
+                        self.app_gain = Label(self.frame, text='Ganancia: 0', font='Times 20',
+                                              bg=bg_color).grid(row=cont*2, column=3)
+                    else:
+                        self.app_gain = Label(self.frame, text='Earnings: 0', font='Times 20',
+                                              bg=bg_color).grid(row=cont * 2, column=3)
                 else:
-                    self.app_gain = Label(self.frame, text='Ganancia: %s%d'%(lista[cont][5][0],
-                                                                             int(lista[cont][5][1:])*int(lista[cont][11]))
-                                          , font='Times 20', bg=bg_color).grid(row=cont * 2, column=3)
+                    if current_language == 'esp':
+                        self.app_gain = Label(self.frame, text='Ganancia: %s%d'%(lista[cont][5][0],
+                                                                            int(lista[cont][5][1:])*int(lista[cont][11]))
+                                              , font='Times 20', bg=bg_color).grid(row=cont * 2, column=3)
+                    else:
+                        self.app_gain = Label(self.frame, text='Earnings: %s%d' % (lista[cont][5][0],
+                                                                                   int(lista[cont][5][1:]) * int(
+                                                                                       lista[cont][11]))
+                                              , font='Times 20', bg=bg_color).grid(row=cont * 2, column=3)
                 self.frame.update()
                 if lista[cont][6] == 'Activo':
                     self.app_estado = Canvas(self.frame, bg='green', height=50,
@@ -1209,13 +1237,19 @@ class editApp:
         self.name_entry.grid(row=0, column=1)
         self.app_cost = StringVar()
         self.app_cost.set('$'+'0')
-        self.cost_label = Label(self.frame, text='Precio:', font='Times 20').grid(row=0, column=2)
-        self.cost_entry = Entry(self.frame, textvariable=self.app_cost)
-        self.cost_entry.grid(row=0, column=3)
-        self.descr_label = Label(self.frame, text='Descripcion:', font='Times 20').grid(row=1, column=1)
-        self.categoria_label = Label(self.frame, text='Categoria:', font='Times 20').grid(row=1, column=2)
+        if current_language == 'esp':
+            self.cost_label = Label(self.frame, text='Precio:', font='Times 20').grid(row=0, column=2)
+            self.descr_label = Label(self.frame, text='Descripcion:', font='Times 20').grid(row=1, column=1)
+            self.categoria_label = Label(self.frame, text='Categoria:', font='Times 20').grid(row=1, column=2)
+        else:
+            self.cost_label = Label(self.frame, text='Price:', font='Times 20').grid(row=0, column=2)
+            self.descr_label = Label(self.frame, text='Description:', font='Times 20').grid(row=1, column=1)
+            self.categoria_label = Label(self.frame, text='Category:', font='Times 20').grid(row=1, column=2)
+
         self.categoria_entry = OptionMenu(self.frame, self.variable_categoria, 'Juegos', 'Musica', 'Redes',
                                      'Herramientas')
+        self.cost_entry = Entry(self.frame, textvariable=self.app_cost)
+        self.cost_entry.grid(row=0, column=3)
         self.descr_variable = StringVar()
         self.categoria_entry.grid(row=1, column=3)
         self.descr_entry = Text(self.frame, height=5)
@@ -1231,8 +1265,13 @@ class editApp:
         self.sc2_label.bind('<Button-1>', self.change_sc2)
         self.banner_label.bind('<Button-1>', self.change_banner)
 
-        self.ready = Button(self.frame, text='Listo', command=lambda: self.send(self.name_entry.get())).grid(row=6, column=1)
-        self.cancel = Button(self.frame, text='Cancelar')
+        if current_language == 'esp':
+            self.ready = Button(self.frame, text='Listo', command=lambda: self.send(self.name_entry.get())).grid(row=6, column=1)
+            self.cancel = Button(self.frame, text='Cancelar')
+        else:
+            self.ready = Button(self.frame, text='Ready', command=lambda: self.send(self.name_entry.get())).grid(row=6,
+                                                                                                                 column=1)
+            self.cancel = Button(self.frame, text='Cancel', command=self.win.destroy)
         self.cancel.grid(row=6, column=2)
         self.cancel.bind('<Button-1>', lambda event: self.win.destroy())
 
@@ -1378,7 +1417,11 @@ class appWindow():
         self.categoria_label = Label(self.frame, text=info[3])
         self.categoria_label.grid(row=2, column=1)
 
-        self.buy_button = Button(self.frame, text='Comprar', command=self.buy_app)
+        if current_language == 'esp':
+            self.buy_button = Button(self.frame, text='Comprar', command=self.buy_app)
+        else:
+            self.buy_button = Button(self.frame, text='Buy', command=self.buy_app)
+
         self.buy_button.grid(row=1, column=2)
 
         self.descr_label = Text(self.frame, width=60)
