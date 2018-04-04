@@ -6,6 +6,7 @@ from manejo_txt import *
 from tkinter import simpledialog
 
 users_list = []
+category_list=['juegos', 'musica', 'herramientas', 'Redes sociales']
 current_user = 1
 current_language = 'esp'
 
