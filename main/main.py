@@ -678,20 +678,23 @@ class newRegister:
         webpage = self.web_entry.get()
         apps_compradas = '0'
 
-        if nombre.lstrip() != '' and usuario.lstrip() != '' and contra.lstrip() != '' and recontra.lstrip() != '' and correo.lstrip() != '':
-            if contra.lstrip() == recontra.lstrip():
-                self.add_touser()
-                self.add_toseller()
-                self.add_tobuyer()
-                create_user(nombre, usuario, contra, str(seller_id), str(buyer_id), correo, webpage,foto, fondo, apps_compradas, admin, pais, language)
-                current_user = len(users_list) - 1
-                current_language = language
-                main.kill()
-                main = main_window(root, current_language, current_user)
-            else:
-                return print('Contrasenas no iguales')
+        if users.is_in(usuario, 0, 1):
+            print('Ya existe el nombre de usuario')
         else:
-            return print('Faltan espacios')
+            if nombre.lstrip() != '' and usuario.lstrip() != '' and contra.lstrip() != '' and recontra.lstrip() != '' and correo.lstrip() != '':
+                if contra.lstrip() == recontra.lstrip():
+                    self.add_touser()
+                    self.add_toseller()
+                    self.add_tobuyer()
+                    create_user(nombre, usuario, contra, str(seller_id), str(buyer_id), correo, webpage,foto, fondo, apps_compradas, admin, pais, language)
+                    current_user = len(users_list) - 1
+                    current_language = language
+                    main.kill()
+                    main = main_window(root, current_language, current_user)
+                else:
+                    return print('Contrasenas no iguales')
+            else:
+                return print('Faltan espacios')
 
     def add_touser(self):
 
@@ -2115,12 +2118,12 @@ class usersTable():
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace('', ' ') == ele.lstrip().lower().replace('', ' '):
                     return self.list[row]
                 else:
                     return False
             else:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace('', ' ') == ele.lstrip().lower().replace('', ' '):
                     return self.list[row]
                 else:
                     return self.is_in(ele, row, column+1)
@@ -2128,7 +2131,7 @@ class usersTable():
             if column == len(self.list[0]):
                 return self.is_in(ele, row+1, 0)
             else:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace('', ' ') == ele.lstrip().lower().replace('', ' '):
                     return self.list[row]
                 else:
                     return self.is_in(ele, row, column+1)
