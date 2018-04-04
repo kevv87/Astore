@@ -584,12 +584,12 @@ class newRegister:
 
         self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((60, 40), Image.ANTIALIAS)
         self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
-        self.esp_flag_label = Label(self.win_register, image=self.esp_flag_img, bg=self.bg_color)
+        self.esp_flag_label = Label(self.win_register, image=self.esp_flag_img, bg='red', bd=4, cursor='hand2')
         self.esp_flag_label.bind('<Button-1>', self.espselected)
 
         self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((60, 40), Image.ANTIALIAS)
         self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
-        self.eng_flag_label = Label(self.win_register, image=self.eng_flag_img, bg=self.bg_color)
+        self.eng_flag_label = Label(self.win_register, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
         self.eng_flag_label.bind('<Button-1>', self.engselected)
 
         # Añadiendo al grid
@@ -731,9 +731,13 @@ class newRegister:
 
     def engselected(self, *args):
         self.selected_language = 'eng'
+        self.eng_flag_label.config(bd=4, bg='red')
+        self.esp_flag_label.config(bd=0, bg=bg_color)
 
     def espselected(self, *args):
+        self.esp_flag_label.config(bd=4, bg='red')
         self.selected_language = 'esp'
+        self.eng_flag_label.config(bd=0, bg=bg_color)
 
     def toesp(self):
         self.name_label.config(text='Nombre:')
