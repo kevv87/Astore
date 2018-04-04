@@ -571,7 +571,7 @@ class newRegister:
         self.web_entry = Entry(self.win_register, width=35)
         self.image_label = Label(self.win_register, text='Imagen de usuario:', font='Times 15', bg=self.bg_color)
 
-        self.img_path = '../images/icons/no_image.gif'
+        self.img_path = '../images/icons/no_image.png'
         self.load_blank = Image.open(self.img_path).resize((100, 100), Image.ANTIALIAS)
         self.blank_img = ImageTk.PhotoImage(self.load_blank)
         self.image_entry = Label(self.win_register, image=self.blank_img, cursor='hand2')
