@@ -795,6 +795,7 @@ class adminWindow:
 class searchWin:
     def __init__(self):
         self.win = Toplevel()
+        self.win.resizable(False, False)
 
         self.sc_width, self.sc_height = self.win.winfo_screenwidth(), self.win.winfo_screenheight()
         self.width = 70 * self.sc_width / 100
@@ -1074,10 +1075,12 @@ class profPage:
 
 class listaApps:
     def __init__(self, root):
-        self.canvas = Canvas(root, borderwidth=0, bg=bg_color)
+        self.root = root
+        self.root.resizable(False, False)
+        self.canvas = Canvas(self.root, borderwidth=0, bg=bg_color)
         self.frame = Frame(self.canvas, background=bg_color)
-        self.vsby = Scrollbar(root, orient="vertical", command=self.canvas.yview)
-        self.vsbx = Scrollbar(root, orient='horizontal', command=self.canvas.xview)
+        self.vsby = Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
+        self.vsbx = Scrollbar(self.root, orient='horizontal', command=self.canvas.xview)
         self.canvas.configure(yscrollcommand=self.vsby.set)
         self.canvas.configure(xscrollcommand=self.vsbx.set)
 
@@ -1962,6 +1965,7 @@ class sellersTable:
 class manageWinVendedores:
     def __init__(self, root):
         self.root = root
+        self.root.resizable(False, False)
         self.root.config(bg=bg_color)
 
         # Dimensiones
