@@ -1326,7 +1326,8 @@ class editApp:
             self.sc1_label.config(image=new_img)
             self.sc1_label.image = new_img
         except:
-            load_new_img = Image.open('../images/').resize((300, 200), Image.ANTIALIAS)
+            messagebox.showwarning(title='Warning', message='Imagen no encontrada.')
+            load_new_img = Image.open('../images/icons/no_image.png').resize((300, 200), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.sc1_label.config(image=new_img)
             self.sc1_label.image = new_img
@@ -1341,7 +1342,11 @@ class editApp:
             self.sc2_label.config(image=new_img)
             self.sc2_label.image = new_img
         except:
-            print('No image')
+            messagebox.showwarning(title='Warning', message='Imagen no encontrada.')
+            load_new_img = Image.open('../images/icons/no_image.png').resize((300, 200), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.sc2_label.config(image=new_img)
+            self.sc2_label.image = new_img
         self.win.lift()
 
     def change_banner(self, *args):
@@ -1353,7 +1358,11 @@ class editApp:
             self.banner_label.config(image=new_img)
             self.banner_label.image = new_img
         except:
-            print('No image')
+            messagebox.showwarning(title='Warning', message='Imagen no encontrada.')
+            load_new_img = Image.open(self.img_path).resize((600, 200), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.banner_label.config(image=new_img)
+            self.banner_label.image = new_img
         self.win.lift()
 
     def edit_config(self, info):
@@ -1394,23 +1403,31 @@ class editApp:
     def send(self, name):
         global users_list
         global category_list
-        if self.name_entry.get().lstrip() != '' and self.name_entry.get().lstrip() != 'Nombre de la app' and self.variable_categoria.get() != 'Seleccionar' and self.cost_entry.get().lstrip() != '':
+        if self.name_entry.get().lstrip() != '' or self.name_entry.get().lstrip() != 'Nombre de la app' or self.variable_categoria.get() != 'Seleccionar' or self.cost_entry.get().lstrip() != '':
             num_row_to_update = is_in(apps.get_list(), name, 0, 0)[1]
             row_to_update = is_in(apps.get_list(), name, 0, 0)[0]
             new_category = str(lista_isin(category_list, self.variable_categoria.get(), 0)[1])
+            cost_entry = self.cost_entry.get()
+            if self.cost_entry.get() == 0:
+                cost_entry = 'Free'
             if row_to_update:
                 new_entry = [users_list[current_user].seller_id, row_to_update[1], self.name_entry.get(),
-                             new_category, self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
+                             new_category, self.descr_entry.get('1.0', 'end-1c'), cost_entry,
                              'Activo', self.icon_path, self.banner_path, self.sc1_path, self.sc2_path, '0', '0']
                 apps.update(num_row_to_update, new_entry)
             else:
                 new_entry = [users_list[current_user].seller_id, str(int(apps.get_list()[len(apps.get_list())-1][1])+1), self.name_entry.get(),
-                             new_category, self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
+                             new_category, self.descr_entry.get('1.0', 'end-1c'), cost_entry,
                              'Activo', self.icon_path, self.banner_path, self.sc1_path, self.sc2_path, '0', '0']
                 apps.add(new_entry)
             self.win.destroy()
         else:
-            print('Faltan espacios')
+            if self.name_entry.get().lstrip() == '' or self.name_entry.get().lstrip == 'Nombre de la app':
+                messagebox.showerror(title='Error', message='Favor llenar el espacio de nombre')
+            elif self.variable_categoria.get() == 'Seleccionar':
+                messagebox.showerror(title='Error', message='Favor seleccionar categoria')
+            elif self.cost_entry.get() == '':
+                messagebox.showerror(title='Error', message='Favor ingresar un precio')
 
 
 class appWindow():
@@ -1463,7 +1480,6 @@ class appWindow():
         self.owner_user_info = users.is_in(self.owner_seller_info[1], 0, 0)
 
         if self.owner_user_info:
-            print(self.owner_user_info)
             self.owner_img_path = self.owner_user_info[3]
         else:
             self.owner_img_path = '../users/guest.gif'
@@ -1510,7 +1526,7 @@ class appWindow():
             if users_list[current_user].country == 'Costa Rica':
                 apps.mod(int(self.id), 12, str(int(apps.list[int(self.id)][12]) + 1))
         else:
-            print('Registrese')
+            messagebox.showerror(title='Error', message='Por favor registrese para descargar')
 
     def show_profPage(self, username):
         if self.owner_user_info:
@@ -1519,7 +1535,7 @@ class appWindow():
             profile_page = profPage(users_list[int(self.owner_user_info[8])])
             self.win.destroy()
         else:
-            print('No hay pagina registrada')
+            messagebox.showinfo(title='404', message='No hay pagina de usuario asociada a este vendedor')
 
 class app:
     def __init__(self, master, row, column,info, width, height):
@@ -1827,12 +1843,11 @@ class appTable:
         global apps
         if len(lista) == len(self.list[0]):
             open_temp_file = open(self.file, 'w')
-            print(lista)
             create_db(self.list + [lista], open_temp_file)
             close_temp_file = open_temp_file.close()
             apps = appTable()
         else:
-            print('Faltan columnas')
+            error_handling(0)
 
     def update(self, row, lista):
         global apps
@@ -1843,9 +1858,7 @@ class appTable:
             close_temp_file = open_temp_file.close()
             apps = appTable()
         else:
-            print(lista)
-            print(len(lista[0]))
-            print(len(self.list[0]))
+            error_handling(0)
 
     def mod(self, row, column, ele):
         global apps
@@ -1899,7 +1912,7 @@ class buyersTable:
             close_temp_file = open_temp_file.close()
             buyers = buyersTable
         else:
-            print('Faltan columnas')
+            error_handling(0)
 
     def mod(self, row, column, ele):
         open_temp_file = open(self.file, 'w')
@@ -1916,7 +1929,6 @@ class sellersTable:
         self.raw_list = self.__to_list(0)
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
-        print(self.list)
 
     def __to_list(self, cont):
         a = self.first_read.readline()
@@ -1970,7 +1982,7 @@ class sellersTable:
             close_temp_file = open_temp_file.close()
             sellers = sellersTable()
         else:
-            print('Faltan columnas')
+            error_handling(0)
 
     def mod(self, row, column, ele):
         open_temp_file = open(self.file, 'w')
@@ -2179,7 +2191,7 @@ class usersTable():
             close_temp_file = open_temp_file.close()
             users = usersTable()
         else:
-            print('Faltan columnas')
+            error_handling(0)
 
     def mod(self, row, column, ele):
         global users
