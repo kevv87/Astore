@@ -1,6 +1,6 @@
 Nombre          Nombre de usuario  Contraseña  Foto de perfil                   Fondo de perfil  Administrador?  Pais        Idioma preferido  Id
 -------------------------------------------------------------------------------------------------------------------------------------------------
 Kevin Zeledon   kevv87             1234        /home/kevin/Pictures/nagito.png  None             S               Costa Rica  esp               0
-Joel Kant       jk                 1234        ../users/guest.png               None             si              Otros       eng               1
-Rafael Gondor   gondo              1234        ../users/guest.png               None             no              Costa Rica  esp               2
-Theodore Brown  brownie            1234        ../users/guest.png               None             no              Otros       eng               3
+Joel Kant       jk                 1234        ../users/guest.gif               None             si              Otros       eng               1
+Rafael Gondor   gondo              1234        ../users/guest.gif               None             no              Costa Rica  esp               2
+Theodore Brown  brownie            1234        ../users/guest.gif               None             no              Otros       eng               3
