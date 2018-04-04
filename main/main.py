@@ -2368,6 +2368,12 @@ def create_my_profile_page(*args):
     except:
         profile_page = profPage(users_list[current_user])
 
+
+def error_handling(errnum):
+    err_cases = ['Contacte al administrador\nCodigo de error:1\nNumero de columnas insuficiente',
+                 'Contacte al administrador\nHa ocurrido un error inesperado']
+    messagebox.showerror(title='Error interno', message=err_cases[errnum])
+
 menu = Label(root)
 
 apps = appTable()
