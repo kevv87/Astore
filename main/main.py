@@ -1150,7 +1150,7 @@ class listaApps:
 
             self.app_name = Label(self.frame, text=lista[cont][2], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=1)
-            self.app_cost = Label(self.frame, text=lista[cont][5], font='Times 20',
+            self.app_cost = Label(self.frame, text='₡'lista[cont][5], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=2)
             if current_language == 'esp':
                 self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
@@ -1250,14 +1250,14 @@ class editApp:
         self.name_entry = Entry(self.frame, textvariable=self.app_name)
         self.name_entry.grid(row=0, column=1)
         self.app_cost = StringVar()
-        self.app_cost.set('$'+'0')
+        self.app_cost.set('₡'+'0')
         if current_language == 'esp':
-            self.cost_label = Label(self.frame, text='Precio:', font='Times 20').grid(row=0, column=2)
+            self.cost_label = Label(self.frame, text='Precio: ₡', font='Times 20').grid(row=0, column=2)
             self.descr_label = Label(self.frame, text='Descripcion:', font='Times 20').grid(row=1, column=1)
             self.categoria_label = Label(self.frame, text='Categoria:', font='Times 20').grid(row=1, column=2)
         else:
-            self.cost_label = Label(self.frame, text='Price:', font='Times 20').grid(row=0, column=2)
-            self.descr_label = Label(self.frame, text='Description:', font='Times 20').grid(row=1, column=1)
+            self.cost_label = Label(self.frame, text='Price: ₡', font='Times 20').grid(row=0, column=2)
+            self.descr_label = Label(self.frame, text='Descrip$tion:', font='Times 20').grid(row=1, column=1)
             self.categoria_label = Label(self.frame, text='Category:', font='Times 20').grid(row=1, column=2)
 
         self.categoria_entry = OptionMenu(self.frame, self.variable_categoria, 'Juegos', 'Musica', 'Redes',
@@ -1340,7 +1340,7 @@ class editApp:
     def edit_config(self, info):
         global category_list
         self.app_name.set(info[2])
-        self.app_cost.set(info[5])
+        self.app_cost.set('₡'+info[5])
         self.descr_entry.insert('1.0', info[4])
         self.variable_categoria.set(category_list[int(info[3])])
 
@@ -1428,7 +1428,7 @@ class appWindow():
         self.name_label = Label(self.frame, text=info[2])
         self.name_label.grid(row=0, column=1)
 
-        self.cost_label = Label(self.frame, text=info[5])
+        self.cost_label = Label(self.frame, text='₡'info[5])
         self.cost_label.grid(row=1, column=1)
 
         self.categoria_label = Label(self.frame, text=category_list[int(info[3])])
