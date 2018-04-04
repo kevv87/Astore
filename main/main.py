@@ -37,7 +37,7 @@ class newMenu:
         self.master = master
 
         if current_user == -1:
-            self.load_guest_img = Image.open('../users/guest.png').resize((50, 50), Image.ANTIALIAS)
+            self.load_guest_img = Image.open('../users/guest.gif').resize((50, 50), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_guest_img)
 
             self.canvas_menu.bind('<Leave>', self.destroy)
@@ -51,14 +51,14 @@ class newMenu:
             self.user_name.pack()
             self.user_name.place(x=70, y=35)
 
-            self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((30,20), Image.ANTIALIAS)
+            self.esp_flag_load = Image.open('../images/icons/espanna.gif').resize((30,20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
             self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
             self.esp_flag_label.pack()
             self.esp_flag_label.place(x=win_width*10/100, y=5)
             self.esp_flag_label.bind('<Button-1>', self.change_language_toesp)
 
-            self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((30, 20), Image.ANTIALIAS)
+            self.eng_flag_load = Image.open('../images/icons/ingles.gif').resize((30, 20), Image.ANTIALIAS)
             self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
             self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
             self.eng_flag_label.pack()
@@ -100,7 +100,7 @@ class newMenu:
             try:
                 self.load_user_img = Image.open(users_list[current_user].perfil).resize((54,50), Image.ANTIALIAS)
             except:
-                self.load_user_img = Image.open('../users/guest.png').resize((54, 50), Image.ANTIALIAS)
+                self.load_user_img = Image.open('../users/guest.gif').resize((54, 50), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_user_img)
 
             self.canvas_menu.bind('<Leave>', self.destroy)
@@ -118,14 +118,14 @@ class newMenu:
             self.user_name.pack()
             self.user_name.place(x=70, y=35)
 
-            self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((30, 20), Image.ANTIALIAS)
+            self.esp_flag_load = Image.open('../images/icons/espanna.gif').resize((30, 20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
             self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
             self.esp_flag_label.pack()
             self.esp_flag_label.place(x=win_width * 10 / 100, y=5)
             self.esp_flag_label.bind('<Button-1>', self.change_language_toesp)
 
-            self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((30, 20), Image.ANTIALIAS)
+            self.eng_flag_load = Image.open('../images/icons/ingles.gif').resize((30, 20), Image.ANTIALIAS)
             self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
             self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
             self.eng_flag_label.pack()
@@ -302,14 +302,14 @@ class main_window:
                 self.welcome_text.place(x=90, y=20)
 
 
-            self.load_guest_img = Image.open('../users/guest.png').resize((125, 125), Image.ANTIALIAS)
+            self.load_guest_img = Image.open('../users/guest.gif').resize((125, 125), Image.ANTIALIAS)
             self.guest_img = ImageTk.PhotoImage(self.load_guest_img)
             self.user_img_label = Label(self.welcome_canvas, image=self.guest_img, bd=0, highlightthickness=0,
                                         relief='ridge')
             self.user_img_label.pack()
             self.user_img_label.place(x=350, y=20)
 
-            self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.png').resize((30, 30), Image.ANTIALIAS)
+            self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
@@ -344,14 +344,14 @@ class main_window:
             try:
                 self.load_user_img = Image.open(users_list[current_user].perfil).resize((125, 125), Image.ANTIALIAS)
             except:
-                self.load_user_img = Image.open('../users/guest.png').resize((125, 125), Image.ANTIALIAS)
+                self.load_user_img = Image.open('../users/guest.gif').resize((125, 125), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_user_img)
             self.user_img_label = Label(self.welcome_canvas, image=self.user_img, bd=0, highlightthickness=0,
                                         relief='ridge')
             self.user_img_label.image = self.user_img
             self.user_img_label.pack()
             self.user_img_label.place(x=350, y=20)
-            self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.png').resize((30, 30), Image.ANTIALIAS)
+            self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
@@ -571,7 +571,7 @@ class newRegister:
         self.web_entry = Entry(self.win_register, width=35)
         self.image_label = Label(self.win_register, text='Imagen de usuario:', font='Times 15', bg=self.bg_color)
 
-        self.img_path = '../images/icons/no_image.png'
+        self.img_path = '../images/icons/no_image.gif'
         self.load_blank = Image.open(self.img_path).resize((100, 100), Image.ANTIALIAS)
         self.blank_img = ImageTk.PhotoImage(self.load_blank)
         self.image_entry = Label(self.win_register, image=self.blank_img, cursor='hand2')
@@ -583,12 +583,12 @@ class newRegister:
 
         self.idioma_label = Label(self.win_register, text='Idioma preferido:', font='Times 15', bg=self.bg_color)
 
-        self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((60, 40), Image.ANTIALIAS)
+        self.esp_flag_load = Image.open('../images/icons/espanna.gif').resize((60, 40), Image.ANTIALIAS)
         self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
         self.esp_flag_label = Label(self.win_register, image=self.esp_flag_img, bg='red', bd=4, cursor='hand2')
         self.esp_flag_label.bind('<Button-1>', self.espselected)
 
-        self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((60, 40), Image.ANTIALIAS)
+        self.eng_flag_load = Image.open('../images/icons/ingles.gif').resize((60, 40), Image.ANTIALIAS)
         self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
         self.eng_flag_label = Label(self.win_register, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
         self.eng_flag_label.bind('<Button-1>', self.engselected)
@@ -829,7 +829,7 @@ class searchWin:
         self.entry.place(x=self.width*14/100, y=self.height*9/100)
         self.entry.bind('<KeyRelease>', self.start_search)
 
-        self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.png').resize((30, 30), Image.ANTIALIAS)
+        self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
         self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
         self.hamb_icon_label = Label(self.win, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
@@ -940,7 +940,7 @@ class profPage:
         self.webpage = StringVar()
         self.webpage.set(info.webpage)
 
-        self.graphics_img_load = Image.open('../images/icons/graph.png').resize((50, 50), Image.ANTIALIAS)
+        self.graphics_img_load = Image.open('../images/icons/graph.gif').resize((50, 50), Image.ANTIALIAS)
         self.graphics_img = ImageTk.PhotoImage(self.graphics_img_load)
         self.graphics_img_label = Label(self.canvas_right, image=self.graphics_img, bg=self.bg_color, cursor='hand2')
         self.graphics_img_label.pack()
@@ -967,7 +967,7 @@ class profPage:
         try:
             self.load_user_img = Image.open(self.path_user_img).resize((100,100), Image.ANTIALIAS)
         except FileNotFoundError:
-            self.load_user_img = Image.open('../users/guest.png').resize((100,100), Image.ANTIALIAS)
+            self.load_user_img = Image.open('../users/guest.gif').resize((100,100), Image.ANTIALIAS)
         try:
             self.load_user_bg = Image.open(self.path_user_bg).resize((self.canvas_left.winfo_height()
                                                                       ,self.canvas_left.winfo_width()), Image.ANTIALIAS)
@@ -992,20 +992,20 @@ class profPage:
         self.lista_root=''
 
         if info.admin == 'si':
-            self.load_crown = Image.open('../images/icons/mini_crown.png').resize((50,50), Image.ANTIALIAS)
+            self.load_crown = Image.open('../images/icons/mini_crown.gif').resize((50,50), Image.ANTIALIAS)
             self.crown_img = ImageTk.PhotoImage(self.load_crown)
             self.crown_label = Label(self.canvas_right, image=self.crown_img, bg=bg_color)
             self.crown_label.pack()
             self.crown_label.place(x=self.name_label.winfo_width(), y=10)
         elif info.admin == 'S':
-            self.load_crown = Image.open('../images/icons/real_crown.png').resize((50,50), Image.ANTIALIAS)
+            self.load_crown = Image.open('../images/icons/real_crown.gif').resize((50,50), Image.ANTIALIAS)
             self.crown_img = ImageTk.PhotoImage(self.load_crown)
             self.crown_label = Label(self.canvas_right, image=self.crown_img, bg=bg_color)
             self.crown_label.pack()
             self.crown_label.place(x=self.name_label.winfo_width(), y=10)
 
         if users_list[current_user].name == self.name.get():
-            self.edit_img_load = Image.open('../images/icons/edit.png').resize((20,20), Image.ANTIALIAS)
+            self.edit_img_load = Image.open('../images/icons/edit.gif').resize((20,20), Image.ANTIALIAS)
             self.edit_img = ImageTk.PhotoImage(self.edit_img_load)
 
             self.edit_bg = Label(self.canvas_left, image=self.edit_img, cursor='hand2')
@@ -1124,7 +1124,7 @@ class listaApps:
         if users_list[current_user].name == profile_page.name.get():
             self.__populate_aux(first_lista, 0)
             if users_list[current_user].name == profile_page.name.get():
-                self.load_plus = Image.open('../images/icons/plus.png').resize((25, 25), Image.ANTIALIAS)
+                self.load_plus = Image.open('../images/icons/plus.gif').resize((25, 25), Image.ANTIALIAS)
                 self.plus_img = ImageTk.PhotoImage(self.load_plus)
                 self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
                 self.plus.grid(row=len(first_lista)*2, column=0, columnspan=5)
@@ -1193,7 +1193,7 @@ class listaApps:
                                              width=200).grid(row=cont * 2 + 1, column=3)
 
                 self.lista_apps[1] = self.lista_apps[1] + ['erase']
-                self.load_edit_img = Image.open('../images/icons/edit.png').resize((40,80), Image.ANTIALIAS)
+                self.load_edit_img = Image.open('../images/icons/edit.gif').resize((40,80), Image.ANTIALIAS)
                 self.edit_img = ImageTk.PhotoImage(self.load_edit_img)
                 self.lista_apps[1][cont] = Label(self.frame, image=self.edit_img, bg=bg_color, cursor='hand2')
                 self.lista_apps[1][cont].grid(row=cont*2, column=4, rowspan=2)
@@ -1453,7 +1453,7 @@ class appWindow():
             print(self.owner_user_info)
             self.owner_img_path = self.owner_user_info[3]
         else:
-            self.owner_img_path = '../users/guest.png'
+            self.owner_img_path = '../users/guest.gif'
         self.load_owner_img = Image.open(self.owner_img_path).resize((100,75), Image.ANTIALIAS)
         self.owner_img = ImageTk.PhotoImage(self.load_owner_img)
         self.owner_img_label = Label(self.frame, image=self.owner_img, cursor='hand2')
@@ -1527,7 +1527,7 @@ class juegos:
         self.canvas.pack()
         self.canvas.place(x=10 * win_width / 100, y=ini_y + fix * cont)
 
-        self.load_icon = Image.open('../images/icons/juegos.png').resize((100,100), Image.ANTIALIAS)
+        self.load_icon = Image.open('../images/icons/juegos.gif').resize((100,100), Image.ANTIALIAS)
         self.icon_img = ImageTk.PhotoImage(self.load_icon)
         self.icon_label = Label(self.canvas, image=self.icon_img, bg=bg_color)
         self.icon_label.pack()
@@ -1650,7 +1650,7 @@ class musica:
         self.canvas.pack()
         self.canvas.place(x=10 * win_width / 100, y=ini_y + fix * cont)
 
-        self.load_icon = Image.open('../images/icons/music.png').resize((100, 100), Image.ANTIALIAS)
+        self.load_icon = Image.open('../images/icons/music.gif').resize((100, 100), Image.ANTIALIAS)
         self.icon_img = ImageTk.PhotoImage(self.load_icon)
         self.icon_label = Label(self.canvas, image=self.icon_img, bg=bg_color)
         self.icon_label.pack()
@@ -1710,7 +1710,7 @@ class redes:
         self.canvas.pack()
         self.canvas.place(x=10 * win_width / 100, y=ini_y + fix * cont)
 
-        self.load_icon = Image.open('../images/icons/social.png').resize((90, 100), Image.ANTIALIAS)
+        self.load_icon = Image.open('../images/icons/social.gif').resize((90, 100), Image.ANTIALIAS)
         self.icon_img = ImageTk.PhotoImage(self.load_icon)
         self.icon_label = Label(self.canvas, image=self.icon_img, bg=bg_color)
         self.icon_label.pack()
@@ -2028,13 +2028,13 @@ class manageWinVendedores:
         self.table()
 
         self.frame.update()
-        self.load_plus = Image.open('../images/icons/plus.png').resize((20, 20), Image.ANTIALIAS)
+        self.load_plus = Image.open('../images/icons/plus.gif').resize((20, 20), Image.ANTIALIAS)
         self.plus_img = ImageTk.PhotoImage(self.load_plus)
         self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
         self.plus.grid(row=len(self.buttons)+1, column=0, columnspan=5)
         self.plus.bind('<Button-1>', lambda event: self.add_seller())
 
-        self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.png').resize((30, 30), Image.ANTIALIAS)
+        self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
         self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
         self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
@@ -2057,7 +2057,7 @@ class manageWinVendedores:
         if controw == len(info):
             return
         elif contcolumn == len(info[0]):
-            load_erase_img = Image.open('../images/icons/red_cross.png').resize((10,10), Image.ANTIALIAS)
+            load_erase_img = Image.open('../images/icons/red_cross.gif').resize((10,10), Image.ANTIALIAS)
             erase_img = ImageTk.PhotoImage(load_erase_img)
             self.buttons = self.buttons + ['eraseme']
             self.buttons[controw] = Label(self.frame, image=erase_img, bg=bg_color, cursor='hand2')
