@@ -79,9 +79,6 @@ class appTable:
         else:
             return [] + self.list_categoria(categ, row+1)
 
-def start_search(*args):
-    ele = trymebitch.entry.get()
-    print(search_nombre_by_letter(apps.get_list(), ele, 0))
 
 class prueba:
     def __init__(self):

@@ -15,7 +15,6 @@ def suma_list(lista, cont):
 def create_db_aux(contenido, cont_row, cont_column, list_column_width, file):
     if cont_row == 0:
         if cont_column == len(contenido[0]):
-            print(list_column_width)
             file.write('\n')
             file.write('-'*((suma_list(list_column_width, 0))-2))
             file.write('\n')
