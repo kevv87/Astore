@@ -1417,12 +1417,33 @@ class appWindow():
         self.categoria_label = Label(self.frame, text=info[3])
         self.categoria_label.grid(row=2, column=1)
 
+        self.owner_seller_info = sellers.is_in(info[0], 0, 0)
+
+        self.owner_user_info = users.is_in(self.owner_seller_info[1], 0, 0)
+
+        if self.owner_user_info:
+            print(self.owner_user_info)
+            self.owner_img_path = self.owner_user_info[3]
+        else:
+            self.owner_img_path = '../users/guest.png'
+        self.load_owner_img = Image.open(self.owner_img_path).resize((100,75), Image.ANTIALIAS)
+        self.owner_img = ImageTk.PhotoImage(self.load_owner_img)
+        self.owner_img_label = Label(self.frame, image=self.owner_img)
+        self.owner_img_label.grid(row=0, rowspan=2, column=3)
+
+
         if current_language == 'esp':
+            self.owner = Label(self.frame, text='Hecho por: %s' % self.owner_seller_info[1])
             self.buy_button = Button(self.frame, text='Comprar', command=self.buy_app)
         else:
+            self.owner = Label(self.frame, text='Made by: %s' % self.owner_seller_info[1])
             self.buy_button = Button(self.frame, text='Buy', command=self.buy_app)
 
+        self.owner.grid(row=2, column=3)
         self.buy_button.grid(row=1, column=2)
+
+        self.owner_img_label.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))
+        self.owner.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))
 
         self.descr_label = Text(self.frame, width=60)
         self.descr_label.insert('1.0',info[4])
@@ -1438,7 +1459,7 @@ class appWindow():
         self.sc2_label.image = self.sc2
 
         self.id = info[1]
-        print(self.id)
+
 
     def buy_app(self):
         global apps
@@ -1450,6 +1471,14 @@ class appWindow():
         else:
             print('Registrese')
 
+    def show_profPage(self, username):
+        if self.owner_user_info:
+            global  profile_page
+            user_info = users.is_in(username, 0, 0)
+            profile_page = profPage(users_list[int(self.owner_user_info[8])])
+            self.win.destroy()
+        else:
+            print('No hay pagina registrada')
 
 class app:
     def __init__(self, master, row, column,info, width, height):
@@ -2162,7 +2191,7 @@ class quoteTable:
 
 class newUser:
     def __init__(self, name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys, admin,
-                 country, language):
+                 country, language, user_id):
         self.name = name
         self.username = username.lstrip()
         self.password = password.lstrip()
@@ -2176,6 +2205,7 @@ class newUser:
         self.admin = admin.lstrip()
         self.country = country.lstrip()
         self.language = language.lstrip()
+        self.user_id = user_id.lstrip()
         self.exists = self.__verify()
 
 
@@ -2244,12 +2274,12 @@ def logout(*args):
 
 
 def create_user(name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys, admin,
-                country, language):
+                country, language, id):
     global users_list
     next_i = len(users_list)
     users_list = users_list + ['delete me']
     users_list[next_i] = newUser(name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys,
-                                 admin, country, language)
+                                 admin, country, language, id)
 
 
 def users_list_first_config(cont):
@@ -2258,7 +2288,7 @@ def users_list_first_config(cont):
     else:
         create_user(users.list[cont][0], users.list[cont][1], users.list[cont][2], 'None', 'None', 'None', 'None',
                     users.list[cont][3], users.list[cont][4], '0', users.list[cont][5],
-                    users.list[cont][6], users.list[cont][7])
+                    users.list[cont][6], users.list[cont][7], str(cont))
         users_list_first_config(cont+1)
 
 profile_page=''
