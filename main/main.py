@@ -52,14 +52,14 @@ class newMenu:
 
             self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((30,20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
-            self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color)
+            self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
             self.esp_flag_label.pack()
             self.esp_flag_label.place(x=win_width*10/100, y=5)
             self.esp_flag_label.bind('<Button-1>', self.change_language_toesp)
 
             self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((30, 20), Image.ANTIALIAS)
             self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
-            self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color)
+            self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
             self.eng_flag_label.pack()
             self.eng_flag_label.place(x=win_width * 18 / 100, y=5)
             self.eng_flag_label.bind('<Button-1>', self.change_language_toeng)
@@ -119,14 +119,14 @@ class newMenu:
 
             self.esp_flag_load = Image.open('../images/icons/espanna.png').resize((30, 20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
-            self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color)
+            self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
             self.esp_flag_label.pack()
             self.esp_flag_label.place(x=win_width * 10 / 100, y=5)
             self.esp_flag_label.bind('<Button-1>', self.change_language_toesp)
 
             self.eng_flag_load = Image.open('../images/icons/ingles.png').resize((30, 20), Image.ANTIALIAS)
             self.eng_flag_img = ImageTk.PhotoImage(self.eng_flag_load)
-            self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color)
+            self.eng_flag_label = Label(self.canvas_menu, image=self.eng_flag_img, bg=self.bg_color, cursor='hand2')
             self.eng_flag_label.pack()
             self.eng_flag_label.place(x=win_width * 18 / 100, y=5)
             self.eng_flag_label.bind('<Button-1>', self.change_language_toeng)
@@ -312,7 +312,7 @@ class main_window:
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
-                                         bg=bg_color)
+                                         bg=bg_color, cursor='hand2')
             self.hamb_icon_label.pack()
             self.hamb_icon_label.place(x=1, y=1)
 
@@ -354,7 +354,7 @@ class main_window:
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
-                                         bg=bg_color)
+                                         bg=bg_color, cursor='hand2')
             self.hamb_icon_label.pack()
             self.hamb_icon_label.place(x=1, y=1)
 
@@ -483,7 +483,7 @@ class newLogin:
         self.register_button.place(x=self.win_login_width*48/100, y=self.win_login_height*70/100)
 
         self.win_login.protocol("WM_DELETE_WINDOW", self.win_login.withdraw)
-        self.win_login.bind('<Return>',self.login)
+        self.win_login.bind('<Return>', self.login)
 
     def __show_register(self, *args):
         self.win_login.withdraw()
@@ -573,7 +573,7 @@ class newRegister:
         self.img_path = '../images/icons/no_image.png'
         self.load_blank = Image.open(self.img_path).resize((100, 100), Image.ANTIALIAS)
         self.blank_img = ImageTk.PhotoImage(self.load_blank)
-        self.image_entry = Label(self.win_register, image=self.blank_img)
+        self.image_entry = Label(self.win_register, image=self.blank_img, cursor='hand2')
         self.pais_label = Label(self.win_register, text='Pais:', font='Times 15', bg=self.bg_color)
 
         self.variable = StringVar(self.win_register)
@@ -827,7 +827,8 @@ class searchWin:
         self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.png').resize((30, 30), Image.ANTIALIAS)
 
         self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
-        self.hamb_icon_label = Label(self.win, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge')
+        self.hamb_icon_label = Label(self.win, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
+                                     cursor = 'hand2')
 
         self.hamb_icon_label.pack()
         self.hamb_icon_label.place(x=1, y=1)
@@ -935,7 +936,7 @@ class profPage:
 
         self.graphics_img_load = Image.open('../images/icons/graph.png').resize((50, 50), Image.ANTIALIAS)
         self.graphics_img = ImageTk.PhotoImage(self.graphics_img_load)
-        self.graphics_img_label = Label(self.canvas_right, image=self.graphics_img, bg=self.bg_color)
+        self.graphics_img_label = Label(self.canvas_right, image=self.graphics_img, bg=self.bg_color, cursor='hand2')
         self.graphics_img_label.pack()
         self.graphics_img_label.place(x=self.width*62/100, y=10)
         self.graphics_img_label.image = self.graphics_img
@@ -1001,24 +1002,24 @@ class profPage:
             self.edit_img_load = Image.open('../images/icons/edit.png').resize((20,20), Image.ANTIALIAS)
             self.edit_img = ImageTk.PhotoImage(self.edit_img_load)
 
-            self.edit_bg = Label(self.canvas_left, image=self.edit_img)
+            self.edit_bg = Label(self.canvas_left, image=self.edit_img, cursor='hand2')
             self.edit_bg.pack()
             self.edit_bg.place(x=0,y=0)
             self.edit_bg.image = self.edit_img
             self.edit_bg.bind('<Button-1>', lambda *args: self.change_img('fondo'))
 
-            self.edit_profile_img = Label(self.canvas_left, image=self.edit_img)
+            self.edit_profile_img = Label(self.canvas_left, image=self.edit_img, cursor='hand2')
             self.edit_profile_img.pack()
             self.edit_profile_img.place(relx=0.3,rely=0.3)
             self.edit_profile_img.image = self.edit_img
             self.edit_profile_img.bind('<Button-1>', lambda *args: self.change_img('foto'))
 
-            self.edit_mail = Label(self.canvas_right, image=self.edit_img, bg=bg_color)
+            self.edit_mail = Label(self.canvas_right, image=self.edit_img, bg=bg_color, cursor='hand2')
             self.edit_mail.pack()
             self.edit_mail.place(x=self.correo_label.winfo_width()+50, y=90)
             self.edit_mail.bind('<Button-1>', self.change_mail)
 
-            self.edit_webpage = Label(self.canvas_right, image=self.edit_img, bg=bg_color)
+            self.edit_webpage = Label(self.canvas_right, image=self.edit_img, bg=bg_color, cursor='hand2')
             self.edit_webpage.pack()
             self.edit_webpage.place(x=self.webpage_label.winfo_width()+50, y=160)
             self.edit_webpage.bind('<Button-1>', self.change_page)
@@ -1119,7 +1120,7 @@ class listaApps:
             if users_list[current_user].name == profile_page.name.get():
                 self.load_plus = Image.open('../images/icons/plus.png').resize((25, 25), Image.ANTIALIAS)
                 self.plus_img = ImageTk.PhotoImage(self.load_plus)
-                self.plus = Label(self.frame, image=self.plus_img, bg=bg_color)
+                self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
                 self.plus.grid(row=len(first_lista)*2, column=0, columnspan=5)
                 self.plus.bind('<Button-1>', lambda event: self.create_edit_win([]))
         else:
@@ -1183,7 +1184,7 @@ class listaApps:
                 self.lista_apps[1] = self.lista_apps[1] + ['erase']
                 self.load_edit_img = Image.open('../images/icons/edit.png').resize((40,80), Image.ANTIALIAS)
                 self.edit_img = ImageTk.PhotoImage(self.load_edit_img)
-                self.lista_apps[1][cont] = Label(self.frame, image=self.edit_img, bg=bg_color)
+                self.lista_apps[1][cont] = Label(self.frame, image=self.edit_img, bg=bg_color, cursor='hand2')
                 self.lista_apps[1][cont].grid(row=cont*2, column=4, rowspan=2)
                 self.lista_apps[1][cont].image = self.edit_img
                 self.lista_apps[1][cont].bind('<Button-1>', lambda event: self.create_edit_win(lista[cont]))
@@ -1235,7 +1236,7 @@ class editApp:
         self.variable_categoria = StringVar(self.win)
         self.variable_categoria.set('Seleccionar')
 
-        self.icon_label = Label(self.frame, image=self.icon)
+        self.icon_label = Label(self.frame, image=self.icon, cursor='hand2')
         self.icon_label.grid(row=0, column=0, rowspan=2)
         self.app_name = StringVar()
         self.app_name.set('Nombre de la app')
@@ -1260,11 +1261,11 @@ class editApp:
         self.categoria_entry.grid(row=1, column=3)
         self.descr_entry = Text(self.frame, height=5)
         self.descr_entry.grid(row=2, column=0, columnspan=4, rowspan=2)
-        self.sc1_label = Label(self.frame, image=self.sc1)
+        self.sc1_label = Label(self.frame, image=self.sc1, cursor='hand2')
         self.sc1_label.grid(row=4,column=0, columnspan=2)
-        self.sc2_label = Label(self.frame, image=self.sc2)
+        self.sc2_label = Label(self.frame, image=self.sc2, cursor='hand2')
         self.sc2_label.grid(row=4, column=2, columnspan=2)
-        self.banner_label = Label(self.frame, image=self.banner)
+        self.banner_label = Label(self.frame, image=self.banner, cursor='hand2')
         self.banner_label.grid(row=5, column=0, columnspan=4)
         self.icon_label.bind('<Button-1>', self.change_icon)
         self.sc1_label.bind('<Button-1>', self.change_sc1)
@@ -1279,7 +1280,6 @@ class editApp:
                                                                                                                  column=1)
             self.cancel = Button(self.frame, text='Cancel', command=self.win.destroy)
         self.cancel.grid(row=6, column=2)
-        self.cancel.bind('<Button-1>', lambda event: self.win.destroy())
 
     def change_icon(self, *args):
         print('a')
@@ -1434,15 +1434,15 @@ class appWindow():
             self.owner_img_path = '../users/guest.png'
         self.load_owner_img = Image.open(self.owner_img_path).resize((100,75), Image.ANTIALIAS)
         self.owner_img = ImageTk.PhotoImage(self.load_owner_img)
-        self.owner_img_label = Label(self.frame, image=self.owner_img)
+        self.owner_img_label = Label(self.frame, image=self.owner_img, cursor='hand2')
         self.owner_img_label.grid(row=0, rowspan=2, column=3)
 
 
         if current_language == 'esp':
-            self.owner = Label(self.frame, text='Hecho por: %s' % self.owner_seller_info[1])
+            self.owner = Label(self.frame, text='Hecho por: %s' % self.owner_seller_info[1], cursor='hand2')
             self.buy_button = Button(self.frame, text='Comprar', command=self.buy_app)
         else:
-            self.owner = Label(self.frame, text='Made by: %s' % self.owner_seller_info[1])
+            self.owner = Label(self.frame, text='Made by: %s' % self.owner_seller_info[1], cursor='hand2')
             self.buy_button = Button(self.frame, text='Buy', command=self.buy_app)
 
         self.owner.grid(row=2, column=3)
@@ -1491,7 +1491,7 @@ class app:
         self.icon_path = info[7]
         self.load_icon = Image.open(self.icon_path).resize((int(width), int(height)), Image.ANTIALIAS)
         self.icon_img = ImageTk.PhotoImage(self.load_icon)
-        self.icon_label = Label(master, image=self.icon_img)
+        self.icon_label = Label(master, image=self.icon_img, cursor='hand2')
         self.icon_label.grid(row=row, column=column)
         self.icon_label.image = self.icon_img
         self.icon_label.bind('<Button-1>', lambda event: appWindow(info))
@@ -1541,7 +1541,7 @@ class juegos:
 
             app1_load_banner = Image.open('%s' %app1[8].lstrip()).resize((200,200),Image.ANTIALIAS)
             app1_banner = ImageTk.PhotoImage(app1_load_banner)
-            app1_banner_label = Label(subcanvas1, image=app1_banner)
+            app1_banner_label = Label(subcanvas1, image=app1_banner, cursor='hand2')
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
@@ -1549,7 +1549,7 @@ class juegos:
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
-            app2_banner_label = Label(subcanvas2, image=app2_banner)
+            app2_banner_label = Label(subcanvas2, image=app2_banner, cursor='hand2')
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
@@ -1604,7 +1604,7 @@ class herramientas:
 
             app1_load_banner = Image.open('%s' %app1[8].lstrip()).resize((200,200),Image.ANTIALIAS)
             app1_banner = ImageTk.PhotoImage(app1_load_banner)
-            app1_banner_label = Label(subcanvas1, image=app1_banner)
+            app1_banner_label = Label(subcanvas1, image=app1_banner, cursor='hand2')
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
@@ -1612,7 +1612,7 @@ class herramientas:
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
-            app2_banner_label = Label(subcanvas2, image=app2_banner)
+            app2_banner_label = Label(subcanvas2, image=app2_banner, cursor='hand2')
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
@@ -1664,7 +1664,7 @@ class musica:
 
             app1_load_banner = Image.open('%s' %app1[8].lstrip()).resize((200,200),Image.ANTIALIAS)
             app1_banner = ImageTk.PhotoImage(app1_load_banner)
-            app1_banner_label = Label(subcanvas1, image=app1_banner)
+            app1_banner_label = Label(subcanvas1, image=app1_banner, cursor='hand2')
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
@@ -1672,7 +1672,7 @@ class musica:
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
-            app2_banner_label = Label(subcanvas2, image=app2_banner)
+            app2_banner_label = Label(subcanvas2, image=app2_banner, cursor='hand2')
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
@@ -1727,7 +1727,7 @@ class redes:
 
             app1_load_banner = Image.open('%s' %app1[8].lstrip()).resize((200,200),Image.ANTIALIAS)
             app1_banner = ImageTk.PhotoImage(app1_load_banner)
-            app1_banner_label = Label(subcanvas1, image=app1_banner)
+            app1_banner_label = Label(subcanvas1, image=app1_banner, cursor='hand2')
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
@@ -1735,7 +1735,7 @@ class redes:
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
-            app2_banner_label = Label(subcanvas2, image=app2_banner)
+            app2_banner_label = Label(subcanvas2, image=app2_banner, cursor='hand2')
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
@@ -2008,7 +2008,7 @@ class manageWinVendedores:
         self.frame.update()
         self.load_plus = Image.open('../images/icons/plus.png').resize((20, 20), Image.ANTIALIAS)
         self.plus_img = ImageTk.PhotoImage(self.load_plus)
-        self.plus = Label(self.frame, image=self.plus_img, bg=bg_color)
+        self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
         self.plus.grid(row=len(self.buttons)+1, column=0, columnspan=5)
         self.plus.bind('<Button-1>', lambda event: self.add_seller())
 
@@ -2016,7 +2016,7 @@ class manageWinVendedores:
 
         self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
         self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
-                                     bg=bg_color)
+                                     bg=bg_color, cursor='hand2')
         self.hamb_icon_label.pack()
         self.hamb_icon_label.place(x=1, y=1)
 
@@ -2038,7 +2038,7 @@ class manageWinVendedores:
             load_erase_img = Image.open('../images/icons/red_cross.png').resize((10,10), Image.ANTIALIAS)
             erase_img = ImageTk.PhotoImage(load_erase_img)
             self.buttons = self.buttons + ['eraseme']
-            self.buttons[controw] = Label(self.frame, image=erase_img, bg=bg_color)
+            self.buttons[controw] = Label(self.frame, image=erase_img, bg=bg_color, cursor='hand2')
             self.buttons[controw].grid(row=controw+1, column=contcolumn)
             self.buttons[controw].image = erase_img
             self.buttons[controw].bind('<Button-1>', lambda event: self.erase(controw))
