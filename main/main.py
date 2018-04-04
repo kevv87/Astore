@@ -1442,9 +1442,13 @@ class appWindow():
 
     def buy_app(self):
         global apps
+        global current_user
         apps.mod(int(self.id), 11, str(int(apps.list[int(self.id)][11])+1))
-        if users_list[current_user].country == 'Costa Rica':
-            apps.mod(int(self.id), 12, str(int(apps.list[int(self.id)][12]) + 1))
+        if current_user != -1:
+            if users_list[current_user].country == 'Costa Rica':
+                apps.mod(int(self.id), 12, str(int(apps.list[int(self.id)][12]) + 1))
+        else:
+            print('Registrese')
 
 
 class app:
