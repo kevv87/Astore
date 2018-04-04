@@ -111,3 +111,12 @@ def is_in(lista, ele, contcolumn, controw):
         return lista[controw], int(controw)
     else:
         return is_in(lista, ele, contcolumn+1, controw)
+
+
+def lista_isin(lista, ele, cont):
+    if len(lista) == cont:
+        return False
+    elif lista[cont].lstrip().replace(' ','').lower() == ele.lstrip().replace(' ','').lower():
+        return lista[cont], cont
+    else:
+        return lista_isin(lista, ele, cont+1)

@@ -6,7 +6,7 @@ from manejo_txt import *
 from tkinter import simpledialog
 
 users_list = []
-category_list=['juegos', 'musica', 'herramientas', 'Redes sociales']
+category_list=['Juegos', 'Musica', 'Herramientas', 'Redes Sociales']
 current_user = 1
 current_language = 'esp'
 
@@ -866,10 +866,11 @@ class searchWin:
             return self.posicionar_apps(apps.get_list(), 0, 0, 0)
 
     def search_nombre_by_letter(self, lista, ele, cont):
+        global category_list
         if ele != ' ':
             if len(lista) == cont:
                 return []
-            elif lista[cont][2].lower().replace(' ', '').startswith(ele) or lista[cont][3].lower().replace(' ', '') == ele:
+            elif lista[cont][2].lower().replace(' ', '').startswith(ele) or category_list[int(lista[cont][3].lower().replace(' ', ''))] == ele:
                 return [lista[cont]] + self.search_nombre_by_letter(lista, ele, cont + 1)
             else:
                 return self.search_nombre_by_letter(lista, ele, cont + 1)
@@ -1135,6 +1136,7 @@ class listaApps:
 
     def __populate_aux(self, lista, cont):
         global profile_page
+        global category_list
         if cont == len(lista):
             return
         else:
@@ -1153,12 +1155,12 @@ class listaApps:
             if current_language == 'esp':
                 self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
                                            font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=1)
-                self.app_categoria = Label(self.frame, text='Categoria: '+lista[cont][3],
+                self.app_categoria = Label(self.frame, text='Categoria: '+ category_list[int(lista[cont][3])],
                                            font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=2)
             else:
                 self.app_downloads = Label(self.frame, text='Downloads: ' + lista[cont][11],
                                            font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=1)
-                self.app_categoria = Label(self.frame, text='Category: ' + lista[cont][3],
+                self.app_categoria = Label(self.frame, text='Category: ' + category_list[int(lista[cont][3])],
                                            font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=2)
             if users_list[current_user].name == profile_page.name.get():
                 if lista[cont][5] == 'Free':
@@ -1336,10 +1338,11 @@ class editApp:
         self.win.lift()
 
     def edit_config(self, info):
+        global category_list
         self.app_name.set(info[2])
         self.app_cost.set(info[5])
         self.descr_entry.insert('1.0', info[4])
-        self.variable_categoria.set(info[3])
+        self.variable_categoria.set(category_list[int(info[3])])
 
         self.icon_path = info[7]
         self.load_icon = Image.open(self.icon_path).resize((100,100), Image.ANTIALIAS)
@@ -1368,17 +1371,19 @@ class editApp:
 
     def send(self, name):
         global users_list
+        global category_list
         if self.name_entry.get().lstrip() != '' and self.name_entry.get().lstrip() != 'Nombre de la app' and self.variable_categoria.get() != 'Seleccionar' and self.cost_entry.get().lstrip() != '':
             num_row_to_update = is_in(apps.get_list(), name, 0, 0)[1]
             row_to_update = is_in(apps.get_list(), name, 0, 0)[0]
+            new_category = str(lista_isin(category_list, self.variable_categoria.get(), 0)[1])
             if row_to_update:
                 new_entry = [users_list[current_user].seller_id, row_to_update[1], self.name_entry.get(),
-                             self.variable_categoria.get(), self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
+                             new_category, self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
                              'Activo', self.icon_path, self.banner_path, self.sc1_path, self.sc2_path, '0', '0']
                 apps.update(num_row_to_update, new_entry)
             else:
                 new_entry = [users_list[current_user].seller_id, str(int(apps.get_list()[len(apps.get_list())-1][1])+1), self.name_entry.get(),
-                             self.variable_categoria.get(), self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
+                             new_category, self.descr_entry.get('1.0', 'end-1c'), self.cost_entry.get(),
                              'Activo', self.icon_path, self.banner_path, self.sc1_path, self.sc2_path, '0', '0']
                 apps.add(new_entry)
             self.win.destroy()
@@ -1387,6 +1392,7 @@ class editApp:
 
 
 class appWindow():
+    global category_list
     def __init__(self, info):
         # Configuracion principal
         self.bg_color = '#bbb8c1'
@@ -1425,7 +1431,7 @@ class appWindow():
         self.cost_label = Label(self.frame, text=info[5])
         self.cost_label.grid(row=1, column=1)
 
-        self.categoria_label = Label(self.frame, text=info[3])
+        self.categoria_label = Label(self.frame, text=category_list[int(info[3])])
         self.categoria_label.grid(row=2, column=1)
 
         self.owner_seller_info = sellers.is_in(info[0], 0, 0)
@@ -1754,10 +1760,10 @@ class appTable:
         self.raw_list = self.__to_list(0)
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
-        self.musica = self.list_categoria('Musica', 0)
-        self.juegos = self.list_categoria('Juegos', 0)
-        self.herramientas = self.list_categoria('Herramientas', 0)
-        self.redes = self.list_categoria('Redes', 0)
+        self.musica = self.list_categoria('1', 0)
+        self.juegos = self.list_categoria('0', 0)
+        self.herramientas = self.list_categoria('2', 0)
+        self.redes = self.list_categoria('3', 0)
 
     def __to_list(self, cont):
         a = self.first_read.readline()
