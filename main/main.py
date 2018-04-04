@@ -1150,8 +1150,12 @@ class listaApps:
 
             self.app_name = Label(self.frame, text=lista[cont][2], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=1)
-            self.app_cost = Label(self.frame, text='₡'lista[cont][5], font='Times 20',
+            if lista[cont][5] != 'Free':
+                self.app_cost = Label(self.frame, text='₡'+lista[cont][5], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=2)
+            else:
+                self.app_cost = Label(self.frame, text=lista[cont][5], font='Times 20',
+                                      bg=bg_color).grid(row=cont * 2, column=2)
             if current_language == 'esp':
                 self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
                                            font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=1)
@@ -1264,6 +1268,8 @@ class editApp:
                                      'Herramientas')
         self.cost_entry = Entry(self.frame, textvariable=self.app_cost)
         self.cost_entry.grid(row=0, column=3)
+        self.cost_entry.bind('<Button-1>', lambda event: self.app_cost.set(''))
+
         self.descr_variable = StringVar()
         self.categoria_entry.grid(row=1, column=3)
         self.descr_entry = Text(self.frame, height=5)
@@ -1340,7 +1346,10 @@ class editApp:
     def edit_config(self, info):
         global category_list
         self.app_name.set(info[2])
-        self.app_cost.set('₡'+info[5])
+        if info[5] != 'Free':
+            self.app_cost.set('₡'+info[5])
+        else:
+            self.app_cost.set(info[5])
         self.descr_entry.insert('1.0', info[4])
         self.variable_categoria.set(category_list[int(info[3])])
 
@@ -1427,8 +1436,10 @@ class appWindow():
 
         self.name_label = Label(self.frame, text=info[2])
         self.name_label.grid(row=0, column=1)
-
-        self.cost_label = Label(self.frame, text='₡'info[5])
+        if info[5] == 'Free':
+            self.cost_label = Label(self.frame, text=info[5])
+        else:
+            self.cost_label = Label(self.frame, text='₡'+info[5])
         self.cost_label.grid(row=1, column=1)
 
         self.categoria_label = Label(self.frame, text=category_list[int(info[3])])
