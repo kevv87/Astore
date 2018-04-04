@@ -1100,7 +1100,7 @@ class listaApps:
         self.sc_width = root.winfo_screenwidth()
         self.sc_height = root.winfo_screenheight()
         self.width = self.sc_width * 60 / 100
-        self.height = self.sc_height * 50 / 100
+        self.height = self.sc_height * 70 / 100
         root.geometry(
             '%dx%d+%d+%d' % (self.width, self.height, self.sc_width * 25 / 100, self.sc_height * 15 / 100))
 
@@ -1114,9 +1114,9 @@ class listaApps:
         if users_list[current_user].name == profile_page.name.get():
             self.__populate_aux(first_lista, 0)
             if users_list[current_user].name == profile_page.name.get():
-                self.load_plus = Image.open('../images/icons/plus.png').resize((self.frame.winfo_width(), 100), Image.ANTIALIAS)
+                self.load_plus = Image.open('../images/icons/plus.png').resize((25, 25), Image.ANTIALIAS)
                 self.plus_img = ImageTk.PhotoImage(self.load_plus)
-                self.plus = Label(self.frame, image=self.plus_img)
+                self.plus = Label(self.frame, image=self.plus_img, bg=bg_color)
                 self.plus.grid(row=len(first_lista)*2, column=0, columnspan=5)
                 self.plus.bind('<Button-1>', lambda event: self.create_edit_win([]))
         else:
