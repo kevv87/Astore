@@ -3,7 +3,7 @@ from PIL import ImageTk, Image
 from random import *
 from tkinter import filedialog as fd
 from manejo_txt import *
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 
 users_list = []
 category_list=['Juegos', 'Musica', 'Herramientas', 'Redes Sociales']
@@ -510,7 +510,7 @@ class newLogin:
             self.none1.set('')
             self.none2.set('')
         else:
-            print('Contrasena incorrecta o no usuario')
+            messagebox.showerror(title='Error', message='Usuario o contraseña incorrecta')
 
     def login_aux(self,login_user, cont):
         global current_user
@@ -655,7 +655,10 @@ class newRegister:
             self.image_entry.config(image=new_img)
             self.image_entry.image = new_img
         except:
-            print('No image')
+            load_new_img = Image.open('../users/guest.gif').resize((100, 100), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.image_entry.config(image=new_img)
+            self.image_entry.image = new_img
         self.win_register.lift()
 
     def add_user(self, *args):
@@ -663,7 +666,6 @@ class newRegister:
         global current_language
         global current_user
 
-        print('callback')
         nombre = self.name_entry.get()
         usuario = self.user_entry.get()
         contra = self.pass_entry.get()
@@ -680,7 +682,7 @@ class newRegister:
         apps_compradas = '0'
 
         if users.is_in(usuario, 0, 1):
-            print('Ya existe el nombre de usuario')
+            messagebox.showerror(title='error', message='Ya existe el nombre de usuario')
         else:
             if nombre.lstrip() != '' and usuario.lstrip() != '' and contra.lstrip() != '' and recontra.lstrip() != '' and correo.lstrip() != '':
                 if contra.lstrip() == recontra.lstrip():
@@ -693,9 +695,9 @@ class newRegister:
                     main.kill()
                     main = main_window(root, current_language, current_user)
                 else:
-                    return print('Contrasenas no iguales')
+                    return messagebox.showerror(title='Error', message='Contrasenas no iguales')
             else:
-                return print('Faltan espacios')
+                return messagebox.showerror(title='Error', message='Faltan espacios')
 
     def add_touser(self):
 
@@ -1063,7 +1065,12 @@ class profPage:
                 users.mod(current_user+1, 4, self.img_path)
                 users_list[current_user].fondo = self.img_path
         except:
-            print('No image')
+            load_new_img = Image.open('../users/guest').resize((100, 100), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.user_bg_label.config(image=new_img)
+            self.user_bg_label.image = new_img
+            users.mod(current_user + 1, 4, self.img_path)
+            users_list[current_user].fondo = self.img_path
         self.win.lift()
         main.kill()
         main = main_window(root, current_language, current_user)
@@ -1295,7 +1302,6 @@ class editApp:
         self.cancel.grid(row=6, column=2)
 
     def change_icon(self, *args):
-        print('a')
         self.win.lower()
         self.img_path = fd.askopenfilename()
         try:
@@ -1304,7 +1310,11 @@ class editApp:
             self.icon_label.config(image=new_img)
             self.icon_label.image = new_img
         except:
-            print('No image')
+            messagebox.showwarning(title='Warning', message='Imagen no encontrada')
+            load_new_img = Image.open('../users/guest.gif').resize((100, 100), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.icon_label.config(image=new_img)
+            self.icon_label.image = new_img
         self.win.lift()
 
     def change_sc1(self, *args):
@@ -1316,7 +1326,10 @@ class editApp:
             self.sc1_label.config(image=new_img)
             self.sc1_label.image = new_img
         except:
-            print('No image')
+            load_new_img = Image.open('../images/').resize((300, 200), Image.ANTIALIAS)
+            new_img = ImageTk.PhotoImage(load_new_img)
+            self.sc1_label.config(image=new_img)
+            self.sc1_label.image = new_img
         self.win.lift()
 
     def change_sc2(self, *args):
