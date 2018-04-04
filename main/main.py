@@ -2046,9 +2046,7 @@ class manageWinVendedores:
 
         self.canvas.place(x=50,y=20)
 
-
         self.buttons=[]
-
 
         self.table()
 
@@ -2120,6 +2118,12 @@ class manageWinVendedores:
                              mail_entry.get(), page_entry.get()])
                 self.root.destroy()
                 new_manage_window = manageWinVendedores(Toplevel())
+            elif name_entry.get() == '':
+                messagebox.showerror(title='Error', message='Introduzca un nombre de vendedor')
+            elif mail_entry.get() == '':
+                messagebox.showerror(title='Error', message='Introduzca un correo')
+            else:
+                messagebox.showerror(title='Error', message='Introduzca una pagina web')
 
         new_win = Toplevel()
         main_frame = Frame(new_win)
@@ -2140,10 +2144,9 @@ class manageWinVendedores:
         page_entry.grid(row=2, column=1)
 
         ready = Button(main_frame, text='Listo', command=send)
-        cancel = Button(main_frame, text='Cancelar')
-        ready.grid(row=3, column=0, sticky=E)
-        cancel.grid(row=3, column=1, sticky=W)
-
+        cancel = Button(main_frame, text='Cancelar', command=new_win.destroy)
+        ready.grid(row=3, column=1, sticky=W)
+        cancel.grid(row=3, column=0, sticky=E)
 
 
 
