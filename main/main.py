@@ -1940,12 +1940,12 @@ class sellersTable:
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace(' ','') == ele.lower().replace(' ',''):
                     return self.list[row]
                 else:
                     return False
             else:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace(' ','') == ele.lower().replace(' ',''):
                     return self.list[row]
                 else:
                     return self.is_in(ele, row, column+1)
@@ -1953,7 +1953,7 @@ class sellersTable:
             if column == len(self.list[0])-1:
                 return self.is_in(ele, row+1, 0)
             else:
-                if self.list[row][column].lstrip() == ele:
+                if self.list[row][column].lstrip().lower().replace(' ','') == ele.lower().replace(' ',''):
                     return self.list[row]
                 else:
                     return self.is_in(ele, row, column+1)
@@ -2111,19 +2111,6 @@ class manageWinVendedores:
         self.add_seller_aux()
 
     def add_seller_aux(self):
-        def send():
-            if name_entry.get() != '' and mail_entry.get() != '' and page_entry.get() != '':
-                global new_manage_window
-                sellers.add([str(int(sellers.get_list()[len(sellers.get_list())-1][0])+1), name_entry.get(),
-                             mail_entry.get(), page_entry.get()])
-                self.root.destroy()
-                new_manage_window = manageWinVendedores(Toplevel())
-            elif name_entry.get() == '':
-                messagebox.showerror(title='Error', message='Introduzca un nombre de vendedor')
-            elif mail_entry.get() == '':
-                messagebox.showerror(title='Error', message='Introduzca un correo')
-            else:
-                messagebox.showerror(title='Error', message='Introduzca una pagina web')
 
         new_win = Toplevel()
         main_frame = Frame(new_win)
@@ -2143,10 +2130,30 @@ class manageWinVendedores:
         page_entry = Entry(main_frame)
         page_entry.grid(row=2, column=1)
 
+        def send():
+            if name_entry.get() != '' and mail_entry.get() != '' and page_entry.get() != '':
+                if not sellers.is_in(name_entry.get(), 0, 1):
+                    global new_manage_window
+                    sellers.add([str(int(sellers.get_list()[len(sellers.get_list())-1][0])+1), name_entry.get(),
+                                 mail_entry.get(), page_entry.get()])
+                    self.root.destroy()
+                    new_manage_window = manageWinVendedores(Toplevel())
+                    new_win.destroy()
+                else:
+                    messagebox.showerror(title='Vendedor encontrado', message='El nombre de vendedor que digito ya existe')
+            elif name_entry.get() == '':
+                messagebox.showerror(title='Error', message='Introduzca un nombre de vendedor')
+            elif mail_entry.get() == '':
+                messagebox.showerror(title='Error', message='Introduzca un correo')
+            else:
+                messagebox.showerror(title='Error', message='Introduzca una pagina web')
+
         ready = Button(main_frame, text='Listo', command=send)
         cancel = Button(main_frame, text='Cancelar', command=new_win.destroy)
         ready.grid(row=3, column=1, sticky=W)
         cancel.grid(row=3, column=0, sticky=E)
+
+
 
 
 
