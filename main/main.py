@@ -8,7 +8,7 @@ from tkinter import simpledialog, messagebox
 users_list = []  # Usada para guardar los usuarios
 category_list=['Juegos', 'Musica', 'Herramientas', 'Redes Sociales']  # Usada para asociar los numeros de categoria con
                                                                     # equivalente en palabras.
-current_user = -1  # Usada para identificar al actual usuario
+current_user = 0  # Usada para identificar al actual usuario
 current_language = 'esp'  # Usada para identificar el lenguaje actual
 
 bg_color = '#bbb8c1'  # Usada para establecer el color de todas las ventanas.
@@ -447,8 +447,6 @@ class main_window:
         if len(used) == 3:  # Caso base, used es una lista vacia utilizada para guardar las categorias que ya se han puesto para que no repita
             return
         elif not self.is_in(used, categorias[rand], 0):
-            print(used)
-            print(categorias[rand])
             if categorias[rand] == 'Juegos':  # Si la lista en el indice rand tiene el elemento 'Juegos'
                 categoria_juego = juegos(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Juegos'], cont + 1)
@@ -2365,24 +2363,20 @@ class sellersTable:
     # R: No hay
     def remove(self, row):
         global sellers
-        self.list = self.remove_aux(row, 0, False)
+        self.list = self.remove_aux(row, 0)
         open_temp_file = open(self.file, 'w')
         create_db(self.list, open_temp_file)
         close_temp_file = open_temp_file.close()
         sellers = sellersTable()
 
 
-    def remove_aux(self, row, cont, deleted):
+    def remove_aux(self, row, cont):
         if cont == len(self.list):
             return []
         elif row == cont:
-            return self.remove_aux(row, cont + 1, True)
+            return self.remove_aux(row, cont + 1)
         else:
-            if deleted:
-                self.list[cont][0] = str(int(self.list[cont][0])-1)
-                return [self.list[cont]] + self.remove_aux(row, cont + 1, deleted)
-            else:
-                return [self.list[cont]] + self.remove_aux(row, cont+1, deleted)
+            return [self.list[cont]] + self.remove_aux(row, cont + 1)
 
 # Clase encargada de la creacion de la ventana de administrar vendedores, entre sus atributos se encuntra lo principal para
 # crear la ventana, entre sus metodos se encuentra crear una tabla, borrar o annadir renglones
@@ -2479,9 +2473,12 @@ class manageWinVendedores:
     # R: No tiene
     def erase(self, row):
         global new_manage_window
-        seller_id = row[0]
-        if self.has_active(seller_id, 0):
+        seller_id = sellers.list[row+1][0]
+        isuser = self.isuser(sellers.list[row+1][1])
+        if not self.has_active(seller_id, 0):
             sellers.remove(row+1)
+            if isuser[0]:
+                users.remove_pername(isuser[1][0])
             self.root.destroy()
             new_manage_window = manageWinVendedores(Toplevel())
         else:
@@ -2501,7 +2498,7 @@ class manageWinVendedores:
             if lista[cont][6] == 'Activo':
                 return True
             else:
-                return has_active(seller_id, cont+1)
+                return self.has_active(seller_id, cont+1)
         else:
             return self.has_active(seller_id, cont+1)
 
@@ -2573,6 +2570,16 @@ class manageWinVendedores:
         ready.grid(row=3, column=1, sticky=W)
         cancel.grid(row=3, column=0, sticky=E)
 
+    # E: El nombre de un vendedor
+    # S: True si el vendedor es un usuario, False si no
+    # R: No hay
+    def isuser(self, name):
+        verify = users.is_in(name, 0, 0)
+        if verify:
+            return True, verify
+        else:
+            return False, verify
+
 # Clase destinada a la creacion de la tabla de usuarios. Sus atributos tienen que ver con la tabla en forma de lista
 # y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o modificar la tabla
 # entre otros.
@@ -2640,6 +2647,29 @@ class usersTable():
         self.list[row][column] = ele
         create_db(self.list, open_temp_file)
         close_temp_file = open_temp_file.close()
+
+    # E: Nombre a eliminar
+    # S: No retorna, solamente elimina de la tabla el renglon que se le de
+    # R: No hay
+    def remove_pername(self, name):
+        global users
+        global users_list
+        self.list = self.remove_pername_aux(name, 0)
+        open_temp_file = open(self.file, 'w')
+        create_db(self.list, open_temp_file)
+        close_temp_file = open_temp_file.close()
+        users = usersTable()
+
+    def remove_pername_aux(self, name, cont):
+        if cont == len(self.list):
+            return []
+        elif name == self.list[cont][0]:
+            users_list[cont-1] = ''
+            return self.remove_pername_aux(name, cont + 1)
+        else:
+            print(name)
+            print(self.list[0])
+            return [self.list[cont]] + self.remove_pername_aux(name, cont + 1)
 
 # Clase destinada a la creacion de la tabla de frases. Sus atributos tienen que ver con la tabla en forma de lista
 # y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de buscar y extraer una frase
