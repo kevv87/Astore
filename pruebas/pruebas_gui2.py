@@ -19,7 +19,7 @@ class listaApps:
 
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-        self.img_path = '../images/icons/back.png'
+        self.img_path = '../images/icons/no_image.png'
         self.img_load = Image.open(self.img_path)
         self.img = ImageTk.PhotoImage(self.img_load)
 

@@ -2466,9 +2466,32 @@ class manageWinVendedores:
     # R: No tiene
     def erase(self, row):
         global new_manage_window
-        sellers.remove(row+1)
-        self.root.destroy()
-        new_manage_window = manageWinVendedores(Toplevel())
+        seller_id = row[0]
+        if self.has_active(seller_id, 0):
+            sellers.remove(row+1)
+            self.root.destroy()
+            new_manage_window = manageWinVendedores(Toplevel())
+        else:
+            if current_language == 'esp':  # Control de idioma
+                messagebox.showerror(title='Error', message='El vendedor tiene aplicaciones activas')
+            else:
+                messagebox.showerror(title='Error', message='The seller has active apps')
+
+    # E: El id del vendedor del que se quiere saber si tiene apps activas
+    # S: True si tiene activas, False de lo contrario.
+    # R: No hay restricciones
+    def has_active(self, seller_id, cont):
+        lista = apps.get_list()
+        if cont == len(lista):
+            return False
+        elif lista[cont][0] == seller_id:
+            if lista[cont][6] == 'Activo':
+                return True
+            else:
+                return has_active(seller_id, cont+1)
+        else:
+            return self.has_active(seller_id, cont+1)
+
     # Simplemente muestra el menu
     def show_menu(self, event):
         global menu
