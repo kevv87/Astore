@@ -1282,15 +1282,18 @@ class profPage:
     # S: No retorna, solo cambia la pagina del usuario actual
     # R: No hay restricciones
     def change_page(self, *args):
-        new_page = simpledialog.askstring('Input','Introduzca la nueva pagina web', parent=self.win) # Tira un popup preguntando por el nuevo valor
+        new_page = simpledialog.askstring('Input', 'Introduzca la nueva pagina web', parent=self.win) # Tira un popup preguntando por el nuevo valor
         self.webpage.set(new_page)
         self.webpage_label.update()
         self.edit_webpage.place(x=self.webpage_label.winfo_width() + 50, y=160)
         users_list[current_user].mod_page(new_page)
 
-
+# Clase encargada de la construccion de la lista de apps relacionadas a un usuario. Sus atributos son orientados a crear la lista y la ventana
+# donde esta esta. Sus metodos son de acomodo de los espacios de las apps y de lanzar una ventana de edicion de apps.
 class listaApps:
+    # Funcion constructor
     def __init__(self, root):
+        # Configuracion inicial
         self.root = root
         self.root.resizable(False, False)
         self.canvas = Canvas(self.root, borderwidth=0, bg=bg_color)
@@ -1310,7 +1313,7 @@ class listaApps:
 
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-        self.lista_apps = [[],[]]
+        self.lista_apps = [[],[]]  # Se iran guardando labels e imagenes aqui, para luego poder accesarlas mediante un click
 
         # Dimensiones
         self.sc_width = root.winfo_screenwidth()
@@ -1322,47 +1325,56 @@ class listaApps:
 
         self.populate()
 
-
-    def populate(self, *args):
-        global profile_page
-        first_lista = find_all(apps.get_list(), users_list[current_user].seller_id, 0, 0)
-        last_lista = find_all(first_lista, 'Activo', 6, 0)
-        if users_list[current_user].name == profile_page.name.get():
+    # E: No recibe entradas
+    # S: No retorna, de lo que se encarga es de acomodar las apps de un cierto usuario
+    # R: No tiene restricciones
+    def populate(self):
+        global profile_page  # Usado para comparacion de nombres
+        first_lista = find_all(apps.get_list(), users_list[current_user].seller_id, 0, 0)  # Filtro de las apps de un usuario
+        last_lista = find_all(first_lista, 'Activo', 6, 0)  # Filtro de las apps no activas
+        if users_list[current_user].name == profile_page.name.get():  # Usuario duenno, se muestran todas las apps
             self.__populate_aux(first_lista, 0)
-            if users_list[current_user].name == profile_page.name.get():
-                self.load_plus = Image.open('../images/icons/plus.gif').resize((25, 25), Image.ANTIALIAS)
-                self.plus_img = ImageTk.PhotoImage(self.load_plus)
-                self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
-                self.plus.grid(row=len(first_lista)*2, column=0, columnspan=5)
-                self.plus.bind('<Button-1>', lambda event: self.create_edit_win([]))
-        else:
+
+            # Crea el icono de annadir una app
+            self.load_plus = Image.open('../images/icons/plus.gif').resize((25, 25), Image.ANTIALIAS)
+            self.plus_img = ImageTk.PhotoImage(self.load_plus)
+            self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
+            self.plus.grid(row=len(first_lista)*2, column=0, columnspan=5)
+            self.plus.bind('<Button-1>', lambda event: self.create_edit_win([]))
+        else:  # Caso de usuario visitante, no requiere mostrar las apps no activas
             self.__populate_aux(last_lista, 0)
 
 
 
     def __populate_aux(self, lista, cont):
-        global profile_page
-        global category_list
-        if cont == len(lista):
+        global profile_page  # Utilizado para comparar el nombre con el usuario actual
+        global category_list  # Utilizado para lectura de categorias
+        if cont == len(lista):  # Caso base
             return
         else:
-            self.lista_apps[0] = self.lista_apps[0] + ['']
+            self.lista_apps[0] = self.lista_apps[0] + ['erase']  # Annade un indice para poder escribir en el
             self.img_path = lista[cont][7]
             self.img_load = Image.open(self.img_path).resize((200, 100), Image.ANTIALIAS)
             self.img = ImageTk.PhotoImage(self.img_load)
-            self.lista_apps[0][cont] = Label(self.frame, image=self.img, bg=bg_color)
+
+            # Se guarda el label en una lista
+            self.lista_apps[0][cont] = Label(self.frame, image=self.img, bg=bg_color, cursor='hand2')
             self.lista_apps[0][cont].grid(row=cont*2, column=0, rowspan=2)
             self.lista_apps[0][cont].image = self.img
-            self.lista_apps[0][cont].bind('<Button-1>', lambda event: appWindow(lista[cont]))
+            self.lista_apps[0][cont].bind('<Button-1>', lambda event: appWindow(lista[cont]))  # abre la ventana de la app al darle click al label
 
             self.app_name = Label(self.frame, text=lista[cont][2], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=1)
+
+            # Evita que s ele ponga un simbolo de moneda a la palabra Free
             if lista[cont][5] != 'Free':
                 self.app_cost = Label(self.frame, text='₡'+lista[cont][5], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=2)
             else:
                 self.app_cost = Label(self.frame, text=lista[cont][5], font='Times 20',
                                       bg=bg_color).grid(row=cont * 2, column=2)
+
+            # Manejo de lenguaje
             if current_language == 'esp':
                 self.app_downloads = Label(self.frame, text='Descargas: ' + lista[cont][11],
                                            font='Times 20', bg=bg_color).grid(row=cont*2 + 1, column=1)
@@ -1373,8 +1385,11 @@ class listaApps:
                                            font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=1)
                 self.app_categoria = Label(self.frame, text='Category: ' + category_list[int(lista[cont][3])],
                                            font='Times 20', bg=bg_color).grid(row=cont * 2 + 1, column=2)
+
+            # muestra la ganancia para los duennos
             if users_list[current_user].name == profile_page.name.get():
                 if lista[cont][5] == 'Free':
+                    # manejo de idioma
                     if current_language == 'esp':
                         self.app_gain = Label(self.frame, text='Ganancia: 0', font='Times 20',
                                               bg=bg_color).grid(row=cont*2, column=3)
@@ -1382,6 +1397,7 @@ class listaApps:
                         self.app_gain = Label(self.frame, text='Earnings: 0', font='Times 20',
                                               bg=bg_color).grid(row=cont * 2, column=3)
                 else:
+                    # manejo de idioma
                     if current_language == 'esp':
                         self.app_gain = Label(self.frame, text='Ganancia: %s%d'%(lista[cont][5][0],
                                                                             int(lista[cont][5][1:])*int(lista[cont][11]))
@@ -1391,7 +1407,10 @@ class listaApps:
                                                                                    int(lista[cont][5][1:]) * int(
                                                                                        lista[cont][11]))
                                               , font='Times 20', bg=bg_color).grid(row=cont * 2, column=3)
+                # Actualiza el widget para poder usar su tamanno mas adelante
                 self.frame.update()
+
+                # Cambia el color dependiendo si es una app activa o inactiva
                 if lista[cont][6] == 'Activo':
                     self.app_estado = Canvas(self.frame, bg='green', height=50,
                                              width=200).grid(row=cont*2 + 1, column=3)
@@ -1399,6 +1418,7 @@ class listaApps:
                     self.app_estado = Canvas(self.frame, bg='red', height=50,
                                              width=200).grid(row=cont * 2 + 1, column=3)
 
+                # mismo procedimiento que con la asignacion de un label a una lista
                 self.lista_apps[1] = self.lista_apps[1] + ['erase']
                 self.load_edit_img = Image.open('../images/icons/edit.gif').resize((40,80), Image.ANTIALIAS)
                 self.edit_img = ImageTk.PhotoImage(self.load_edit_img)
@@ -1407,8 +1427,12 @@ class listaApps:
                 self.lista_apps[1][cont].image = self.edit_img
                 self.lista_apps[1][cont].bind('<Button-1>', lambda event: self.create_edit_win(lista[cont]))
 
+        # llamada recursiva
         self.__populate_aux(lista, cont + 1)
 
+    # E: Informacion de una app, lista.
+    # S: No retorna, solo se encarga de crear una nueva app
+    # R: Info no es vacia
     def create_edit_win(self, info):
         if info != []:
             new_edit = editApp()
@@ -1416,6 +1440,7 @@ class listaApps:
         else:
             new_edit = editApp()
 
+    # Simplemente actualiza el area de visibilidad del scrollbar
     def onFrameConfigure(self, *args):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
