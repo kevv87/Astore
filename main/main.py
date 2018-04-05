@@ -1826,6 +1826,7 @@ class appWindow():
             else:
                 messagebox.showinfo(title='Info', message='There is no user page associated to this seller')
 
+# Clase destinada a la creacion de cada app para la ventana de apps relacionadas a un usuario.
 class app:
     def __init__(self, master, row, column,info, width, height):
         self.icon_path = info[7]
@@ -1834,8 +1835,10 @@ class app:
         self.icon_label = Label(master, image=self.icon_img, cursor='hand2')
         self.icon_label.grid(row=row, column=column)
         self.icon_label.image = self.icon_img
-        self.icon_label.bind('<Button-1>', lambda event: appWindow(info))
+        self.icon_label.bind('<Button-1>', lambda event: appWindow(info))  # Abre la respectiva app al presionar el icono
 
+# Clase destinada a la creacion de label de app en la ventana principal. Sus atributos tienen que ver con este mismo objetivo
+# Su metodo randomiza cuales apps son elegidas
 class juegos:
     def __init__(self, master, ini_y, fix, com_height, cont):
         self.canvas = Canvas(master, width=500, height=com_height, bg=bg_color,
@@ -1852,6 +1855,7 @@ class juegos:
         self.icon_label.place(x=0,y=self.height*3/100)
         self.icon_label.image = self.icon_img
 
+        # Manejo de idioma
         if current_language == 'esp':
             self.title = Label(self.canvas, text='Juegos', bg=bg_color, font='Times 17')
         else:
@@ -1860,6 +1864,7 @@ class juegos:
         self.title.place(x=25,y=self.height*15/100)
         self.random()
 
+    # Randomiza cuales apps son mostradas en la pagina principal
     def random(self):
         rand1 = randint(0, len(apps.juegos)-1)
         rand2 = randint(0, len(apps.juegos)-1)
@@ -1885,7 +1890,7 @@ class juegos:
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
-            app1_banner_label.bind('<Button-1>', lambda event:appWindow(app1))
+            app1_banner_label.bind('<Button-1>', lambda event:appWindow(app1))  #  Abre la app
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
@@ -1893,9 +1898,11 @@ class juegos:
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
-            app2_banner_label.bind('<Button-1>', lambda event:appWindow(app2))
+            app2_banner_label.bind('<Button-1>', lambda event:appWindow(app2))  #  Abre la app
 
 
+# Clase destinada a la creacion de label de app en la ventana principal. Sus atributos tienen que ver con este mismo objetivo
+# Su metodo randomiza cuales apps son elegidas
 class herramientas:
     def __init__(self,master, ini_y, fix, com_height, cont):
         self.canvas = Canvas(master, width=500, height=com_height, bg=bg_color,
@@ -1923,6 +1930,7 @@ class herramientas:
             self.title.place(x=20, y=self.height * 15 / 100)
         self.random()
 
+    # Randomiza cuales apps son mostradas en la pagina principal
     def random(self):
         rand1 = randint(0, len(apps.herramientas)-1)
         rand2 = randint(0, len(apps.herramientas)-1)
@@ -1948,7 +1956,7 @@ class herramientas:
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
-            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1))
+            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1)) #  Abre la app
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
@@ -1956,9 +1964,11 @@ class herramientas:
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
-            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))
+            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))  #  Abre la app
 
 
+# Clase destinada a la creacion de label de app en la ventana principal. Sus atributos tienen que ver con este mismo objetivo
+# Su metodo randomiza cuales apps son elegidas
 class musica:
     def __init__(self, master, ini_y, fix, com_height, cont):
         self.canvas = Canvas(master, width=500, height=com_height, bg=bg_color,
@@ -1983,6 +1993,7 @@ class musica:
         self.title.place(x=20, y=self.height * 15 / 100)
         self.random()
 
+    # Randomiza cuales apps son mostradas en la pagina principal
     def random(self):
         rand1 = randint(0, len(apps.musica)-1)
         rand2 = randint(0, len(apps.musica)-1)
@@ -2008,7 +2019,7 @@ class musica:
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
-            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1))
+            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1))  #  Abre la app
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
@@ -2016,9 +2027,11 @@ class musica:
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
-            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))
+            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))  #  Abre la app
 
 
+# Clase destinada a la creacion de label de app en la ventana principal. Sus atributos tienen que ver con este mismo objetivo
+# Su metodo randomiza cuales apps son elegidas
 class redes:
     def __init__(self, master, ini_y, fix, com_height, cont):
         self.canvas = Canvas(master, width=500, height=com_height, bg=bg_color,
@@ -2046,6 +2059,7 @@ class redes:
             self.title.place(x=18, y=self.height * 15 / 100)
         self.random()
 
+    # Randomiza cuales apps son mostradas en la pagina principal
     def random(self):
         rand1 = randint(0, len(apps.redes)-1)
         rand2 = randint(0, len(apps.redes)-1)
@@ -2071,7 +2085,7 @@ class redes:
             app1_banner_label.pack()
             app1_banner_label.place(x=0,y=0)
             app1_banner_label.image = app1_banner
-            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1))
+            app1_banner_label.bind('<Button-1>', lambda event: appWindow(app1))  #  Abre la app
 
             app2_load_banner = Image.open('%s' % app2[8].lstrip()).resize((200, 200), Image.ANTIALIAS)
             app2_banner = ImageTk.PhotoImage(app2_load_banner)
@@ -2079,46 +2093,72 @@ class redes:
             app2_banner_label.pack()
             app2_banner_label.place(x=0, y=0)
             app2_banner_label.image = app2_banner
-            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))
+            app2_banner_label.bind('<Button-1>', lambda event: appWindow(app2))  #  Abre la app
 
 
+# Clase destinada a la creacion de la tabla de apps. Sus atributos tienen que ver con la tabla en forma de lista
+# y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o actualizar la tabla
+# entre otros.
 class appTable:
     def __init__(self):
         self.file = '../apps/apps.txt'
         self.first_read = open(self.file)
-        self.raw_list = self.__to_list(0)
-        self.list = normalize_list_table(self.raw_list, 0)
+        self.raw_list = self.__to_list(0)  # tabla con espacios
+        self.list = normalize_list_table(self.raw_list, 0)  # Matriz de la tabla
         self.close_first_read = self.first_read.close()
-        self.musica = self.list_categoria('1', 0)
-        self.juegos = self.list_categoria('0', 0)
-        self.herramientas = self.list_categoria('2', 0)
-        self.redes = self.list_categoria('3', 0)
+        self.musica = self.list_categoria('1', 0)  # lista de apps de musica
+        self.juegos = self.list_categoria('0', 0)# lista de apps de juegos
+        self.herramientas = self.list_categoria('2', 0)# lista de apps de herramientas
+        self.redes = self.list_categoria('3', 0)# lista de apps de redes
 
-    def __to_list(self, cont):
+    # E: Contador
+    # S: Una tabla convertida a lista
+    # R: No hay
+    def __to_list(self, cont):  # convierte la tabla en lista
         a = self.first_read.readline()
-        if a == '':
+        if a == '':  # Caso base
             return []
         else:
             return [a] + self.__to_list(cont + 1)
-
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla
     def get_list(self):
         return self.list[1:]
 
+    # E: No hay
+    # R: No hay
+    # S: Retorna los encabezados de la tabla
     def get_headers(self):
         return self.list[:1]
 
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla categoria musica
     def get_musica(self):
         return self.musica
 
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla categoria juegos
     def get_juegos(self):
         return self.juegos
 
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla categoria herramientas
     def get_herramientas(self):
         return self.herramientas
 
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla categoria redes sociales
     def get_redes(self):
         return self.redes
 
+    # E: Categoria y renglon
+    # S: Lista con las apps en cierta categoria
+    # R: No hay
     def list_categoria(self, categ, row):
         column_categoria = 3
         if row == len(self.list):
@@ -2128,6 +2168,9 @@ class appTable:
         else:
             return [] + self.list_categoria(categ, row+1)
 
+    # E: Lista
+    # S: No retorna, solo annade un nuevo renglon con los indices de la lista dada
+    # R: No hay
     def add(self, lista):
         global apps
         if len(lista) == len(self.list[0]):
@@ -2138,6 +2181,9 @@ class appTable:
         else:
             error_handling(0)
 
+    # E: Renglon a modificar de cierta lista
+    # S: No retorna, solo modifica un renglon
+    # R: No hay
     def update(self, row, lista):
         global apps
         if len(lista) == len(self.list[0]):
@@ -2149,6 +2195,9 @@ class appTable:
         else:
             error_handling(0)
 
+    # E: renglon, columna y elemento a reemplazar
+    # S: No retorna, solo reemplaza un elemento por otro dado
+    # R: No hay
     def mod(self, row, column, ele):
         global apps
         open_temp_file = open(self.file, 'w')
@@ -2157,6 +2206,9 @@ class appTable:
         close_temp_file = open_temp_file.close()
         apps = appTable()
 
+# Clase destinada a la creacion de la tabla de compradores. Sus atributos tienen que ver con la tabla en forma de lista
+# y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o buscar en la tabla
+# entre otros.
 class buyersTable:
     def __init__(self):
         self.file = '../users/compradores.txt'
@@ -2165,6 +2217,9 @@ class buyersTable:
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
 
+    # E: Contador
+    # S: Una tabla convertida a lista
+    # R: No hay
     def __to_list(self, cont):
         a = self.first_read.readline()
         if a == '':
@@ -2172,6 +2227,9 @@ class buyersTable:
         else:
             return [a] + self.__to_list(cont + 1)
 
+    # E: Elemento a buscar en una cierta columna, row es un contador de renglon
+    # S: False si el elemento no esta o el renglon si se encuentra una coincidencia
+    # R: No hay
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
@@ -2193,6 +2251,9 @@ class buyersTable:
                 else:
                     return self.is_in(ele, row, column+1)
 
+    # E: Lista
+    # S: No retorna, solo annade un nuevo renglon con los indices de la lista dada
+    # R: No hay
     def add(self, lista):
         global buyers
         if len(lista) == len(self.list[0]):
@@ -2203,6 +2264,9 @@ class buyersTable:
         else:
             error_handling(0)
 
+    # E: renglon, columna y elemento a reemplazar
+    # S: No retorna, solo reemplaza un elemento por otro dado
+    # R: No hay
     def mod(self, row, column, ele):
         open_temp_file = open(self.file, 'w')
         self.list[int(row)][int(column)] = ele
@@ -2210,7 +2274,9 @@ class buyersTable:
         close_temp_file = open_temp_file.close()
 
 
-
+# Clase destinada a la creacion de la tabla de compradores. Sus atributos tienen que ver con la tabla en forma de lista
+# y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o eliminar de la tabla
+# entre otros.
 class sellersTable:
     def __init__(self):
         self.file = '../users/vendedores.txt'
@@ -2219,6 +2285,7 @@ class sellersTable:
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
 
+
     def __to_list(self, cont):
         a = self.first_read.readline()
         if a == '':
@@ -2226,6 +2293,9 @@ class sellersTable:
         else:
             return [a.lstrip().rstrip('\n')] + self.__to_list(cont + 1)
 
+    # E: Elemento a buscar en una cierta columna, row es un contador de renglon
+    # S: False si el elemento no esta o el renglon si se encuentra una coincidencia
+    # R: No hay
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
@@ -2247,22 +2317,15 @@ class sellersTable:
                 else:
                     return self.is_in(ele, row, column+1)
 
-    def raw_table(self):
-        open_temp_file = open(self.file, 'r')
-        table = self.__raw_table_aux(open_temp_file)
-        close_temp_file = open_temp_file.close()
-        return table
-
-    def __raw_table_aux(self, file):
-        row = file.readline()
-        if row == '':
-            return []
-        else:
-            return [row[:len(row)-2]] + self.__raw_table_aux(file)
-
+    # E: No hay
+    # R: No hay
+    # S: Retorna los elementos de la tabla
     def get_list(self):
         return self.list[1:]
 
+    # E: Lista
+    # S: No retorna, solo annade un nuevo renglon con los indices de la lista dada
+    # R: No hay
     def add(self, lista):
         global sellers
         if len(lista) == len(self.list[0]):
@@ -2273,12 +2336,18 @@ class sellersTable:
         else:
             error_handling(0)
 
+    # E: renglon, columna y elemento a reemplazar
+    # S: No retorna, solo reemplaza un elemento por otro dado
+    # R: No hay
     def mod(self, row, column, ele):
         open_temp_file = open(self.file, 'w')
         self.list[int(row)][int(column)] = ele
         create_db(self.list, open_temp_file)
         close_temp_file = open_temp_file.close()
 
+    # E: renglon a eliminar
+    # S: No retorna, solamente elimina de la tabla el renglon que se le de
+    # R: No hay
     def remove(self, row):
         global sellers
         self.list = self.remove_aux(row, 0, False)
