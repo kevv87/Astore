@@ -37,8 +37,8 @@ class newMenu:
         self.canvas_menu.pack()
         self.canvas_menu.place(x=0, y=0)
 
-        self.width = self.canvas_menu.winfo_screenwidth()
-        self.height = self.canvas_menu.winfo_screenheight()
+        self.width = self.canvas_menu.winfo_screenwidth()  # Largo de la ventana
+        self.height = self.canvas_menu.winfo_screenheight()  # Alto de la ventana
 
         self.master = master
 
@@ -96,22 +96,25 @@ class newMenu:
                 self.apps_button = Button(self.canvas_menu, text='All apps', bd=0, highlightthickness=0,
                                           relief='ridge', command=self.show_search)
 
+            # Ubicando los botones recien creados
             self.login_button.pack()
             self.register_button.pack()
             self.home_button.pack()
             self.apps_button.pack()
             self.login_button.place(x=0, y=75)
             self.home_button.place(x=0, y=165)
-            if current_language == 'esp':
+
+            # Cambiando el tamanno y la ubicacion de los botones segun el idioma
+            if current_language == 'esp':  # Caso espannol
                 self.register_button.place(x=win_width * 11 / 100, y=120)
                 self.apps_button.place(x=win_width*8/100, y=210)
-            else:
+            else:  # Caso ingles
                 self.register_button.place(x=win_width * 14 / 100, y=120)
                 self.apps_button.place(x=win_width*14/100, y=210)
-        else:
-            try:
+        else:  # Menu para un usuario registrado.
+            try:  # Intenta cargar la imagen de perfil
                 self.load_user_img = Image.open(users_list[current_user].perfil).resize((54,50), Image.ANTIALIAS)
-            except:
+            except:  # Si no le es posible, utilizada la imagen por defecto, la de invitado
                 self.load_user_img = Image.open('../users/guest.gif').resize((54, 50), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_user_img)
 
@@ -121,15 +124,13 @@ class newMenu:
                                         relief='ridge', bg=bg_color)
             self.user_img_label.pack()
             self.user_img_label.place(x=5, y=10)
-            if len(users_list[current_user].name) < 8:
-                self.user_name = Label(self.canvas_menu, text='%s' % users_list[current_user].name,
-                                   font='Times 15', bg=self.bg_color, fg='white')
-            else:
-                self.user_name = Label(self.canvas_menu, text='%s' % users_list[current_user].name,
-                                       font='Times 10', bg=self.bg_color, fg='white')
-            self.user_name.pack()
+
+            self.user_name = Label(self.canvas_menu, text='%s' % users_list[current_user].name,
+                                   font='Times 15', bg=self.bg_color, fg='white', wraplengt='100') # creando el nombre del usuario
+            self.user_name.pack()  # Posicionandolo
             self.user_name.place(x=70, y=35)
 
+            # Creando y posicionando los iconos de cambio de idioma
             self.esp_flag_load = Image.open('../images/icons/espanna.gif').resize((30, 20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
             self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
@@ -144,16 +145,16 @@ class newMenu:
             self.eng_flag_label.place(x=win_width * 18 / 100, y=5)
             self.eng_flag_label.bind('<Button-1>', self.change_language_toeng)
 
-            if users_list[current_user].admin == 'S' or users_list[current_user].admin == 'si':
-                if current_language == 'esp':
+            if users_list[current_user].admin == 'S' or users_list[current_user].admin == 'si':  # Verifica si un usuario es administrador para mostrar el boton de editar la tabla de vendedores
+                if current_language == 'esp':  # Crea el boton de admistrar vendedores en espannol
                     self.admin_button = Button(self.canvas_menu, text='Administrar\nVendedores', bd=0, highlightthickness=0,
                                            relief='ridge', command=self.show_admin)
-                else:
+                else:  # En ingles
                     self.admin_button = Button(self.canvas_menu, text='Manage\nSellers', bd=0, highlightthickness=0,
                                                relief='ridge', command=self.show_admin)
-                self.admin_button.pack()
+                self.admin_button.pack()  # Lo posiciona
                 self.admin_button.place(x=0, y=self.height*20/100)
-            if current_language == 'esp':
+            if current_language == 'esp':  # Cambia el texto de los labels segun el idioma, caso espannol
                 self.perfil_button = Button(self.canvas_menu, text='Mi perfil', font='Times 8', bd=0, highlightthickness=0,
                                            relief='ridge', height=1, width=6, command=create_my_profile_page)
                 self.register_button = Button(self.canvas_menu, text='Registrarse', bd=0, highlightthickness=0,
@@ -164,7 +165,7 @@ class newMenu:
                                           relief='ridge', command=self.show_search)
                 self.logout_button = Button(self.canvas_menu, text='Cerrar sesion', bd=0, highlightthickness=0,
                                             relief='ridge', command=logout)
-            else:
+            else:  # Caso ingles
                 self.perfil_button = Button(self.canvas_menu, text='My profile', font='Times 8', bd=0,
                                             highlightthickness=0,
                                             relief='ridge', command=create_my_profile_page, height=1, width=6)
@@ -176,62 +177,83 @@ class newMenu:
                                           relief='ridge', command=self.show_search)
                 self.logout_button = Button(self.canvas_menu, text='Log out', bd=0, highlightthickness=0,
                                             relief='ridge', command=logout)
+
+            # Posiciona los botones recien creados
             self.perfil_button.pack()
             self.home_button.pack()
             self.apps_button.pack()
             self.logout_button.pack()
-            if current_language == 'esp':
+
+            # Cambia el tamanno de los botones segun idioma, por que algunas palabras son mas largas en un idioma que en otro
+            if current_language == 'esp':  # Caso idioma espannol
                 self.apps_button.place(x=win_width * 8 / 100, y=140)
                 self.logout_button.place(x=win_width * 4 / 100, y=self.height * 26 / 100)
-            else:
+            else:  # Caso idioma ingles
                 self.apps_button.place(x=win_width * 14 / 100, y=140)
                 self.logout_button.place(x=win_width * 7 / 100, y=self.height * 26 / 100)
+
+            # Posiciona los botones recien creados
             self.perfil_button.place(x=5, y=61)
             self.home_button.place(x=0, y=100)
 
 
-
+    # E: Mixtas, ninguna importante.
+    # S: Esta funcion no retorna, su unico objetivo es mostrar la ventana de login.
+    # R: No hay restricciones para las entradas
     def show_login(self, *args):
+        # Intenta aplicar deiconify a login.win_login, si no puede, significa que la ventana esta en withdraw.
         try:
             login.win_login.deiconify()
-            login.win_login.lift()
-            login.win_login.focus_force()
-            self.destroy()
-        except:
+            login.win_login.lift()  # Levanta la ventana para pasarla al frente
+            login.win_login.focus_force()  # Hace un focus forzado a la ventana nueva
+            self.destroy()  # Destruye el menu
+        except:  # Si el login window no esta en modo withdraw se le hace
             login.win_login.withdraw()
             login.win_login.focus_force()
-            self.destroy()
+            self.destroy()  # Desturye el menu
 
+    # E: Mixtas, ninguna importante.
+    # S: Esta funcion no retorna, su unico objetivo es mostrar la ventana de administracion.
+    # R: No hay restricciones para las entradas
     def show_admin(self, *args):
-        global new_manage_win
+        global new_manage_win  # Utiliza la variable para sobreescribirla
+
+        # Intenta aplicar deiconify a login.win_login, si no puede, significa que la ventana esta en withdraw.
         try:
             new_manage_win.deiconify()
             new_manage_win.lift()
             new_manage_win.focus_force()
             self.destroy()
         except:
-            new_admin_win = Toplevel()
-            manageWinVendedores(new_admin_win)
+            new_admin_win = Toplevel()  # Crea una nueva ventana
+            manageWinVendedores(new_admin_win)  # En base a la ventana recien creada construye la pagina de admisitrar vendedores
             new_admin_win.focus_force()
-            self.destroy()
+            self.destroy()  # Destruye el menu
 
+    # E: Mixtas, ninguna importante.
+    # S: Esta funcion no retorna, su unico objetivo es mostrar la ventana principal.
+    # R: No hay restricciones para las entradas
     def show_mainpage(self, *args):
-        global main
+        global main  # Utiliza la variable global main para destruir el main actual y forzar un random del mainpage
+
+        # Intenta aplicar deiconify a login.win_login, si no puede, significa que la ventana esta en withdraw.
         try:
-            self.master.withdraw()
+            self.master.withdraw()  # Esconde la ventana actual
             root.deiconify()
-            main.kill()
-            main = main_window(root, current_language, current_language)
-            root.lift()
-            root.focus_force()
-            self.destroy()
+            main.kill()  # Destruye el viejo main
+            main = main_window(root, current_language, current_language)  # Crea un nuevo main
+            root.lift()  # Trae el nuevo main arriba
+            root.focus_force()  # Fuerza un focus al nuevo main
+            self.destroy()  # Destruye el menu actual
         except:
             root.withdraw()
-            main.kill()
-            main = main_window(root, current_language, current_user)
-            self.master.withdraw()
-            root.focus_force()
+            main.kill()  # Destruye el viejo main
+            main = main_window(root, current_language, current_user)  # Crea un nuevo main
+            self.master.withdraw()  # Esconde la ventana actual
 
+    # E: Mixtas, ninguna importante o utilizada.
+    # S: Esta funcion no retorna, su unico objetivo es mostrar la ventana de busqueda de apps.
+    # R: No hay restricciones para las entradas
     def show_search(self, *args):
         try:
             self.master.withdraw()
@@ -241,36 +263,44 @@ class newMenu:
             self.destroy()
         except:
             search.win.withdraw()
-            search.win.focus_force()
 
+    # E: Corresponden al evento que llama la funcion, pero no se utilizan.
+    # S: No retorna, su funcion es destruir la ventana actual.
+    # R: No hay restricciones
     def destroy(self, *args):
-        self.canvas_menu.destroy()
-        self.user_img_label.destroy()
+        self.canvas_menu.destroy()  # Destruye el canvas sobre el que esta montado todo
+        self.user_img_label.destroy()  # Destruye una imagen especifica.
 
-
+    # E: Corresponden al evento que llama la funcion, no se utilizan.
+    # S: No retorna, solo cambia el lenguaje del programa.
+    # R: No hay restricciones.
     def change_language_toeng(self, *args):
-        global main
-        global menu
-        global current_language
-        if current_language == 'esp':
-            login.change_languagetoeng()
-            adminwin.to_eng()
-            current_language = 'eng'
-            main.kill()
-            register.toeng()
-            search.toeng()
-            self.destroy()
-            main = main_window(root, current_language, current_user)
-        else:
+        global main  # Se utiliza para sobreescribir la informacion del idioma en el main
+        global menu  # Se utiliza para sobreescribir la informacion del idioma en el menu
+        global current_language  # Se utiliza para guardar la informacion del idioma
+
+        if current_language == 'esp':  # Caso espannol a ingles
+            login.change_languagetoeng()  # Llama el metodo para cambiar a idioma ingles de la ventana de login
+            adminwin.to_eng()  # Llama el metodo para cambiar a idioma ingles de la ventana de administracion
+            current_language = 'eng'  # Cambia la variable global, asi las otras partes del codigo saben que se cambio el idioma
+            main.kill()  # Destruye el main viejo
+            register.toeng()  # Llama el metodo de cambiar a idioma ingles de la ventana de register
+            search.toeng()  # Llama el metodo de cambiar a idioma ingles de la ventana de busqueda
+            self.destroy()  # Destruye el menu
+            main = main_window(root, current_language, current_user)  # Crea un nuevo main
+        else:  # Caso espannol a espannol
+            # No hace nada, pues ya esta en ingles, solo destruye el menu para tener una efimera retroalimentacion
             self.destroy()
 
+    # E: Corresponden al evento que llama la funcion, no se utilizan.
+    # S: No retorna, solo cambia el lenguaje del programa.
+    # R: No hay restricciones.
     def change_language_toesp(self, *args):
-        global main
-        global menu
-        global login
-        global current_language
-        if current_language == 'eng':
-            current_language = 'esp'
+        global main  # Se utiliza para sobreescribir la informacion del idioma en el main
+        global menu  # Se utiliza para sobreescribir la informacion del idioma en el menu
+        global current_language  # Se utiliza para guardar la informacion del idioma
+        if current_language == 'eng':  # Caso ingles a espannol
+            current_language = 'esp'  # Cambia la global a espannol
             login.change_languagetoesp()
             adminwin.to_esp()
             register.toesp()
@@ -278,7 +308,8 @@ class newMenu:
             main.kill()
             self.destroy()
             main = main_window(root, current_language, current_user)
-        else:
+        else:  # Espannol a espannol
+            # No hace nada, pues ya esta en espannol, solo destruye el menu para tener una efimera retroalimentacion
             self.destroy()
 
 
