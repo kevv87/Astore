@@ -1444,7 +1444,10 @@ class listaApps:
     def onFrameConfigure(self, *args):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
+# Clase encargada de la creacion de la ventana de adicion de apps. Sus atributos van orientados a la creacion de la ventana
+# y sus metodos a cambiar interactivamente labels de la misma ventana, asi como enviar la informacion de la edicion.
 class editApp:
+    # Funcion constructor
     def __init__(self):
         # Configuracion principal
         self.bg_color = '#bbb8c1'
@@ -1463,6 +1466,7 @@ class editApp:
         self.frame.pack()
         self.frame.place(relx=0.030, rely=0.03)
 
+        # Cargando, renderizando y cambiando el tamanno de imagenes
         self.icon_path = '../images/icons/no_image.png'
         self.load_icon = Image.open(self.icon_path).resize((100,100),Image.ANTIALIAS)
         self.icon = ImageTk.PhotoImage(self.load_icon)
@@ -1476,17 +1480,20 @@ class editApp:
         self.load_banner = Image.open(self.banner_path).resize((600, 200), Image.ANTIALIAS)
         self.banner = ImageTk.PhotoImage(self.load_banner)
 
+        # Creando un string variable para el dropdown menu
         self.variable_categoria = StringVar(self.win)
         self.variable_categoria.set('Seleccionar')
 
         self.icon_label = Label(self.frame, image=self.icon, cursor='hand2')
         self.icon_label.grid(row=0, column=0, rowspan=2)
-        self.app_name = StringVar()
-        self.app_name.set('Nombre de la app')
+        self.app_name = StringVar()  # String variable para el entry
+        self.app_name.set('Nombre de la app')  # First set
         self.name_entry = Entry(self.frame, textvariable=self.app_name)
         self.name_entry.grid(row=0, column=1)
-        self.app_cost = StringVar()
-        self.app_cost.set('₡'+'0')
+        self.app_cost = StringVar()  # String variable para el entry
+        self.app_cost.set('₡'+'0')  # First set
+
+        # manejo de idioma
         if current_language == 'esp':
             self.cost_label = Label(self.frame, text='Precio: ₡', font='Times 20').grid(row=0, column=2)
             self.descr_label = Label(self.frame, text='Descripcion:', font='Times 20').grid(row=1, column=1)
@@ -1498,25 +1505,34 @@ class editApp:
 
         self.categoria_entry = OptionMenu(self.frame, self.variable_categoria, 'Juegos', 'Musica', 'Redes',
                                      'Herramientas')
+
+        # Definienndo entry de precio
         self.cost_entry = Entry(self.frame, textvariable=self.app_cost)
         self.cost_entry.grid(row=0, column=3)
-        self.cost_entry.bind('<Button-1>', lambda event: self.app_cost.set(''))
+        self.cost_entry.bind('<Button-1>', lambda event: self.app_cost.set(''))  # Borra el entry al presionar sobre el
 
-        self.descr_variable = StringVar()
+        self.descr_variable = StringVar()# String variable para el entry
         self.categoria_entry.grid(row=1, column=3)
+
+        #Definiendo el widget texto para la descripcion
         self.descr_entry = Text(self.frame, height=5)
         self.descr_entry.grid(row=2, column=0, columnspan=4, rowspan=2)
+
+        # Asignando label y posicionando
         self.sc1_label = Label(self.frame, image=self.sc1, cursor='hand2')
         self.sc1_label.grid(row=4,column=0, columnspan=2)
         self.sc2_label = Label(self.frame, image=self.sc2, cursor='hand2')
         self.sc2_label.grid(row=4, column=2, columnspan=2)
         self.banner_label = Label(self.frame, image=self.banner, cursor='hand2')
         self.banner_label.grid(row=5, column=0, columnspan=4)
+
+        # Enlaces para el metodo que cambia cada elemento.
         self.icon_label.bind('<Button-1>', self.change_icon)
         self.sc1_label.bind('<Button-1>', self.change_sc1)
         self.sc2_label.bind('<Button-1>', self.change_sc2)
         self.banner_label.bind('<Button-1>', self.change_banner)
 
+        # Manejo de idioma
         if current_language == 'esp':
             self.ready = Button(self.frame, text='Listo', command=lambda: self.send(self.name_entry.get())).grid(row=6, column=1)
             self.cancel = Button(self.frame, text='Cancelar')
@@ -1526,6 +1542,9 @@ class editApp:
             self.cancel = Button(self.frame, text='Cancel', command=self.win.destroy)
         self.cancel.grid(row=6, column=2)
 
+    # E: Evento del widget que llama la funcion, no se usa.
+    # S: No retorna, unicamente cambia el icono
+    # R: No tiene restricciones
     def change_icon(self, *args):
         self.win.lower()
         self.img_path = fd.askopenfilename()
@@ -1545,6 +1564,9 @@ class editApp:
             self.icon_label.image = new_img
         self.win.lift()
 
+    # E: Evento del widget que llama la funcion, no se usa.
+    # S: No retorna, unicamente cambia el screenshot 1
+    # R: No tiene restricciones
     def change_sc1(self, *args):
         self.win.lower()
         self.img_path = fd.askopenfilename()
@@ -1561,6 +1583,9 @@ class editApp:
             self.sc1_label.image = new_img
         self.win.lift()
 
+    # E: Evento del widget que llama la funcion, no se usa.
+    # S: No retorna, unicamente cambia el screenshot2
+    # R: No tiene restricciones
     def change_sc2(self, *args):
         self.win.lower()
         self.img_path = fd.askopenfilename()
@@ -1580,6 +1605,9 @@ class editApp:
             self.sc2_label.image = new_img
         self.win.lift()
 
+    # E: Evento del widget que llama la funcion, no se usa.
+    # S: No retorna, unicamente cambia el banner
+    # R: No tiene restricciones
     def change_banner(self, *args):
         self.win.lower()
         self.img_path = fd.askopenfilename()
@@ -1599,6 +1627,9 @@ class editApp:
             self.banner_label.image = new_img
         self.win.lift()
 
+    # E: Lista de la info de una app
+    # S: No retorna, configura la pagina de una app si esta existe
+    # R: No hay restricciones
     def edit_config(self, info):
         global category_list
         self.app_name.set(info[2])
@@ -1634,12 +1665,14 @@ class editApp:
         self.sc1_label.image = self.sc1
         self.sc2_label.image = self.sc2
 
+    # E: Nombre de la app
+    # S: No retorna, la funcion configura un nuevo renglon de la tabla apps a partir de los datos dados en esta ventana.
     def send(self, name):
         global users_list
         global category_list
         if self.name_entry.get().lstrip() != '' or self.name_entry.get().lstrip() != 'Nombre de la app' or self.variable_categoria.get() != 'Seleccionar' or self.cost_entry.get().lstrip() != '':
             num_row_to_update = is_in(apps.get_list(), name, 0, 0)[1]
-            row_to_update = is_in(apps.get_list(), name, 0, 0)[0]
+            row_to_update = is_in(apps.get_list(), name, 0, 0)[0]  # Busca que el nombre exista en la tabla
             new_category = str(lista_isin(category_list, self.variable_categoria.get(), 0)[1])
             cost_entry = self.cost_entry.get()
             if self.cost_entry.get() == 0:
