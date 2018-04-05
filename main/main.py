@@ -1705,9 +1705,11 @@ class editApp:
                 else:
                     messagebox.showerror(title='Error', message='Please insert a price')
 
-
+# Esta clase esta encargada de la creacion de la ventana de cada app, sus atributos estan dirigidos a la creacion de la ventana
+# y sus widgets, sus metodos muestran la pagina del duenno y modifican la cantidad de descargas
 class appWindow():
     global category_list
+    # Funcion constructor
     def __init__(self, info):
         # Configuracion principal
         self.bg_color = '#bbb8c1'
@@ -1764,7 +1766,7 @@ class appWindow():
         self.owner_img_label = Label(self.frame, image=self.owner_img, cursor='hand2')
         self.owner_img_label.grid(row=0, rowspan=2, column=3)
 
-
+        # manejo de idiomas
         if current_language == 'esp':
             self.owner = Label(self.frame, text='Hecho por: %s' % self.owner_seller_info[1], cursor='hand2')
             self.buy_button = Button(self.frame, text='Comprar', command=self.buy_app)
@@ -1775,8 +1777,8 @@ class appWindow():
         self.owner.grid(row=2, column=3)
         self.buy_button.grid(row=1, column=2)
 
-        self.owner_img_label.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))
-        self.owner.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))
+        self.owner_img_label.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))  # Muestra la pagina de perfil del vendedor
+        self.owner.bind('<Button-1>', lambda event: self.show_profPage(self.owner_seller_info[1]))# Muestra la pagina de perfil del vendedor
 
         self.descr_label = Text(self.frame, width=60)
         self.descr_label.insert('1.0',info[4])
@@ -1793,12 +1795,14 @@ class appWindow():
 
         self.id = info[1]
 
-
+    # E: No hay entradas
+    # S: No retorna, su funcionamiento se basa en actualizar la tabla de apps cada ves que se realiza una compra
+    # R: No hay
     def buy_app(self):
         global apps
         global current_user
         apps.mod(int(self.id), 11, str(int(apps.list[int(self.id)][11])+1))
-        if current_user != -1:
+        if current_user != -1:  # Presenta el error de registro a usuarios desconocidos
             if users_list[current_user].country == 'Costa Rica':
                 apps.mod(int(self.id), 12, str(int(apps.list[int(self.id)][12]) + 1))
         else:
@@ -1807,14 +1811,17 @@ class appWindow():
             else:
                 messagebox.showerror(title='Error', message='Please login to download content')
 
+    # E: Nombre de usuario del duenno de la pagina a abrir
+    # S: No retorna, pero abre la pagina de usuario del username brindado
+    # R: No hay restricciones
     def show_profPage(self, username):
         if self.owner_user_info:
             global  profile_page
             user_info = users.is_in(username, 0, 0)
-            profile_page = profPage(users_list[int(self.owner_user_info[8])])
+            profile_page = profPage(users_list[int(self.owner_user_info[8])])  # Crea la instancia
             self.win.destroy()
         else:
-            if current_language == 'eso':
+            if current_language == 'esp':
                 messagebox.showinfo(title='Info', message='No hay pagina de usuario asociada a este vendedor')
             else:
                 messagebox.showinfo(title='Info', message='There is no user page associated to this seller')
