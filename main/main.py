@@ -594,7 +594,10 @@ class newLogin:
             self.none1.set('')
             self.none2.set('')
         else: # Si no lo es
-            messagebox.showerror(title='Error', message='Usuario o contraseña incorrecta')
+            if current_language == 'esp':  # Verifica el lenguaje
+                messagebox.showerror(title='Error', message='Usuario o contraseña incorrecta')
+            else:
+                messagebox.showerror(title='Error', message='Wrong user or password')
 
     def login_aux(self,login_user, cont):
         global current_user  # Para sobreescribir el usuario actual
@@ -754,7 +757,10 @@ class newRegister:
             self.image_entry.config(image=new_img)
             self.image_entry.image = new_img
         except:  # Si no puede procesarlo como una imagen carga la imagen de invitado
-            messagebox.showwarning(title='warning', message='El archivo seleccionado no es una imagen procesable')
+            if current_language == 'esp':  # verifica el idioma
+                messagebox.showwarning(title='Warning', message='El archivo seleccionado no es una imagen procesable')
+            else:
+                messagebox.showerror(title='Warning', message='Selected archive is not an apropiate image')
             load_new_img = Image.open('../users/guest.gif').resize((100, 100), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.image_entry.config(image=new_img)
@@ -785,7 +791,10 @@ class newRegister:
         apps_compradas = '0'
 
         if users.is_in(usuario, 0, 1):  # Caso en el que el nombre de usuario propuesto ya existe
-            messagebox.showerror(title='error', message='Ya existe el nombre de usuario')
+            if current_language == 'esp':  # verifica el idioma
+                messagebox.showerror(title='error', message='Ya existe el nombre de usuario')
+            else:
+                messagebox.showerror(title='error', message='Username already taken')
         else:  # Caso en el que no existe el nombre de usuario
             if nombre.lstrip() != '' or usuario.lstrip() != '' or contra.lstrip() != '' or recontra.lstrip() != '' or correo.lstrip() != '':  # verifica que los campos esten llenos
                 if contra.lstrip() == recontra.lstrip():  # Verifica que la contrasenna y la repeticion de la misma sena iguales
@@ -799,9 +808,15 @@ class newRegister:
                     main.kill()
                     main = main_window(root, current_language)
                 else:
-                    return messagebox.showerror(title='Error', message='Contrasenas no iguales')
+                    if current_language == 'esp':  # Verifica idioma
+                        return messagebox.showerror(title='Error', message='Contrasenas no iguales')
+                    else:
+                        return messagebox.showerror(title='Error', message='Passwords arent identical')
             else:
-                return messagebox.showerror(title='Error', message='Faltan espacios')
+                if current_language == 'esp': # Verifica idioma
+                    return messagebox.showerror(title='Error', message='Faltan espacios')
+                else:
+                    return messagebox.showerror(title='Error', message='Missing spaces')
 
     # E: No hay entradas
     # S: No retorna, solo annade a la tabla de usuarios.
@@ -1492,7 +1507,10 @@ class editApp:
             self.icon_label.config(image=new_img)
             self.icon_label.image = new_img
         except:
-            messagebox.showwarning(title='Warning', message='Imagen no encontrada')
+            if current_language == 'esp': # Verifica idioma
+                messagebox.showwarning(title='Warning', message='Imagen no encontrada')
+            else:
+                messagebox.showwarning(title='Warning', message='Image not found')
             load_new_img = Image.open('../users/guest.gif').resize((100, 100), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.icon_label.config(image=new_img)
@@ -1524,7 +1542,10 @@ class editApp:
             self.sc2_label.config(image=new_img)
             self.sc2_label.image = new_img
         except:
-            messagebox.showwarning(title='Warning', message='Imagen no encontrada.')
+            if current_language == 'esp': # Verifica idioma
+                messagebox.showwarning(title='Warning', message='Imagen no encontrada')
+            else:
+                messagebox.showwarning(title='Warning', message='Image not found')
             load_new_img = Image.open('../images/icons/no_image.png').resize((300, 200), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.sc2_label.config(image=new_img)
@@ -1540,7 +1561,10 @@ class editApp:
             self.banner_label.config(image=new_img)
             self.banner_label.image = new_img
         except:
-            messagebox.showwarning(title='Warning', message='Imagen no encontrada.')
+            if current_language == 'esp': # Verifica idioma
+                messagebox.showwarning(title='Warning', message='Imagen no encontrada')
+            else:
+                messagebox.showwarning(title='Warning', message='Image not found')
             load_new_img = Image.open(self.img_path).resize((600, 200), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.banner_label.config(image=new_img)
@@ -1605,11 +1629,20 @@ class editApp:
             self.win.destroy()
         else:
             if self.name_entry.get().lstrip() == '' or self.name_entry.get().lstrip == 'Nombre de la app':
-                messagebox.showerror(title='Error', message='Favor llenar el espacio de nombre')
+                if current_language == 'esp': # Verificar idioma
+                    messagebox.showerror(title='Error', message='Favor llenar el espacio de nombre')
+                else:
+                    messagebox.showerror(title='Error', message='Please fill the name entry')
             elif self.variable_categoria.get() == 'Seleccionar':
-                messagebox.showerror(title='Error', message='Favor seleccionar categoria')
+                if current_language == 'esp': # Verificar idioma
+                    messagebox.showerror(title='Error', message='Favor seleccionar categoria')
+                else:
+                    messagebox.showerror(title='Error', message='Please select category')
             elif self.cost_entry.get() == '':
-                messagebox.showerror(title='Error', message='Favor ingresar un precio')
+                if current_language == 'esp':  # Verificar idioma
+                    messagebox.showerror(title='Error', message='Favor ingresar un precio')
+                else:
+                    messagebox.showerror(title='Error', message='Please insert a price')
 
 
 class appWindow():
@@ -1708,7 +1741,10 @@ class appWindow():
             if users_list[current_user].country == 'Costa Rica':
                 apps.mod(int(self.id), 12, str(int(apps.list[int(self.id)][12]) + 1))
         else:
-            messagebox.showerror(title='Error', message='Por favor registrese para descargar')
+            if current_language == 'esp':  # verificar idioma
+                messagebox.showerror(title='Error', message='Por favor registrese para descargar')
+            else:
+                messagebox.showerror(title='Error', message='Please login to download content')
 
     def show_profPage(self, username):
         if self.owner_user_info:
@@ -1717,7 +1753,10 @@ class appWindow():
             profile_page = profPage(users_list[int(self.owner_user_info[8])])
             self.win.destroy()
         else:
-            messagebox.showinfo(title='404', message='No hay pagina de usuario asociada a este vendedor')
+            if current_language == 'eso':
+                messagebox.showinfo(title='Info', message='No hay pagina de usuario asociada a este vendedor')
+            else:
+                messagebox.showinfo(title='Info', message='There is no user page associated to this seller')
 
 class app:
     def __init__(self, master, row, column,info, width, height):
@@ -2322,13 +2361,27 @@ class manageWinVendedores:
                     new_manage_window = manageWinVendedores(Toplevel())
                     new_win.destroy()
                 else:
-                    messagebox.showerror(title='Vendedor encontrado', message='El nombre de vendedor que digito ya existe')
+                    if current_language == 'esp':
+                        messagebox.showerror(title='Vendedor encontrado',
+                                             message='El nombre de vendedor que digito ya existe')
+                    else:
+                        messagebox.showerror(title='Vendedor encontrado',
+                                             message='Seller name already taken')
             elif name_entry.get() == '':
-                messagebox.showerror(title='Error', message='Introduzca un nombre de vendedor')
+                if current_language == 'esp':
+                    messagebox.showerror(title='Error', message='Introduzca un nombre de vendedor')
+                else:
+                    messagebox.showerror(title='Error', message='Insert the sellers name')
             elif mail_entry.get() == '':
-                messagebox.showerror(title='Error', message='Introduzca un correo')
+                if current_language == 'esp':
+                    messagebox.showerror(title='Error', message='Introduzca un correo')
+                else:
+                    messagebox.showerror(title='Error', message='Insert an email')
             else:
-                messagebox.showerror(title='Error', message='Introduzca una pagina web')
+                if current_language == 'esp':
+                    messagebox.showerror(title='Error', message='Introduzca una pagina web')
+                else:
+                    messagebox.showerror(title='Error', message='Insert a web page')
 
         ready = Button(main_frame, text='Listo', command=send)
         cancel = Button(main_frame, text='Cancelar', command=new_win.destroy)
@@ -2552,9 +2605,14 @@ def create_my_profile_page(*args):
 
 
 def error_handling(errnum):
-    err_cases = ['Contacte al administrador\nCodigo de error:1\nNumero de columnas insuficiente',
-                 'Contacte al administrador\nHa ocurrido un error inesperado']
-    messagebox.showerror(title='Error interno', message=err_cases[errnum])
+    if current_language == 'esp': # Verificar idioma
+        err_cases = ['Contacte al administrador\nCodigo de error:1\nNumero de columnas insuficiente',
+                     'Contacte al administrador\nHa ocurrido un error inesperado']
+        messagebox.showerror(title='Error interno', message=err_cases[errnum])
+    else:
+        err_cases = ['Contact support\nErr code:1\nColumn number is not enough',
+                     'Conctact support\nAn impropted error has ocurred']
+        messagebox.showerror(title='Internal error', message=err_cases[errnum])
 
 menu = Label(root)
 
