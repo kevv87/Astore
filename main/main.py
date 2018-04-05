@@ -538,7 +538,7 @@ class newLogin:
         self.user_label = Label(self.win_login, text='Usuario:', font='Times 15', bg=bg_color)
         self.user_entry = Entry(self.win_login, textvariable=self.none1)
         self.pass_label = Label(self.win_login, text='Contraseña:', font='Times 15', bg=bg_color)
-        self.pass_entry = Entry(self.win_login, textvariable=self.none2)
+        self.pass_entry = Entry(self.win_login, textvariable=self.none2, show='*')
 
         # Posicionando los entrys y labels recien creados
         self.pass_entry.pack()
