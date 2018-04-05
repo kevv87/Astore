@@ -507,12 +507,15 @@ class main_window:
             self.quote_author.pack()
             self.quote_author.place(x=160, y=100)
 
+
+# Clase encargada de crear la ventana de login, sus atributos estan dirigidos a la creacion de la ventana, sus metodos
+# estan dirigidos, principalmente a la funcion de inicio de sesion.
 class newLogin:
+    # Funcion constructor
     def __init__(self, master):
         self.master = master
-        self.bg = '#bbb8c1'
         # Configuracion principal
-        self.win_login = Toplevel(bg=self.bg)
+        self.win_login = Toplevel(bg=bg_color)
         self.win_login.resizable(False, False)
         self.win_login.title('Astore')
 
@@ -521,20 +524,23 @@ class newLogin:
         self.win_login.geometry('%dx%d+%d+%d' % (self.win_login_width, self.win_login_height,
                                                  self.win_login_width + self.win_login_width,
                                                  self.win_login_height))
-
-        self.title = Label(self.win_login, text='Astore', font='Times 50', bg=self.bg)
+        # Creando y posicionando el titulo
+        self.title = Label(self.win_login, text='Astore', font='Times 50', bg=bg_color)
         self.title.pack()
         self.title.place(x=self.win_login_width*22/100, y=0)
 
+        # Creando stings variables para los entrys
         self.none1 = StringVar()
-        self.none1.set('')
+        self.none1.set('')   # Setteando un valor inicial
         self.none2 = StringVar()
-        self.none2.set('')
-        self.user_label = Label(self.win_login, text='Usuario:', font='Times 15', bg=self.bg)
+        self.none2.set('')  # Setteando un valor inicial
+        # Creando entrys y labels
+        self.user_label = Label(self.win_login, text='Usuario:', font='Times 15', bg=bg_color)
         self.user_entry = Entry(self.win_login, textvariable=self.none1)
-        self.pass_label = Label(self.win_login, text='Contraseña:', font='Times 15', bg=self.bg)
+        self.pass_label = Label(self.win_login, text='Contraseña:', font='Times 15', bg=bg_color)
         self.pass_entry = Entry(self.win_login, textvariable=self.none2)
 
+        # Posicionando los entrys y labels recien creados
         self.pass_entry.pack()
         self.pass_label.pack()
         self.user_label.pack()
@@ -544,6 +550,7 @@ class newLogin:
         self.pass_label.place(x=self.win_login_width*6/100, y=self.win_login_height*44/100)
         self.pass_entry.place(x=self.win_login_width*38/100, y=self.win_login_height*47/100)
 
+        # Creando y posicionando botones
         self.login_button = Button(self.win_login, text='Iniciar\nsesion', command=self.login)
         self.register_button = Button(self.win_login, text='Registrarse', command= self.__show_register)
         self.login_button.pack()
@@ -551,25 +558,34 @@ class newLogin:
         self.login_button.place(x=self.win_login_width*23/100, y=self.win_login_height*70/100)
         self.register_button.place(x=self.win_login_width*48/100, y=self.win_login_height*70/100)
 
-        self.win_login.protocol("WM_DELETE_WINDOW", self.win_login.withdraw)
-        self.win_login.bind('<Return>', self.login)
+        self.win_login.protocol("WM_DELETE_WINDOW", self.win_login.withdraw)  # Vinculando el protocolo de cerrar la ventana a un withdraw, para que no se elimine
+                                                                              # todo al cerrar
+        self.win_login.bind('<Return>', self.login)  # Vinculando el boton enter con la funcion de login
 
+    # E: Varios, no reelevantes, no utilizados
+    # S: No retorna, su unica funcion es mostrar la ventana de registro.
+    # R: No hay restricciones para la funcion
     def __show_register(self, *args):
         self.win_login.withdraw()
         show_register()
 
+    # E: No hay, sin embargo, podrian tomarse en cuenta los get a los entrys como entrada, en este caso son un nombre de usuario y una contrasenna
+    # S: No retorna, cambia el usuario actual por el usuario escrito en name, si y solo si, la contrasenna de este es la que provee la persona que usa el programa
     def login(self, *args):
-        global current_user
-        global users_list
-        global main
-        global menu
-        global current_language
+        global current_user  # Usada para sobreescribir el usuario actual
+        global users_list  # Usada para obtener la contrasenna de el nombre de usuario propuesto por el que usa el programa
+        global main  # Usada para sobreescribir el main, hacer uno nuevo.
+        global menu  # Usada para hacer un nuevo menu
+        global current_language  # Usada para cambiar el idioma, por el preferido del usuario
+        # Obteniendo y guardando en variables lo que haya en los entrys.
         login_user = self.user_entry.get()
         login_pass = self.pass_entry.get()
-        user_row = users.is_in(login_user, 0, 0)
-        if user_row and user_row[2].lstrip() == login_pass:
+        user_row = users.is_in(login_user, 0, 0)  # False si el usuario propuesto no existe, o si no es el renglon donde esta el usuario propuesto
+
+        # Verifica la validez de la contrasenna
+        if user_row and user_row[2].lstrip() == login_pass:  # Si es valida
             current_language = user_row[7]
-            self.login_aux(login_user, 0)
+            self.login_aux(login_user, 0)  # Llamada auxiliar
             main.kill()
             menu.destroy()
             main = main_window(root, current_language)
@@ -577,11 +593,11 @@ class newLogin:
             self.win_login.withdraw()
             self.none1.set('')
             self.none2.set('')
-        else:
+        else: # Si no lo es
             messagebox.showerror(title='Error', message='Usuario o contraseña incorrecta')
 
     def login_aux(self,login_user, cont):
-        global current_user
+        global current_user  # Para sobreescribir el usuario actual
         if cont == len(users_list):
             return 'Err'
         elif users_list[cont].username == login_user:
@@ -590,15 +606,24 @@ class newLogin:
         else:
             self.login_aux(login_user, cont+1)
 
+    # E: No hay entradas
+    # S: No retorna, solo destruye la ventana actual.
+    # R: No hay restricciones
     def destroy(self):
         self.win_login.destroy()
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el lenguaje a ingles
+    # R: No hay restricciones.
     def change_languagetoeng(self):
         self.user_label.config(text='   User:')
         self.pass_label.config(text='  Password:')
         self.login_button.config(text='Login')
         self.register_button.config(text='Sign Up')
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el lenguaje a ingles
+    # R: No hay restricciones.
     def change_languagetoesp(self):
         self.user_label.config(text='Usuario:')
         self.pass_label.config(text='Contraseña:')
