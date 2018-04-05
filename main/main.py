@@ -630,7 +630,10 @@ class newLogin:
         self.login_button.config(text='Iniciar\nsesion')
         self.register_button.config(text='Registrarse')
 
+# Clase encargada de crear la ventana de registro, sus atributos estan orientados a la creacion de la nueva ventana y sus metodos
+# a todo lo relacionado con annadir un nuevo usuario
 class newRegister:
+    # Funcion constructor
     def __init__(self, master):
         # Configuracion principal
         self.bg_color = '#bbb8c1'
@@ -735,30 +738,37 @@ class newRegister:
         self.ready = Button(self.win_register, text='Listo', font='Times 18', command=self.add_user)
         self.ready.grid()
         self.ready.place(x=self.win_register_width*44/100, y=700)
-        self.image_entry.bind('<Button-1>', self.change_img)
+        self.image_entry.bind('<Button-1>', self.change_img) # Vinculando el presionar el label con el metodo change_img
 
         self.win_register.protocol("WM_DELETE_WINDOW", self.win_register.withdraw)
 
+    # E: El evento que llama la funcion, no se utiliza.
+    # S: No retorna, solo cambia la imagen
+    # R: No hay restricciones
     def change_img(self, *args):
-        self.win_register.lower()
-        self.img_path = fd.askopenfilename()
-        try:
+        self.win_register.lower()  # Baja la pantalla actual, de otra manera la pantalla de seleccion de imagen quedaria debajo.
+        self.img_path = fd.askopenfilename()  # Abre la pantalla de seleccion de archivos.
+        try:  # Abre el archivo e intenta procesarlo como una imagen
             load_new_img = Image.open(self.img_path).resize((100,100),Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.image_entry.config(image=new_img)
             self.image_entry.image = new_img
-        except:
+        except:  # Si no puede procesarlo como una imagen carga la imagen de invitado
+            messagebox.showwarning(title='warning', message='El archivo seleccionado no es una imagen procesable')
             load_new_img = Image.open('../users/guest.gif').resize((100, 100), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.image_entry.config(image=new_img)
             self.image_entry.image = new_img
-        self.win_register.lift()
+        self.win_register.lift()  # Devuelve la pantalla actual a su elevacion previa.
 
+    # E: El evento que llama la funcion, no se utiliza.
+    # S: No retorna, pero annade el usuario a la tabla de usuarios y todo lo que esto conlleva.
     def add_user(self, *args):
-        global main
-        global current_language
-        global current_user
+        global main  # Para crear un nuevo main con el nuevo usuario.
+        global current_language  # Sobreescribe con el lenguaje preferido del nuevo usuario
+        global current_user  # Sobreescribe con el usuario recien creado
 
+        # Toma los valores de los entrys y los guarda en variables
         nombre = self.name_entry.get()
         usuario = self.user_entry.get()
         contra = self.pass_entry.get()
@@ -774,15 +784,16 @@ class newRegister:
         webpage = self.web_entry.get()
         apps_compradas = '0'
 
-        if users.is_in(usuario, 0, 1):
+        if users.is_in(usuario, 0, 1):  # Caso en el que el nombre de usuario propuesto ya existe
             messagebox.showerror(title='error', message='Ya existe el nombre de usuario')
-        else:
-            if nombre.lstrip() != '' and usuario.lstrip() != '' and contra.lstrip() != '' and recontra.lstrip() != '' and correo.lstrip() != '':
-                if contra.lstrip() == recontra.lstrip():
+        else:  # Caso en el que no existe el nombre de usuario
+            if nombre.lstrip() != '' or usuario.lstrip() != '' or contra.lstrip() != '' or recontra.lstrip() != '' or correo.lstrip() != '':  # verifica que los campos esten llenos
+                if contra.lstrip() == recontra.lstrip():  # Verifica que la contrasenna y la repeticion de la misma sena iguales
                     self.add_touser()
                     self.add_toseller()
                     self.add_tobuyer()
-                    create_user(nombre, usuario, contra, str(seller_id), str(buyer_id), correo, webpage,foto, fondo, apps_compradas, admin, pais, language)
+                    create_user(nombre, usuario, contra, str(seller_id), str(buyer_id), correo, webpage,foto,
+                                fondo, apps_compradas, admin, pais, language, str(len(users_list))) # Crea el usuario
                     current_user = len(users_list) - 1
                     current_language = language
                     main.kill()
@@ -792,8 +803,11 @@ class newRegister:
             else:
                 return messagebox.showerror(title='Error', message='Faltan espacios')
 
+    # E: No hay entradas
+    # S: No retorna, solo annade a la tabla de usuarios.
+    # R: No hay restricciones
     def add_touser(self):
-
+        # Guarda los datos de los entrys en variables
         nombre = self.name_entry.get()
         usuario = self.user_entry.get()
         contra = self.pass_entry.get()
@@ -802,10 +816,14 @@ class newRegister:
         fondo = 'None'
         pais = self.variable.get()
         language = self.selected_language
+        # Annade a la tabla de usuarios
         users.add([nombre, usuario, contra, foto, fondo, admin, pais, language, []])
+        # Esconde la ventana actual
         self.win_register.withdraw()
 
-
+    # E: No hay entradas
+    # S: No retorna, solo annade a la tabla de sellers
+    # R: No hay restricciones
     def add_toseller(self):
         nombre = self.name_entry.get()
         correo = self.mail_entry.get()
@@ -813,28 +831,39 @@ class newRegister:
              webpage = self.web_entry.get()
         else:
             webpage = 'None'
-        id = int(users_list[len(users_list)-1].seller_id)+1
+        id = int(users_list[len(users_list)-1].seller_id)+1  # Toma el id del seller anterior y le suma 1
+        sellers.add([str(id), nombre, correo, webpage])  # Llama a el metodo de sellersTable de annadir
 
-        sellers.add([str(id), nombre, correo, webpage])
-
+    # E: No hay entradas
+    # S: No retorna, solo annade a la tabla de sellers
+    # R: No hay restricciones
     def add_tobuyer(self):
         nombre = self.name_entry.get()
         correo = self.mail_entry.get()
         apps = '0'
-        id = int(users_list[len(users_list) - 1].buyer_id) + 1
+        id = int(users_list[len(users_list) - 1].buyer_id) + 1 # Toma el id del buyer anterior y le suma 1
 
-        buyers.add([str(id), nombre, correo, apps])
+        buyers.add([str(id), nombre, correo, apps])  # Llama al metodo de buyersTable de annadir
 
+    # E: El evento que lo llama
+    # S: No retorna, solo se encarga de cambiar los bordes y el color para distinguir banderas
+    # R: No hay restricciones
     def engselected(self, *args):
         self.selected_language = 'eng'
         self.eng_flag_label.config(bd=4, bg='red')
         self.esp_flag_label.config(bd=0, bg=bg_color)
 
+    # E: El evento que lo llama
+    # S: No retorna, solo se encarga de cambiar los bordes y el color para distinguir banderas
+    # R: No hay restricciones
     def espselected(self, *args):
         self.esp_flag_label.config(bd=4, bg='red')
         self.selected_language = 'esp'
         self.eng_flag_label.config(bd=0, bg=bg_color)
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el idioma de los labels a espannol
+    # R: No hay restricciones
     def toesp(self):
         self.name_label.config(text='Nombre:')
         self.user_label.config(text='Usuario:')
@@ -847,6 +876,9 @@ class newRegister:
         self.pais_label.config(text='Pais:')
         self.ready.config(text='Listo')
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el idioma de los labels a ingles
+    # R: No hay restricciones
     def toeng(self):
         self.name_label.config(text='Name:')
         self.user_label.config(text='User:')
