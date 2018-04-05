@@ -1071,7 +1071,10 @@ class searchWin:
         self.entry_label.config(text='Buscar:')
 
 
+# La siguiente clase es la encargada de la creacion de las paginas de perfil, sus atributos estan orientados a la creacion
+# de la misma, mientras sus metodos se utilizan para editar la pagina o mostrar la lista de apps del usuario
 class profPage:
+    # Funcion constructor
     def __init__(self, info):
         # Configuracion principal
         self.bg_color = '#bbb8c1'
@@ -1085,6 +1088,7 @@ class profPage:
         self.height =  self.sc_height*30/100
         self.win.geometry('%dx%d+%d+%d' % (self.width, self.height, self.sc_width*25/100, self.sc_height*15/100))
 
+        # Contenedores principales
         self.canvas_left = Canvas(self.win, bg=self.bg_color, height=self.height, width=self.width*30/100,
                                   bd=0, highlightthickness=0, relief='ridge')
         self.canvas_left.pack()
@@ -1096,13 +1100,15 @@ class profPage:
         self.canvas_right.pack()
         self.canvas_right.place(x=self.width*30/100,y=0)
 
+        # Asignacion de strings variables para los entrys
         self.name = StringVar()
-        self.name.set(info.name)
+        self.name.set(info.name)  # Setteando el valor inicial
         self.correo = StringVar()
-        self.correo.set(info.mail)
+        self.correo.set(info.mail)  # Setteando el valor inicial
         self.webpage = StringVar()
-        self.webpage.set(info.webpage)
+        self.webpage.set(info.webpage)  # Setteando el valor inicial
 
+        # Cargando y redimensionando la imagen del grafico
         self.graphics_img_load = Image.open('../images/icons/graph.gif').resize((50, 50), Image.ANTIALIAS)
         self.graphics_img = ImageTk.PhotoImage(self.graphics_img_load)
         self.graphics_img_label = Label(self.canvas_right, image=self.graphics_img, bg=self.bg_color, cursor='hand2')
@@ -1127,17 +1133,18 @@ class profPage:
         self.path_user_img = info.perfil
         self.path_user_bg = info.fondo
         self.canvas_left.update()
-        try:
+        try:  # Trata de abrir la imagen especificada por el usuario en la tabla de usuarios
             self.load_user_img = Image.open(self.path_user_img).resize((100,100), Image.ANTIALIAS)
-        except FileNotFoundError:
+        except FileNotFoundError:  # Si falla carga la imagen de invitado
             self.load_user_img = Image.open('../users/guest.gif').resize((100,100), Image.ANTIALIAS)
-        try:
+        try:  # Trata de abrir la imagen de fondo especificada en la tabla de usuarios
             self.load_user_bg = Image.open(self.path_user_bg).resize((self.canvas_left.winfo_height()
-                                                                      ,self.canvas_left.winfo_width()), Image.ANTIALIAS)
-        except FileNotFoundError:
+                                                                    , self.canvas_left.winfo_width()), Image.ANTIALIAS)
+        except FileNotFoundError: # Si falla abre no_image.png
             self.load_user_bg = Image.open('../images/icons/no_image.png').resize((self.canvas_left.winfo_width()
-                                                                      ,self.canvas_left.winfo_height()), Image.ANTIALIAS)
-
+                                                                                 , self.canvas_left.winfo_height()),
+                                                                                   Image.ANTIALIAS)
+        # Renderiza y asigna a un label las imagenes, posiciona.
         self.user_bg = ImageTk.PhotoImage(self.load_user_bg)
         self.user_bg_label = Label(self.canvas_left, image=self.user_bg)
         self.user_bg_label.pack()
@@ -1150,24 +1157,27 @@ class profPage:
         self.user_img_label.place(relx=0.3, rely=0.3)
         self.user_img_label.image = self.user_img
 
+        # actualiza el name_label para poder tomar su tamanno
         self.name_label.update()
 
+        # Crea la variable para luego poder reescribirla
         self.lista_root=''
 
-        if info.admin == 'si':
+        if info.admin == 'si':  # Caso de admin normal
             self.load_crown = Image.open('../images/icons/mini_crown.gif').resize((50,50), Image.ANTIALIAS)
             self.crown_img = ImageTk.PhotoImage(self.load_crown)
             self.crown_label = Label(self.canvas_right, image=self.crown_img, bg=bg_color)
             self.crown_label.pack()
             self.crown_label.place(x=self.name_label.winfo_width(), y=10)
-        elif info.admin == 'S':
+        elif info.admin == 'S':  # Caso de super admin
             self.load_crown = Image.open('../images/icons/real_crown.gif').resize((50,50), Image.ANTIALIAS)
             self.crown_img = ImageTk.PhotoImage(self.load_crown)
             self.crown_label = Label(self.canvas_right, image=self.crown_img, bg=bg_color)
             self.crown_label.pack()
             self.crown_label.place(x=self.name_label.winfo_width(), y=10)
 
-        if users_list[current_user].name == self.name.get():
+        if users_list[current_user].name == self.name.get():  # Verifica si el usuario actual es el duenno de la ventana
+            # Carga posiciona y renderiza las imagenes.
             self.edit_img_load = Image.open('../images/icons/edit.gif').resize((20,20), Image.ANTIALIAS)
             self.edit_img = ImageTk.PhotoImage(self.edit_img_load)
 
@@ -1175,25 +1185,27 @@ class profPage:
             self.edit_bg.pack()
             self.edit_bg.place(x=0,y=0)
             self.edit_bg.image = self.edit_img
-            self.edit_bg.bind('<Button-1>', lambda *args: self.change_img('fondo'))
+            self.edit_bg.bind('<Button-1>', lambda *args: self.change_img('fondo'))  # Vincula con el metodo que cambia imagenes
 
             self.edit_profile_img = Label(self.canvas_left, image=self.edit_img, cursor='hand2')
             self.edit_profile_img.pack()
             self.edit_profile_img.place(relx=0.3,rely=0.3)
             self.edit_profile_img.image = self.edit_img
-            self.edit_profile_img.bind('<Button-1>', lambda *args: self.change_img('foto'))
+            self.edit_profile_img.bind('<Button-1>', lambda *args: self.change_img('foto')) # Vincula con el metodo que cambia imagenes
 
             self.edit_mail = Label(self.canvas_right, image=self.edit_img, bg=bg_color, cursor='hand2')
             self.edit_mail.pack()
             self.edit_mail.place(x=self.correo_label.winfo_width()+50, y=90)
-            self.edit_mail.bind('<Button-1>', self.change_mail)
+            self.edit_mail.bind('<Button-1>', self.change_mail)  # Vincula con el metodo que cambia el email
 
             self.edit_webpage = Label(self.canvas_right, image=self.edit_img, bg=bg_color, cursor='hand2')
             self.edit_webpage.pack()
             self.edit_webpage.place(x=self.webpage_label.winfo_width()+50, y=160)
-            self.edit_webpage.bind('<Button-1>', self.change_page)
+            self.edit_webpage.bind('<Button-1>', self.change_page)  # Vincula con el metodo que cambia imagenes
 
-
+    # E: El evento desde donde se llama, no se utiliza
+    # S: No retorna, solo muestra la lista de apps
+    # R: No hay restricciones
     def show_lista(self, *args):
         try:
             self.lista_root.deiconify()
@@ -1204,15 +1216,18 @@ class profPage:
             self.lista_apps = listaApps(self.lista_root)
             self.lista_root.focus_force()
 
+    # E: String con el espacio de la imagen que debe cambiar
+    # S: No retorna, solo cambia la imagen respectiva
+    # R: No hay restricciones, se controla muy bien que se envia
     def change_img(self, this):
-        global main
-        global current_language
-        global current_user
-        global users_list
-        global current_user
-        self.win.lower()
-        self.img_path = fd.askopenfilename()
-        try:
+        global main  # Crear un nuevo main y borrar el anterior
+        global current_language  # Pasarlo como argumento al nuevo main
+        global current_user  # Usado para modificar o annadir el usuario
+        global users_list  # Usado para tomar el objeto respectivo
+        global current_user  # Usado para especificar cual indice de users_list utilizar
+        self.win.lower()  # Baja la ventana para mostrar la ventana de seleccion de archivos
+        self.img_path = fd.askopenfilename()  # Muestra la ventana de seleccion de archivos
+        try: # Intenta abrir la imagen especificada
             load_new_img = Image.open(self.img_path).resize((100, 100), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             if this == 'foto':
@@ -1225,7 +1240,7 @@ class profPage:
                 self.user_bg_label.image = new_img
                 users.mod(current_user+1, 4, self.img_path)
                 users_list[current_user].fondo = self.img_path
-        except:
+        except: # Si no puede abre la imagen de invitado
             load_new_img = Image.open('../users/guest').resize((100, 100), Image.ANTIALIAS)
             new_img = ImageTk.PhotoImage(load_new_img)
             self.user_bg_label.config(image=new_img)
@@ -1234,17 +1249,23 @@ class profPage:
             users_list[current_user].fondo = self.img_path
         self.win.lift()
         main.kill()
-        main = main_window(root, current_language, current_user)
+        main = main_window(root, current_language)
 
+    # E: El evento desde donde se llama la funcion, no se utiliza
+    # S: No retorna, solo cambia el correo del usuario actual
+    # R: No hay restricciones
     def change_mail(self, *args):
-        new_email = simpledialog.askstring('Input','Introduzca el nuevo e-mail', parent=self.win)
+        new_email = simpledialog.askstring('Input','Introduzca el nuevo e-mail', parent=self.win)  # Tira un popup preguntando por el nuevo valor
         self.correo.set(new_email)
         self.correo_label.update()
         self.edit_mail.place(x=self.correo_label.winfo_width() + 50, y=90)
         users_list[current_user].mod_mail(new_email)
 
+    # E: El evento desde donde se llama la funcion, no se utiliza
+    # S: No retorna, solo cambia la pagina del usuario actual
+    # R: No hay restricciones
     def change_page(self, *args):
-        new_page = simpledialog.askstring('Input','Introduzca la nueva pagina web', parent=self.win)
+        new_page = simpledialog.askstring('Input','Introduzca la nueva pagina web', parent=self.win) # Tira un popup preguntando por el nuevo valor
         self.webpage.set(new_page)
         self.webpage_label.update()
         self.edit_webpage.place(x=self.webpage_label.winfo_width() + 50, y=160)
