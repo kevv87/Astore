@@ -1413,11 +1413,12 @@ class listaApps:
                 # Cambia el color dependiendo si es una app activa o inactiva
                 if lista[cont][6] == 'Activo':
                     self.app_estado = Canvas(self.frame, bg='green', height=50,
-                                             width=200).grid(row=cont*2 + 1, column=3)
+                                             width=200)
                 else:
                     self.app_estado = Canvas(self.frame, bg='red', height=50,
-                                             width=200).grid(row=cont * 2 + 1, column=3)
-
+                                             width=200)
+                self.app_estado.grid(row=cont * 2 + 1, column=3)
+                self.app_estado.bind('<Button-1>', lambda event: self.toggle_state(lista[cont][1], lista[cont][6]))
                 # mismo procedimiento que con la asignacion de un label a una lista
                 self.lista_apps[1] = self.lista_apps[1] + ['erase']
                 self.load_edit_img = Image.open('../images/icons/edit.gif').resize((40,80), Image.ANTIALIAS)
@@ -1439,6 +1440,18 @@ class listaApps:
             new_edit.edit_config(info)
         else:
             new_edit = editApp()
+
+    # E: El id de la app a la cual se le quiere modificar el estado.
+    # S: No retorna, solo cambia el estado de una app.
+    # R: No hay
+    def toggle_state(self, app_id, active):
+        if active == 'Activo':
+            apps.mod(int(app_id), 6, 'Inactivo')
+        else:
+            apps.mod(int(app_id), 6, 'Activo')
+        self.root.destroy()
+        listaApps(Toplevel())
+
 
     # Simplemente actualiza el area de visibilidad del scrollbar
     def onFrameConfigure(self, *args):
