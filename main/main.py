@@ -287,7 +287,7 @@ class newMenu:
             register.toeng()  # Llama el metodo de cambiar a idioma ingles de la ventana de register
             search.toeng()  # Llama el metodo de cambiar a idioma ingles de la ventana de busqueda
             self.destroy()  # Destruye el menu
-            main = main_window(root, current_language, current_user)  # Crea un nuevo main
+            main = main_window(root, current_language)  # Crea un nuevo main
         else:  # Caso espannol a espannol
             # No hace nada, pues ya esta en ingles, solo destruye el menu para tener una efimera retroalimentacion
             self.destroy()
@@ -307,26 +307,28 @@ class newMenu:
             search.toesp()
             main.kill()
             self.destroy()
-            main = main_window(root, current_language, current_user)
+            main = main_window(root, current_language)
         else:  # Espannol a espannol
             # No hace nada, pues ya esta en espannol, solo destruye el menu para tener una efimera retroalimentacion
             self.destroy()
 
-
+# Clase que define la ventana principal. Sus atributos van orientados a la creacion de la ventana, segun si se trata de un usuario
+# o un invitado y sus metodos van destinados a la aleatorizacion de los elementos de la ventana, entre otros
 class main_window:
-
-    def __init__(self, master, language, user):
+    # Funcion constructor
+    def __init__(self, master, language):
         self.language = language
-        if current_user == -1 :
+        if current_user == -1 :  # Caso de usuario anonimo o invitado
             self.master = master
-            self.random_mainpage()
+            self.random_mainpage()  # Aleatoriza las apps mostradas.
             self.welcome_canvas = Canvas(master, height='200', width='500', bg=bg_color, bd=0, highlightthickness=0,
-                                         relief='ridge')
-            self.welcome_canvas.pack()
+                                         relief='ridge')  # Crea el canvas superior.
+            self.welcome_canvas.pack()  # Lo posiciona
             self.welcome_canvas.place(x=win_width * 10 / 100, y=50)
 
 
-            if current_language == 'esp':
+            if current_language == 'esp':  # Caso de lenguaje espannol
+                # Crea unos cuantos labels con textos de bienvenida y los posiciona
                 self.welcome_text = Label(self.welcome_canvas, text='Bienvenido, invitado!', font='Times 20', bg=bg_color)
                 self.quote = Label(self.welcome_canvas, text='Recuerde que debe\n iniciar sesion para descargar',
                                    font='Times 20 italic', bg=bg_color)
@@ -334,7 +336,7 @@ class main_window:
                 self.quote.place(x=0, y=70)
                 self.welcome_text.pack()
                 self.welcome_text.place(x=0, y=20)
-            else:
+            else:  # Caso de lenguaje ingles
                 self.welcome_text = Label(self.welcome_canvas, text='Welcome, guest!', font='Times 20',
                                           bg=bg_color)
                 self.quote = Label(self.welcome_canvas, text='Please login in order to\ndownload content',
@@ -345,142 +347,165 @@ class main_window:
                 self.welcome_text.place(x=90, y=20)
 
 
+            # Carga la imagen de invitado, la renderiza, le cambia el tamanno y la pone en un label
             self.load_guest_img = Image.open('../users/guest.gif').resize((125, 125), Image.ANTIALIAS)
             self.guest_img = ImageTk.PhotoImage(self.load_guest_img)
             self.user_img_label = Label(self.welcome_canvas, image=self.guest_img, bd=0, highlightthickness=0,
                                         relief='ridge')
+            # Posiciona el label de la imagen de invitado.
             self.user_img_label.pack()
             self.user_img_label.place(x=350, y=20)
 
+            # carga la imagen que abre el menu, la renderiza, le cambia el tamanno y la pone en un label.
             self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
-                                         bg=bg_color, cursor='hand2')
+                                         bg=bg_color, cursor='hand2')  # Para efectos de retroalimentacion se annadio la funcion de cambiar el mouse en label que se pueden presionar
+
+            # Posiciona el label con la imagen.
             self.hamb_icon_label.pack()
             self.hamb_icon_label.place(x=1, y=1)
 
-            self.hamb_icon_label.bind('<Button-1>', self.show_menu)
-        else:
+            self.hamb_icon_label.bind('<Button-1>', self.show_menu)  # Crea el vinculo con la accion de darle click a la image y el metodo show_menu, asi, muestra el menu al darle click
+        else:  # Caso de un usuario registrado
             self.master = master
-            self.random_mainpage()
+            self.random_mainpage()  # Aleatoriza las apps y sus posiciones
 
             self.welcome_canvas = Canvas(master, height='200', width='500', bg=bg_color, bd=0, highlightthickness=0,
-                                         relief='ridge')
-            self.welcome_canvas.pack()
+                                         relief='ridge')  # Crea el canvas superior
+            self.welcome_canvas.pack()  # Posiciona dicho canvas
             self.welcome_canvas.place(x=win_width * 10 / 100, y=50)
-            if current_language == 'esp':
+            if current_language == 'esp':  # Caso de lenguaje espannol
+                # Crea el texto de bienvenida
                 self.welcome_text = Label(self.welcome_canvas, text='Bienvenido, %s!' % users_list[current_user].name,
-                                          font='Times 20', bg=bg_color)
-            else:
+                                          font='Times 20', bg=bg_color)  # Toma el nombre del usuario actual para ponerlo en el texto de bienvenida
+            else: # Caso de lenguaje ingles
+                # Crea el texto de bienvenida
                 self.welcome_text = Label(self.welcome_canvas, text='Welcome, %s!' % users_list[current_user].name,
                                           font='Times 20', bg=bg_color)
+            # Posiciona el texto de bienvenida
             self.welcome_text.pack()
             self.welcome_text.place(x=0, y=20)
 
             self.quote_canvas = Canvas(self.welcome_canvas, bg=bg_color, width=349, height =140, bd=0, highlightthickness=0,
-                                         relief='ridge')
+                                         relief='ridge')  # Crea el canvas de la frase
+            # posiciona dicho canvas
             self.quote_canvas.pack()
             self.quote_canvas.place(x=0,y=50)
 
-            self.randomize_quote()
-            try:
+            self.randomize_quote()  # Aleatoriza la frase
+            try:  # Intenta cargar la imagen del usuario explicita en la tabla.
                 self.load_user_img = Image.open(users_list[current_user].perfil).resize((125, 125), Image.ANTIALIAS)
-            except:
+            except:  # Si no existe carga la default
                 self.load_user_img = Image.open('../users/guest.gif').resize((125, 125), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_user_img)
             self.user_img_label = Label(self.welcome_canvas, image=self.user_img, bd=0, highlightthickness=0,
-                                        relief='ridge')
-            self.user_img_label.image = self.user_img
+                                        relief='ridge') # Pone la imagen en un canvas
+            self.user_img_label.image = self.user_img  # Reescribe la imagen para no perderla
+            # Posiciona la imagen
             self.user_img_label.pack()
             self.user_img_label.place(x=350, y=20)
+
+            # Carga la imagen del menu, la renderiza, cambia el tamanno y la pone en un label.
             self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
             self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
             self.hamb_icon_label = Label(root, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
                                          bg=bg_color, cursor='hand2')
+            # Posiciona el label de la imagen del menu
             self.hamb_icon_label.pack()
             self.hamb_icon_label.place(x=1, y=1)
 
-            self.hamb_icon_label.bind('<Button-1>', self.show_menu)
+            self.hamb_icon_label.bind('<Button-1>', self.show_menu)  # Abre el menu al presionar la imagen
 
-
+    # E: Mixtas, ninguna importante o utilizada.
+    # S: Esta funcion no retorna, su unico objetivo es mostrar el menu.
+    # R: No hay restricciones para las entradas
     def show_menu(self, *args):
-        return self.__show_menu_aux()
-
-    def __show_menu_aux(self):
-        global menu
+        global menu  # Utilizada para sobreescribir
         menu = newMenu(self.master)
 
+    # E: No tiene entradas
+    # S: No retorna, solo aleatoriza las apps y su posicion en la pagina principal
+    # R: No hay restricciones, pues no hay entradas
     def random_mainpage(self):
+        global category_list
+
+        # Crea el canvas donde se posicionaran las apps
         self.bottom_canvas = Canvas(self.master, height=win_height - 20, width=win_width, bg=bg_color)
         self.bottom_canvas.pack()
-        categorias = ['Juegos', 'Musica', 'Redes sociales', 'Herramientas']
+        categorias = category_list
         master = self.bottom_canvas
-        self.random_mainpage_aux(master, categorias, [], 1)
-
-    def is_in(self, list1, ele, cont):
-        if len(list1) == cont:
-            return False
-        elif list1[cont] == ele:
-            return True
-        else:
-            return self.is_in(list1, ele, cont + 1)
+        self.random_mainpage_aux(master, categorias, [], 1)  # Llama una funcion auxiliar
 
     def random_mainpage_aux(self, master, categorias, used, cont):
-        rand = randint(0, 3)
-        ini_y = 50
-        com_height = 188
-        fix = 188
-        if len(used) == 3:
+        rand = randint(0, 3)  # Crea un numero aleatorio entre 0 y 3
+        ini_y = 50  # La pos en y inicial de cada espacio de un app
+        com_height = 188  # La altura en comun de cada espacio de un app
+        fix = 188  # Constante para arreglar el traslape entre espacios de apps.
+        if len(used) == 3:  # Caso base, used es una lista vacia utilizada para guardar las categorias que ya se han puesto para que no repita
             return
         elif not self.is_in(used, categorias[rand], 0):
-            if categorias[rand] == 'Juegos':
-                categoria_juego = juegos(master, ini_y, fix, com_height, cont)
+            if categorias[rand] == 'Juegos':  # Si la lista en el indice rand tiene el elemento 'Juegos'
+                categoria_juego = juegos(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Juegos'], cont + 1)
-            elif categorias[rand] == 'Musica':
-                categoria_musica = musica(master, ini_y, fix, com_height, cont)
+            elif categorias[rand] == 'Musica':# Si la lista en el indice rand tiene el elemento 'Musica'
+                categoria_musica = musica(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Musica'], cont + 1)
-            elif categorias[rand] == 'Redes sociales':
-                categoria_redes = redes(master, ini_y, fix, com_height, cont)
+            elif categorias[rand] == 'Redes':  # Si la lista en el indice rand tiene el elemento 'Redes'
+                categoria_redes = redes(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Redes sociales'], cont + 1)
-            else:
-                categoria_herramientas = herramientas(master, ini_y, fix, com_height, cont)
+            else:  # Si la lista en el indice rand tiene el elemento 'Herramientas'
+                categoria_herramientas = herramientas(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Herramientas'], cont + 1)
-        else:
+        else:  # Entra a este caso si se da que ya se uso una de las categorias
             return self.random_mainpage_aux(master, categorias, used, cont)
 
+    # E: Una lista, un elemento y un contador
+    # S: True si se da que el elemento esta en la lista, false de lo contrario
+    # R: No se pusieron restricciones porque no es algo que introduzca el usuario, es algo bien establecido por el programador
+    def is_in(self, list1, ele, cont):
+        if len(list1) == cont:  # Caso base, el contador alcanzo la longitud de la lista
+            return False
+        elif list1[cont] == ele:  # Se encuentra una coincidencia
+            return True
+        else:  # No se encuentra coincidencia
+            return self.is_in(list1, ele, cont + 1)
+
+    # E: No hay entradas, no se necesitan
+    # S: La unica funcion del codigo es destruir los widgets de esta clase.
+    # R: No hay restricciones, no hay entradas.
     def kill(self):
         self.bottom_canvas.destroy()
         self.welcome_canvas.destroy()
         self.user_img_label.destroy()
 
+    # E: No hay entradas, no son necesarias
+    # S: La funcion del codigo es aleatorizar las frases
+    # R: No hay restricciones
     def randomize_quote(self):
-        try:
+        try:  # Intenta destruir la quote existente
             self.quote.destroy()
             self.randomize_quote()
-        except:
-            if self.language == 'esp':
-                self.quote_text = esp_quotes.get_quote()[0]
-                self.quote_author = esp_quotes.get_quote()[1]
-
-            else:
-                self.quote_text = eng_quotes.get_quote()[0]
-                self.quote_author = eng_quotes.get_quote()[1]
+        except:  # Si no puede, es porque no existe quote, entonces crea una nueva
+            if self.language == 'esp':  # Frases en espannol
+                self.quote_text = esp_quotes.get_quote()[0]  # Toma la frase de la clase de frases en espannol
+                self.quote_author = esp_quotes.get_quote()[1]  # Toma el autor de la frase de la clase de frases en espannol
+            else: # Frases en ingles
+                self.quote_text = eng_quotes.get_quote()[0]  # Toma la frase de la clase de frases en ingles
+                self.quote_author = eng_quotes.get_quote()[1]  # Toma el autor de la frase de la clase de frases en ingles
             self.quote = Label(self.quote_canvas, font='Times 13 italic', text=self.quote_text, bg=bg_color,
-                               wraplengt=330)
+                               wraplengt=330)  # Crea el label de la frase
+            # Lo posiciona
             self.quote.pack()
             self.quote.place(x=0, y=20)
+
             self.quote_author = Label(self.quote_canvas, font='Times 13 italic bold', text='-'+self.quote_author,
-                                      bg=bg_color)
+                                      bg=bg_color)  # Crea el label del autor
+            # Lo posiciona
             self.quote_author.pack()
             self.quote_author.place(x=160, y=100)
-
-    def change_languagetoesp(self):
-        global current_language
-        if current_language == 'eng':
-            self.randomize_quote()
-
 
 class newLogin:
     def __init__(self, master):
@@ -547,7 +572,7 @@ class newLogin:
             self.login_aux(login_user, 0)
             main.kill()
             menu.destroy()
-            main = main_window(root, current_language, current_user)
+            main = main_window(root, current_language)
             menu = newMenu(self.master)
             self.win_login.withdraw()
             self.none1.set('')
@@ -736,7 +761,7 @@ class newRegister:
                     current_user = len(users_list) - 1
                     current_language = language
                     main.kill()
-                    main = main_window(root, current_language, current_user)
+                    main = main_window(root, current_language)
                 else:
                     return messagebox.showerror(title='Error', message='Contrasenas no iguales')
             else:
@@ -2428,7 +2453,7 @@ esp_quotes = quoteTable('../misc/quotes/esp.txt')
 eng_quotes = quoteTable('../misc/quotes/eng.txt')
 
 
-main = main_window(root, current_language, current_user)
+main = main_window(root, current_language)
 login = newLogin(root)
 register = newRegister(root)
 adminwin = adminWindow()
