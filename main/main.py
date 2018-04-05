@@ -892,35 +892,49 @@ class newRegister:
         self.ready.config(text='Ready')
 
 
+# Clase encargada de crear una nueva ventana de administracion de vendedores, sus atributos estan orientados a
+# crear la ventana, mientras sus metodos son meramente de cambio de idioma
 class adminWindow:
+    # Funcion constructor
     def __init__(self):
+        # Configuracion
         self.win = Toplevel()
         self.win.resizable(False, False)
 
+        # Dimensiones
         self.sc_width, self.sc_height = self.win.winfo_screenwidth(), self.win.winfo_screenheight()
         self.width = 20 * self.sc_width/100
         self.height = 20 * self.sc_height/100
         self.win.geometry('%dx%d+%d+%d' % (self.width, self.height, self.sc_width * 41 / 100, self.sc_height*30/100))
 
+        # Contenedores
         self.top_canvas = Canvas(self.win, bg=bg_color, width=self.width, height=self.height/2,).grid(row=0, columnspan=2)
         self.bottom_canvas_left = Canvas(self.win, bg=bg_color, width=self.width/2, height=self.height/2,).grid(row=1, column=0)
         self.bottom_canvas_right = Canvas(self.win, bg=bg_color, width=self.width/2, height=self.height/2,).grid(row=1, column=1)
 
+        # Labels
         self.apps_label = Label(self.win, text='Aplicaciones', font='Times 20', bg=bg_color)
         self.vendedores_label = Label(self.win, text='Vendedores', font='Times 20', bg=bg_color)
         self.compradores_label = Label(self.win, text='Compradores', font='Times 20', bg=bg_color)
 
+        # Posicionando los labels
         self.apps_label.grid(row=0, columnspan=2)
         self.vendedores_label.grid(row=1, column=0)
         self.compradores_label.grid(row=1, column=1)
 
-        self.win.protocol("WM_DELETE_WINDOW", self.win.withdraw)
+        self.win.protocol("WM_DELETE_WINDOW", self.win.withdraw) # Vinculando el boton cerrar con withdraw para que no se elimine la ventana
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el idioma de los labels a ingles
+    # R: No hay restricciones
     def to_eng(self):
         self.apps_label.config(text='Aplications')
         self.vendedores_label.config(text='Sellers')
         self.compradores_label.config(text='Buyers')
 
+    # E: No hay entradas
+    # S: No retorna, solo se encarga de cambiar el idioma de los labels a espannol
+    # R: No hay restricciones
     def to_esp(self):
         self.apps_label.config(text='Aplicaciones')
         self.vendedores_label.config(text='Vendedores')
