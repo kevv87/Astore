@@ -5,13 +5,16 @@ from tkinter import filedialog as fd
 from manejo_txt import *
 from tkinter import simpledialog, messagebox
 
-users_list = []
-category_list=['Juegos', 'Musica', 'Herramientas', 'Redes Sociales']
-current_user = 1
-current_language = 'esp'
+users_list = []  # Usada para guardar los usuarios
+category_list=['Juegos', 'Musica', 'Herramientas', 'Redes Sociales']  # Usada para asociar los numeros de categoria con
+                                                                    # equivalente en palabras.
+current_user = -1  # Usada para identificar al actual usuario
+current_language = 'esp'  # Usada para identificar el lenguaje actual
 
-bg_color = '#bbb8c1'
-root = Tk()
+bg_color = '#bbb8c1'  # Usada para establecer el color de todas las ventanas.
+root = Tk()  # Se crea el root prncipal
+
+# Configuraciones
 root.title('Astore')
 root.resizable(False, False)
 
@@ -19,12 +22,15 @@ root.resizable(False, False)
 # Dimensiones de la pantalla
 win_width, win_height = root.winfo_screenwidth(), root.winfo_screenheight()
 win_width = 40*win_width/100
-
 root.geometry('%dx%d+%d+0' % (win_width, win_height*92/100, win_width*80/100))
 
 
+# Clase que se encarga de la creacion  del menu superior izquierdo, sus atributos estan destinados a la creacion de la
+# ventana y sus metodos a el lanzamiento de otras ventanas.
 class newMenu:
     def __init__(self, master):
+
+        # Configuraciones principales
         self.bg_color = '#390959'
         self.canvas_menu = Canvas(master, height=win_height * 30 / 100, width=win_width * 25 / 100, bg=self.bg_color,
                                   bd=0, highlightthickness=0, relief='ridge')
@@ -36,21 +42,25 @@ class newMenu:
 
         self.master = master
 
-        if current_user == -1:
+        if current_user == -1:  # Caso en el que el usuario es anonimo o invitado.
+            self.canvas_menu.bind('<Leave>', self.destroy)  # Destruccion del menu.
+
+            # Cargando la imagen de invitado
             self.load_guest_img = Image.open('../users/guest.gif').resize((50, 50), Image.ANTIALIAS)
             self.user_img = ImageTk.PhotoImage(self.load_guest_img)
 
-            self.canvas_menu.bind('<Leave>', self.destroy)
-
+            # Posicionando la imagen de invitado.
             self.user_img_label = Label(master, image=self.user_img, bd=0, highlightthickness=0,
                                         relief='ridge', bg=bg_color)
             self.user_img_label.pack()
             self.user_img_label.place(x=5, y=10)
 
+            # Posicionamiento del nombre de usuario
             self.user_name = Label(self.canvas_menu, text='Invitado', font='Times 15', bg=self.bg_color, fg='white')
             self.user_name.pack()
             self.user_name.place(x=70, y=35)
 
+            # Creacion de las banderas de cambio de idioma
             self.esp_flag_load = Image.open('../images/icons/espanna.gif').resize((30,20), Image.ANTIALIAS)
             self.esp_flag_img = ImageTk.PhotoImage(self.esp_flag_load)
             self.esp_flag_label = Label(self.canvas_menu, image=self.esp_flag_img, bg=self.bg_color, cursor='hand2')
@@ -65,7 +75,8 @@ class newMenu:
             self.eng_flag_label.place(x=win_width * 18 / 100, y=5)
             self.eng_flag_label.bind('<Button-1>', self.change_language_toeng)
 
-            if current_language == 'esp':
+            # Cambiando los labels con texto segun idioma
+            if current_language == 'esp':  # Caso del idioma en espannol
                 self.login_button = Button(self.canvas_menu, text='Iniciar sesion', bd=0, highlightthickness=0, relief='ridge',
                                            command=self.show_login)
                 self.register_button = Button(self.canvas_menu, text='Registrarse', bd=0, highlightthickness=0,
@@ -74,7 +85,7 @@ class newMenu:
                                           relief='ridge', command=self.show_mainpage)
                 self.apps_button = Button(self.canvas_menu, text='Todas las apps', bd=0, highlightthickness=0,
                                           relief='ridge', command=self.show_search)
-            else:
+            else:  # Caso del idioma en ingles
                 self.login_button = Button(self.canvas_menu, text='Login', bd=0, highlightthickness=0,
                                            relief='ridge',
                                            command=self.show_login)
@@ -84,6 +95,7 @@ class newMenu:
                                           relief='ridge', command=self.show_mainpage)
                 self.apps_button = Button(self.canvas_menu, text='All apps', bd=0, highlightthickness=0,
                                           relief='ridge', command=self.show_search)
+
             self.login_button.pack()
             self.register_button.pack()
             self.home_button.pack()
