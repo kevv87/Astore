@@ -2274,7 +2274,7 @@ class buyersTable:
         close_temp_file = open_temp_file.close()
 
 
-# Clase destinada a la creacion de la tabla de compradores. Sus atributos tienen que ver con la tabla en forma de lista
+# Clase destinada a la creacion de la tabla de vendedores. Sus atributos tienen que ver con la tabla en forma de lista
 # y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o eliminar de la tabla
 # entre otros.
 class sellersTable:
@@ -2285,7 +2285,9 @@ class sellersTable:
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
 
-
+    # E: Contador
+    # S: Una tabla convertida a lista
+    # R: No hay
     def __to_list(self, cont):
         a = self.first_read.readline()
         if a == '':
@@ -2369,8 +2371,10 @@ class sellersTable:
             else:
                 return [self.list[cont]] + self.remove_aux(row, cont+1, deleted)
 
-
+# Clase encargada de la creacion de la ventana de administrar vendedores, entre sus atributos se encuntra lo principal para
+# crear la ventana, entre sus metodos se encuentra crear una tabla, borrar o annadir renglones
 class manageWinVendedores:
+    # Funcion constructor
     def __init__(self, root):
         self.root = root
         self.root.resizable(False, False)
@@ -2413,7 +2417,7 @@ class manageWinVendedores:
         self.plus_img = ImageTk.PhotoImage(self.load_plus)
         self.plus = Label(self.frame, image=self.plus_img, bg=bg_color, cursor='hand2')
         self.plus.grid(row=len(self.buttons)+1, column=0, columnspan=5)
-        self.plus.bind('<Button-1>', lambda event: self.add_seller())
+        self.plus.bind('<Button-1>', lambda event: self.add_seller())  # Annade vendedor
 
         self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
@@ -2425,8 +2429,10 @@ class manageWinVendedores:
 
         self.hamb_icon_label.bind('<Button-1>', self.show_menu)
 
-
-    def table(self, *args):
+    # E: No tiene
+    # S: No retorna, crea una tabla en la interfaz
+    # R: No hay
+    def table(self):
         self.headers = ['ID', 'Nombre', 'Correo', 'Pagina Web']
         Label(self.frame, text=self.headers[0], bg=bg_color, font='Times').grid(row=0, column=0)
         Label(self.frame, text=self.headers[1], bg=bg_color, font='Times').grid(row=0, column=1)
@@ -2451,20 +2457,23 @@ class manageWinVendedores:
                   font='Times').grid(row=controw+1, column=contcolumn, sticky=W)
             self.__table_aux(info, controw, contcolumn+1)
 
-
+    # Simplemente actualiza el area de visibilidad del scrollbar
     def onFrameConfigure(self, *args):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
+    # E: Renglon que se desea eliminar
+    # S: No retorna, solo elimina el renglon
+    # R: No tiene
     def erase(self, row):
         global new_manage_window
         sellers.remove(row+1)
         self.root.destroy()
         new_manage_window = manageWinVendedores(Toplevel())
-
+    # Simplemente muestra el menu
     def show_menu(self, event):
         global menu
         menu = newMenu(self.root)
-
+    # Simplemente annade un nuevo vendedor a la tabla
     def add_seller(self):
         self.add_seller_aux()
 
@@ -2488,6 +2497,9 @@ class manageWinVendedores:
         page_entry = Entry(main_frame)
         page_entry.grid(row=2, column=1)
 
+        # E: No tiene
+        # S: No retorna, solamente envia los datos recibidos a sellers.add para que cree un nuevo renglon en la base de datos
+        # R: No hay
         def send():
             if name_entry.get() != '' and mail_entry.get() != '' and page_entry.get() != '':
                 if not sellers.is_in(name_entry.get(), 0, 1):
@@ -2525,10 +2537,9 @@ class manageWinVendedores:
         ready.grid(row=3, column=1, sticky=W)
         cancel.grid(row=3, column=0, sticky=E)
 
-
-
-
-
+# Clase destinada a la creacion de la tabla de usuarios. Sus atributos tienen que ver con la tabla en forma de lista
+# y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de annadir o modificar la tabla
+# entre otros.
 class usersTable():
     def __init__(self):
         self.file = '../users/usuarios.txt'
@@ -2537,6 +2548,9 @@ class usersTable():
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
 
+    # E: Contador
+    # S: Una tabla convertida a lista
+    # R: No hay
     def __to_list(self, cont):
         a = self.first_read.readline()
         if a == '':
@@ -2544,6 +2558,9 @@ class usersTable():
         else:
             return [a] + self.__to_list(cont + 1)
 
+    # E: Elemento a buscar en una cierta columna, row es un contador de renglon
+    # S: False si el elemento no esta o el renglon si se encuentra una coincidencia
+    # R: No hay
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
@@ -2565,6 +2582,9 @@ class usersTable():
                 else:
                     return self.is_in(ele, row, column+1)
 
+    # E: Lista
+    # S: No retorna, solo annade un nuevo renglon con los indices de la lista dada
+    # R: No hay
     def add(self, lista):
         global users
         if len(lista) == len(self.list[0]):
@@ -2575,6 +2595,9 @@ class usersTable():
         else:
             error_handling(0)
 
+    # E: renglon, columna y elemento a reemplazar
+    # S: No retorna, solo reemplaza un elemento por otro dado
+    # R: No hay
     def mod(self, row, column, ele):
         global users
         open_temp_file = open(self.file, 'w')
@@ -2582,7 +2605,9 @@ class usersTable():
         create_db(self.list, open_temp_file)
         close_temp_file = open_temp_file.close()
 
-
+# Clase destinada a la creacion de la tabla de frases. Sus atributos tienen que ver con la tabla en forma de lista
+# y otras particularidades. Entre sus metodos se posicionan los metodos get, los metodos de buscar y extraer una frase
+# entre otros.
 class quoteTable:
     def __init__(self, file):
         self.file = file
@@ -2591,6 +2616,9 @@ class quoteTable:
         self.list = normalize_list_table(self.raw_list, 0)
         self.close_first_read = self.first_read.close()
 
+    # E: Contador
+    # S: Una tabla convertida a lista
+    # R: No hay
     def __to_list(self, cont):
         a = self.first_read.readline()
         if a == '':
@@ -2598,11 +2626,16 @@ class quoteTable:
         else:
             return [a] + self.__to_list(cont + 1)
 
-
+    # E: No hay
+    # S: Retorna una frase aleatoria de la base de datos de frases.
+    # R: No hay
     def get_quote(self):
         quote_number = str(randint(1,20))
         return self.is_in(quote_number, 0, 0)
 
+    # E: Elemento a buscar en una cierta columna, row es un contador de renglon
+    # S: False si el elemento no esta o el renglon si se encuentra una coincidencia
+    # R: No hay
     def is_in(self, ele, row, column):
         if row == len(self.list)-1:
             if column == len(self.list[0])-1:
@@ -2624,8 +2657,10 @@ class quoteTable:
                 else:
                     return self.is_in(ele, row, column+1)
 
-
+# Clase que modela un usuario, sus atributos se refieren a las columnas de la base de datos de usuarios, sus metodos permiten
+# modificar unas cuantas cosas, verificar si existe dentro de la tabla y otros.
 class newUser:
+    # Funcion constructor
     def __init__(self, name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys, admin,
                  country, language, user_id):
         self.name = name
@@ -2644,7 +2679,9 @@ class newUser:
         self.user_id = user_id.lstrip()
         self.exists = self.__verify()
 
-
+    # E: No hay
+    # S: Retorna True si existe el usuario en la tabla de vendedores o compradores
+    # R: No hay
     def __verify(self):
         if buyers.is_in(self.name, 0, 0) or sellers.is_in(self.name, 0, 0):
             self.__retrieve_info(self.name, buyers.is_in(self.name, 0, 0), sellers.is_in(self.name, 0, 0))
@@ -2652,6 +2689,9 @@ class newUser:
         else:
             return False
 
+    # E : lista de compradores, vendedores y el nombre
+    # S: Complementaria de verify, si verify da True, toma los datos de las dos bases de datos y los pone en los campos correspondientes en el objeto
+    # R: No hay
     def __retrieve_info(self, name, buyerslist, sellerslist):
         if buyerslist:
             self.buyer_id = buyerslist[0].lstrip()
@@ -2667,7 +2707,9 @@ class newUser:
         else:
             self.seller_id = 'None'
             self.seller_id = 'None'
-
+    # E: valor al que se quiere cambiar el mail
+    # S: No retorna, solo cambia el mail en todas las tablas
+    # R: No hay
     def mod_mail(self, tothis):
         global buyers
         global sellers
@@ -2676,19 +2718,25 @@ class newUser:
         buyers.mod(self.buyer_id, 2, tothis)
         sellers.mod(self.seller_id, 2, tothis)
 
+    # E: valor al que se quiere cambiar la webpage
+    # S: No retorna, solo cambia el webpage en la tabla de sellers
+    # R: No hay
     def mod_page(self, tothis):
         global sellers
 
         self.webpage = tothis
         sellers.mod(self.seller_id, 3, tothis)
 
+    # E: valor al que se quiere cambiar las compras
+    # S: No retorna, solo cambia las compras en la tabla de buyers
+    # R: No hay
     def mod_buys(self, tothis):
         global buyers
 
         self.buys = tothis
         buyers.mod(self.seller_id, 3, tothis)
 
-
+# Simplemente muestra la ventana de registro
 def show_register(*args):
     try:
         register.win_register.deiconify()
@@ -2698,7 +2746,7 @@ def show_register(*args):
         register.win_register.withdraw()
         register.win_register.focus_force()
 
-
+# Simplemente cambia el usuario a invitado
 def logout(*args):
     global current_user
     global main
@@ -2706,9 +2754,11 @@ def logout(*args):
     current_user = -1
     main.kill()
     menu.destroy()
-    main = main_window(root, current_language, current_user)
+    main = main_window(root, current_language)
 
-
+# E: Todas las columnas de la tabla de usuarios debidamente llenas y separadas.
+# S: No retorna, crea un nuevo objeto de usuario en una lista
+# R: No hay
 def create_user(name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys, admin,
                 country, language, id):
     global users_list
@@ -2717,7 +2767,9 @@ def create_user(name, username, password, seller_id, buyer_id, mail, webpage, pe
     users_list[next_i] = newUser(name, username, password, seller_id, buyer_id, mail, webpage, perfil, fondo, buys,
                                  admin, country, language, id)
 
-
+# E: Contador
+# S: No retorna, crea los primeros usuarios.
+# R: No hay
 def users_list_first_config(cont):
     if cont == len(users.list):
         return
@@ -2727,8 +2779,10 @@ def users_list_first_config(cont):
                     users.list[cont][6], users.list[cont][7], str(cont))
         users_list_first_config(cont+1)
 
-profile_page=''
+profile_page=''  # Variable global para el manejo de la pagina de perfil
 
+
+# Simplemente crea la pagina de perfil propia del current user
 def create_my_profile_page(*args):
     global users_list
     global current_user
@@ -2740,7 +2794,9 @@ def create_my_profile_page(*args):
     except:
         profile_page = profPage(users_list[current_user])
 
-
+# E: Numero de error
+# S: No retorna, tira un pop up con un mensaje de error
+# R: No hay
 def error_handling(errnum):
     if current_language == 'esp': # Verificar idioma
         err_cases = ['Contacte al administrador\nCodigo de error:1\nNumero de columnas insuficiente',
@@ -2751,8 +2807,10 @@ def error_handling(errnum):
                      'Conctact support\nAn impropted error has ocurred']
         messagebox.showerror(title='Internal error', message=err_cases[errnum])
 
+
 menu = Label(root)
 
+# Designacion inicial de las clases
 apps = appTable()
 buyers = buyersTable()
 sellers = sellersTable()
@@ -2760,21 +2818,19 @@ users = usersTable()
 users_list_first_config(1)
 esp_quotes = quoteTable('../misc/quotes/esp.txt')
 eng_quotes = quoteTable('../misc/quotes/eng.txt')
-
-
 main = main_window(root, current_language)
 login = newLogin(root)
 register = newRegister(root)
 adminwin = adminWindow()
 search = searchWin()
 
+# Escondiendo las ventanas abiertas
 new_manage_window = Toplevel()
 new_manage_window.withdraw()
-
 adminwin.win.withdraw()
 login.win_login.withdraw()
 register.win_register.withdraw()
 search.win.withdraw()
 
-
+# mainloop
 mainloop()
