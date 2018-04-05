@@ -241,14 +241,14 @@ class newMenu:
             self.master.withdraw()  # Esconde la ventana actual
             root.deiconify()
             main.kill()  # Destruye el viejo main
-            main = main_window(root, current_language, current_language)  # Crea un nuevo main
+            main = main_window(root, current_language)  # Crea un nuevo main
             root.lift()  # Trae el nuevo main arriba
             root.focus_force()  # Fuerza un focus al nuevo main
             self.destroy()  # Destruye el menu actual
         except:
             root.withdraw()
             main.kill()  # Destruye el viejo main
-            main = main_window(root, current_language, current_user)  # Crea un nuevo main
+            main = main_window(root, current_language)  # Crea un nuevo main
             self.master.withdraw()  # Esconde la ventana actual
 
     # E: Mixtas, ninguna importante o utilizada.
@@ -447,15 +447,17 @@ class main_window:
         if len(used) == 3:  # Caso base, used es una lista vacia utilizada para guardar las categorias que ya se han puesto para que no repita
             return
         elif not self.is_in(used, categorias[rand], 0):
+            print(used)
+            print(categorias[rand])
             if categorias[rand] == 'Juegos':  # Si la lista en el indice rand tiene el elemento 'Juegos'
                 categoria_juego = juegos(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Juegos'], cont + 1)
             elif categorias[rand] == 'Musica':# Si la lista en el indice rand tiene el elemento 'Musica'
                 categoria_musica = musica(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Musica'], cont + 1)
-            elif categorias[rand] == 'Redes':  # Si la lista en el indice rand tiene el elemento 'Redes'
+            elif categorias[rand] == 'Redes Sociales':  # Si la lista en el indice rand tiene el elemento 'Redes'
                 categoria_redes = redes(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
-                return self.random_mainpage_aux(master, categorias, used + ['Redes sociales'], cont + 1)
+                return self.random_mainpage_aux(master, categorias, used + ['Redes Sociales'], cont + 1)
             else:  # Si la lista en el indice rand tiene el elemento 'Herramientas'
                 categoria_herramientas = herramientas(master, ini_y, fix, com_height, cont)  # Crea una nueva instancia de la clase juegos
                 return self.random_mainpage_aux(master, categorias, used + ['Herramientas'], cont + 1)
@@ -1346,11 +1348,12 @@ class listaApps:
         else:
             self.lista_apps[0] = self.lista_apps[0] + ['']
             self.img_path = lista[cont][7]
-            self.img_load = Image.open(self.img_path).resize((200,100),Image.ANTIALIAS)
+            self.img_load = Image.open(self.img_path).resize((200, 100), Image.ANTIALIAS)
             self.img = ImageTk.PhotoImage(self.img_load)
             self.lista_apps[0][cont] = Label(self.frame, image=self.img, bg=bg_color)
             self.lista_apps[0][cont].grid(row=cont*2, column=0, rowspan=2)
             self.lista_apps[0][cont].image = self.img
+            self.lista_apps[0][cont].bind('<Button-1>', lambda event: appWindow(lista[cont]))
 
             self.app_name = Label(self.frame, text=lista[cont][2], font='Times 20',
                                   bg=bg_color).grid(row=cont*2, column=1)
