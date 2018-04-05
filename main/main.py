@@ -940,17 +940,21 @@ class adminWindow:
         self.vendedores_label.config(text='Vendedores')
         self.compradores_label.config(text='Compradores')
 
-
+# Clase encargada de la creacion de la ventana de busqueda de apps, sus atributos estan dirigidos a la creacion de la ventana
+# mientras sus metodos a la busqueda y posicionamiento de apps.
 class searchWin:
     def __init__(self):
+        # Configuracion inicial
         self.win = Toplevel()
         self.win.resizable(False, False)
 
+        # Dimensiones
         self.sc_width, self.sc_height = self.win.winfo_screenwidth(), self.win.winfo_screenheight()
         self.width = 70 * self.sc_width / 100
         self.height = 80 * self.sc_height / 100
         self.win.geometry('%dx%d+%d+%d' % (self.width, self.height, self.sc_width * 15 / 100, self.sc_height * 10 / 100))
 
+        # Contenedor principal
         self.canvas = Canvas(self.win, width=self.width, height=self.height)
         self.canvas.pack()
 
@@ -958,72 +962,82 @@ class searchWin:
         self.title.pack()
         self.title.place(x=self.width*45/100, y=1)
 
-        if current_language == 'esp':
+        if current_language == 'esp':  # Version espannol
             self.entry_label = Label(self.canvas, text='Buscar:', font='Times 13')
-        else:
+        else: # Version ingles
             self.entry_label = Label(self.canvas, text='Search:', font='Times 13')
 
+        # Posiciona
         self.entry_label.pack()
         self.entry_label.place(x=self.width*6/100, y=self.height*8.3/100)
         self.entry = Entry(self.canvas, width=40)
         self.entry.pack()
         self.entry.place(x=self.width*14/100, y=self.height*9/100)
-        self.entry.bind('<KeyRelease>', self.start_search)
+        self.entry.bind('<KeyRelease>', self.start_search)  # Cada vez que se suelta una tecla llama el metodo que busca en todas las apps
 
+        # Configuraciones del boton del menu
         self.load_hamb_icon = Image.open('../images/icons/hamburguer_icon.gif').resize((30, 30), Image.ANTIALIAS)
 
         self.hamb_icon = ImageTk.PhotoImage(self.load_hamb_icon)
         self.hamb_icon_label = Label(self.win, image=self.hamb_icon, bd=0, highlightthickness=0, relief='ridge',
-                                     cursor = 'hand2')
+                                     cursor='hand2')
 
         self.hamb_icon_label.pack()
         self.hamb_icon_label.place(x=1, y=1)
         self.hamb_icon_label.bind('<Button-1>', self.show_menu)
 
-        self.app_canvas = Canvas(self.win, width=self.width*89/100, height=self.height*85/100)
+        self.app_canvas = Canvas(self.win, width=self.width*89/100, height=self.height*85/100)  # Canvas donde iran las apps encontradas
         self.app_canvas.pack()
         self.app_canvas.place(x=self.width*6/100, y=self.height*13/100)
 
+        # Tamannos comunes para los espacios de las apps
         self.comm_height = self.height*15/100
         self.comm_width = self.width*15/100
+
         # La ventana aguanta 4 rows y 6 columns
-        self.showed_apps=[]
+        self.showed_apps=[]  # Lista para las apps mostradas, para no repetir
         self.posicionar_apps(apps.get_list(), 0, 0, 0)
 
         self.win.protocol('WM_DELETE_WINDOW', root.destroy)
 
-
-
+    # E: El evento que la llama, no utilizado
+    # S: Retorna el metodo posicionar_apps para acomodar las apps encontradas.
+    # R: No hay restricciones
     def start_search(self, *args):
-        self.showed_apps = []
-        self.app_canvas.destroy()
-        self.app_canvas = Canvas(self.win, width=self.width * 89 / 100, height=self.height * 85 / 100)
+        self.showed_apps = []  # limpieza de la variable self.showed_apps
+        self.app_canvas.destroy()  # Destruye el canvas anterior
+        self.app_canvas = Canvas(self.win, width=self.width * 89 / 100, height=self.height * 85 / 100)  # Crea uno nuevo
+        # Posiciona el canvas
         self.app_canvas.pack()
         self.app_canvas.place(x=self.width * 6 / 100, y=self.height * 13 / 100)
-        ele = self.entry.get().lower().replace(' ','')
-        if ele != '':
+        ele = self.entry.get().lower().replace(' ','') #Toma el elemento del entry y lo normaliza
+        if ele != '':  # Verifica si el elemento esta vacio
             return self.posicionar_apps(self.search_nombre_by_letter(apps.get_list(), ele, 0), 0, 0, 0)
         else:
             return self.posicionar_apps(apps.get_list(), 0, 0, 0)
 
+    # E: Lista donde buscar un elemento y un contador.
+    # S: Retorna una lista con los elementos de la lista que empiezan con el elemento dado
+    # R: No hay restricciones pues todo esta controlado por el programador.
     def search_nombre_by_letter(self, lista, ele, cont):
-        global category_list
+        global category_list  # Utilizada para buscar por categoria
         if ele != ' ':
-            if len(lista) == cont:
+            if len(lista) == cont:  # Caso base
                 return []
-            elif lista[cont][2].lower().replace(' ', '').startswith(ele) or category_list[int(lista[cont][3].lower().replace(' ', ''))] == ele:
+            elif lista[cont][2].lower().replace(' ', '').startswith(ele) or category_list[int(lista[cont][3].lower().replace(' ', ''))] == ele:  # Verifica que empiece con ele o que la busqueda sea igual a ele
                 return [lista[cont]] + self.search_nombre_by_letter(lista, ele, cont + 1)
             else:
                 return self.search_nombre_by_letter(lista, ele, cont + 1)
         else:
             return []
-
-
+    # E: Una lista, un contador de columna, un contador de reglon y un contador general
+    # S: No retorna, una vez completada la recursividad, solo posiciona los espacios de las apps de una manera ordenada
+    # R: No hay restricciones, todo esta bien controlado por codigo.
     def posicionar_apps(self, lista, controw, contcolumn, contgeneral):
-        if contgeneral == len(lista):
+        if contgeneral == len(lista): # Caso base
             return
-        elif contcolumn<6:
-            if controw<4:
+        elif contcolumn < 6:  # Esta dentro del limite de la ventana
+            if controw < 4:  # Esta dentro del limite de la ventana
                 self.showed_apps = self.showed_apps + ['']
                 self.showed_apps[contgeneral] = app(self.app_canvas, controw, contcolumn, lista[contgeneral],
                                                     self.comm_width, self.comm_height)
@@ -1036,6 +1050,7 @@ class searchWin:
         else:
             return self.posicionar_apps(lista, controw+1, 0, contgeneral)
 
+    # Simplemente ensenna el menu
     def show_menu(self, *args):
         return self.__show_menu_aux()
 
@@ -1043,11 +1058,18 @@ class searchWin:
         global menu
         menu =newMenu(self.win)
 
+    # E: No hay entradas
+    # S: No retorna, solo cambia el texto a ingles
+    # R: No hay restricciones
     def toeng(self):
         self.entry_label.config(text='Search:')
 
+    # E: No hay entradas
+    # S: No retorna, solo cambia el texto a ingles
+    # R: No hay restricciones
     def toesp(self):
         self.entry_label.config(text='Buscar:')
+
 
 class profPage:
     def __init__(self, info):
